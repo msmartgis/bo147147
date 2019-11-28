@@ -1,0 +1,1 @@
+<button type="button" class="btn btn-warning btn-go-back col-12"  style="margin-top: 8px !important"><a class="go-back-link" href="{{ URL::previous() }}"><i class="fa fa-arrow-left" style="margin-right: 8px"></i>Précédent</a></button>
