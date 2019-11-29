@@ -10,7 +10,7 @@
 
 
             <li class="nav-item ">
-                <a class="nav-link" href=""><span class=""></span>
+                <a class="nav-link" href="/documents-sortants"><span class=""></span>
                     <img src="{{asset('images/svg/writing.svg')}}" style="width: 1.2em;margin-right: 5px;" />
                     <span style="vertical-align: middle;" class="lato-bold">COURRIERS ENTRANT</span>
                 </a>

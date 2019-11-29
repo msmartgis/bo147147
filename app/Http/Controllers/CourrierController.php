@@ -13,7 +13,7 @@ class CourrierController extends Controller
      */
     public function index()
     {
-        //
+        return view('courriers.entrants.index');
     }
 
     /**

@@ -178,7 +178,7 @@
   <div class="content-wrapper">
 
     <!-- Main content -->
-    <section class="content m-content " style="overflow-y: hidden;">
+    <section class="content m-content" style="overflow-y: hidden;">
 			@include('inc.messages')
 			@yield('content')
 	        
