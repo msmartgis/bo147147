@@ -2,9 +2,8 @@
 
 
 <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-
-<!-- Bootstrap extend-->
 <link rel="stylesheet" href="{{asset('css/bootstrap-extend.css')}}">
+
 
 <!-- theme style -->
 <link rel="stylesheet" href="{{asset('css/master_style.css')}}">
@@ -34,6 +33,9 @@
 <link href="https://fonts.googleapis.com/css?family=Markazi+Text&display=swap" rel="stylesheet">
 
 <!-- daterange picker -->	
-<link rel="stylesheet" href="{{asset('vendor_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+	<link rel="stylesheet" href="{{asset('vendor_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 
-@yield('added_css')
+
+
+
+    @yield('added_css')

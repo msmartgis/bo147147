@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             UsersRolesTableSeeder::class,
             ServicesTableSeeder::class,
             UsersTableSeeder::class,
+            ModesReceptionsTableSeeder::class,
         ]);
     }
 }

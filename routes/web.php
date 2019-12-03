@@ -16,7 +16,17 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::group(
+    ['middleware' => 'auth'],
+    function () {
+        Route::resources([
+            'courriers-entrants' => 'CourrierController',
+        ]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+        Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/documents-sortants', 'CourrierController@index')->name('home');
+        //courriers entrants
+        Route::get('/courriers-entrants', 'CourrierController@index')->name('documents-entrants');
+        Route::get('/courriers-entrants/create', 'CourrierController@create')->name('documents-entrants-create');
+    }
+);

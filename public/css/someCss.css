@@ -194,6 +194,7 @@ img {
 }
 
 label {
+    margin-left: 10px;
     margin-bottom: 0.15rem;
 }
 
@@ -318,7 +319,7 @@ th {
 }
 
 .nav-tabs .nav-link.active {
-    background-color: #ecb54e;
+    background-color: #24bab9;
     color: white;
 }
 

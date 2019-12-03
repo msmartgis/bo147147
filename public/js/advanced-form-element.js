@@ -21,14 +21,8 @@ $(function () {
     $('[data-mask]').inputmask();
 
     //Date range picker
-    $('#reservation').daterangepicker();
-    $('#reservation_filter_affectees').daterangepicker();
-    $('#reservation_realisee_programmee').daterangepicker();
-    $('#reservation_filter_accord_definitif').daterangepicker();
-    $('#reservation_a_traiter').daterangepicker();
-    $('#reservation_realise').daterangepicker();
-    $('#reservation_programe').daterangepicker();
-    $('#ouverture_plis').daterangepicker();
+    $('#date_reception_input').daterangepicker();
+
     //Date range picker with time picker
     $('#reservationtime').daterangepicker({
         timePicker: true,

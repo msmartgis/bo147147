@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Courrier;
+use App\ModeReception;
+use App\Service;
 use Illuminate\Http\Request;
 
 class CourrierController extends Controller
@@ -13,7 +16,7 @@ class CourrierController extends Controller
      */
     public function index()
     {
-        return view('courriers.entrants.index');
+        return view('courriers.entrants.show.index');
     }
 
     /**
@@ -23,7 +26,14 @@ class CourrierController extends Controller
      */
     public function create()
     {
-        //
+        $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
+        $services = Service::orderBy('nom')->pluck('nom', 'id');
+        $courrier = new Courrier();
+        return view('courriers.entrants.create.index_create_ce')->with([
+            'courrier' => $courrier,
+            'services' => $services,
+            'modes_recpetion' => $modes_recpetion
+        ]);
     }
 
     /**

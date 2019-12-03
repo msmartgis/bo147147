@@ -1,7 +1,7 @@
 
 
     <ul class="navbar-nav">        
-            <li class="nav-item active" >
+            <li class="nav-item {{ Route::is('home') ? 'active' : '' }}" >
                 <a class="nav-link" href="" ><span class="active-item-here"></span>
                     <img src="{{asset('images/svg/home.svg')}}" style="width: 1.2em;margin-right: 5px;" />
                     <span style="vertical-align: middle;" class="lato-bold">TABLEAU DE BORD</span>
@@ -9,8 +9,8 @@
             </li>
 
 
-            <li class="nav-item ">
-                <a class="nav-link" href="/documents-sortants"><span class=""></span>
+            <li class="nav-item  {{ Route::is('documents-entrants') ? 'active' : '' }}">
+            <a class="nav-link" href="{{route('documents-entrants')}}"><span class=""></span>
                     <img src="{{asset('images/svg/writing.svg')}}" style="width: 1.2em;margin-right: 5px;" />
                     <span style="vertical-align: middle;" class="lato-bold">COURRIERS ENTRANT</span>
                 </a>
