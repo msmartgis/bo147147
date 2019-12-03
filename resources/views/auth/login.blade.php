@@ -95,8 +95,8 @@ label{
 
 			<div class="col-lg-4 col-md-8 col-12">
 				<div class="login-box">
-				  <div class="login-box-body">
-					  <img src="{{asset('images/logo/logo_cp.png')}}" alt="">
+				  <div class="login-box-body" style="text-align: center">
+					  <img src="{{asset('images/logo/document_logo.png')}}" alt="" style="height : 200px">
 
 					  <br>
 					  <h5 class="login-box-msg lato-bold" style="color: #7F7F7E !important;">Veuillez saisir vos identifiants pour se connecter </h5>

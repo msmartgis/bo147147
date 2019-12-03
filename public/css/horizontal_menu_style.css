@@ -786,7 +786,7 @@ Project:	Fab Admin - Responsive Admin Template
 }
 
 .main-nav a {
-    color: #fff;
+    color: #cbd1d1;
 }
 
 .main-nav .menu-mega a {
@@ -839,10 +839,10 @@ Project:	Fab Admin - Responsive Admin Template
 .main-nav .navbar-nav>.nav-item>.nav-link:hover,
 .main-nav .nav-item.active>.nav-link,
 .main-nav .navbar-nav>.nav-item.show>.nav-link:focus {
-    color: #ffba2a;
-    color: #ffba2a;
+    color: #ffffff;
+    color: #ffffff;
     border-bottom: 2px solid #ffba2a;
-    background-color: #0f4055;
+    background-color: #0b2942;
     transition: ease-in-out .15s all;
 }
 
