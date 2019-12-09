@@ -28,7 +28,7 @@
                                 [
                                 'data-placeholder' => 'Selectionner mode de reception',
                                 'class'=>'form-control ',
-                                'name'=>'modes_receptions[]',
+                                'name'=>'mode_reception_id',
                                 'style'=>'width:100%'
                                 ]
                                 )}}
@@ -46,7 +46,7 @@
                                     <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                     </div>
-                                    {{Form::text('date_reception','',['class'=>'form-control pull-right','id'=>'datepicker'])}}
+                                    {{Form::text('date_reception',$actu_date,['class'=>'form-control pull-right datepicker'])}}
                                 </div>
                                 <!-- /.input group -->
                              </div>
@@ -56,9 +56,9 @@
                     <div class="row" style="margin-top: 10px">
                         <div class="col-12">
                             <div class="form-group">
-                                <h6>Objet (fr)</h6>
+                                <h6>Objet</h6>
                                 <div class="controls">
-                                    {{Form::textarea('objet_fr','',['class'=>'form-control m-required-input','placeholder'=>'saisir l\'objet en francais','rows'=>'2','id'=>'objet_fr_input_id','required'=>'required'])}}
+                                    {{Form::textarea('objet','',['class'=>'form-control m-required-input','placeholder'=>'saisir l\'objet en francais','rows'=>'2','id'=>'objet_fr_input_id','required'=>'required'])}}
                                 </div>
                             </div>
                         </div>
@@ -93,190 +93,243 @@
 
                      {{-- personne physique --}}
                      <div id="personne_physique" class="expediteur personne_physique" >
-                         <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
+                        <div class="row" style="margin-top : 8px">
                                 <div class="form-group">
-                                    {{Form::label('','Nom :')}}
-                                    {{Form::text('raison_social','',['class'=>'form-control'])}}
+                                    {{Form::label('','Recherche dans la base des données')}}
+                                    <select  name="personne_physique_id_from_db" class="form-control select2" id="personne_physique_select_id">
+                                        @foreach ($personne_physiques as $pers_phys)
+                                            <option value="{{$pers_phys->id}}">{{$pers_phys->nom}}  {{$pers_phys->prenom}}</option>                                            
+                                        @endforeach
+                                    </select>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Pernom :')}}
-                                    {{Form::text('adresse','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
                         </div>
 
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','C.I.N.E :')}}
-                                    {{Form::text('rc','',['class'=>'form-control'])}}
+                         <div class="row">
+                                    <a href="#" id="ajouter_personne_physique_btn" > <i class="fa fa-plus"></i>
+                                        <b> Ajouter un nouveau expediteur</b>
+                                    </a>
+                         </div>
+                         
+                        <div id="ajouter_nouveau_personne_phisique_div" style="display:none">
+
+                            <div class="row" style="margin-top : 10px">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        {{Form::label('','Nom :')}}
+                                        {{Form::text('nom_personne_physique','',['class'=>'form-control'])}}
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        {{Form::label('','Pernom :')}}
+                                        {{Form::text('prenom_personne_physique','',['class'=>'form-control'])}}
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Adresse :')}}
-                                    {{Form::text('tel_fix','',['class'=>'form-control'])}}
+                            <div class="row" style="margin-top : 10px">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        {{Form::label('','C.I.N.E :')}}
+                                        {{Form::text('cine_personne_physique','',['class'=>'form-control'])}}
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        {{Form::label('','Adresse :')}}
+                                        {{Form::text('adresse_personne_physique','',['class'=>'form-control'])}}
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="row" style="margin-top : 10px">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        {{Form::label('','Tel Fixe:')}}
+                                        {{Form::text('tel_fixe_personne_physique','',['class'=>'form-control'])}}
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        {{Form::label('','Tél Mobile :')}}
+                                        {{Form::text('tel_mobile_personne_physique','',['class'=>'form-control'])}}
+                                    </div>
+                                </div>
+                            </div> 
+
+
+                            <div class="row" style="margin-top : 10px">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        {{Form::label('','Email :')}}
+                                        {{Form::text('email_personne_physique','',['class'=>'form-control'])}}
+                                    </div>
+                                </div>
+                            </div>      
+
                         </div>
-
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Tel Fixe:')}}
-                                    {{Form::text('fax','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Tél Mobile :')}}
-                                    {{Form::text('tel_mobile','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-                        </div> 
-
-
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Email :')}}
-                                    {{Form::text('email','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-                        </div>
+                         
                      </div>
 
                        {{-- personne morale --}}
                      <div id="personne_morale" class="expediteur personne_morale" style="display:none">
-                         <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Raison social :')}}
-                                    {{Form::text('raison_social','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
 
-                            <div class="col-lg-6">
+                        <div class="row" style="margin-top : 8px">
                                 <div class="form-group">
-                                    {{Form::label('','Adresse :')}}
-                                    {{Form::text('adresse','',['class'=>'form-control'])}}
+                                    {{Form::label('','Recherche dans la base des données')}}
+                                    <select name="personne_morale_id_from_db" class="form-control select2" id="personne_morale_select_id">
+
+                                        @foreach ($personne_morales as $pers_moral)
+                                            <option value="{{$pers_moral->id}}">{{$pers_moral->raison_social}} </option>                                            
+                                        @endforeach
+                                    </select>
                                 </div>
-                            </div>
                         </div>
 
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','R.C :')}}
-                                    {{Form::text('rc','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
 
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Tél Fix :')}}
-                                    {{Form::text('tel_fix','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-                        </div>
+                        <div class="row">
+                                    <a href="#" id="ajouter_personne_morale_btn" > <i class="fa fa-plus"></i>
+                                        <b> Ajouter un nouveau expediteur</b>
+                                    </a>
+                         </div>
 
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Fax :')}}
-                                    {{Form::text('fax','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
+                        <div id="ajouter_nouveau_personne_morale_div" style="display:none">
+                                <div class="row" style="margin-top : 10px">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Raison social :')}}
+                                            {{Form::text('raison_social','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
 
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Tél Mobile :')}}
-                                    {{Form::text('tel_mobile','',['class'=>'form-control'])}}
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Adresse :')}}
+                                            {{Form::text('adresse','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div> 
+
+                                <div class="row" style="margin-top : 10px">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','R.C :')}}
+                                            {{Form::text('rc','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Tél Fix :')}}
+                                            {{Form::text('tel_fix_personne_morale','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top : 10px">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Fax :')}}
+                                            {{Form::text('fax_personne_morale','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Tél Mobile :')}}
+                                            {{Form::text('tel_mobile_personne_morale','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+                                </div> 
 
 
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Email :')}}
-                                    {{Form::text('email','',['class'=>'form-control'])}}
+                                <div class="row" style="margin-top : 10px">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Email :')}}
+                                            {{Form::text('email_personne_morale','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>      
+                                    
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Representant :')}}
+                                            {{Form::text('representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>    
                                 </div>
-                            </div>      
+
+                                <h6 style="margin-top : 10px"><b>Representant</b></h6>
+                                <div class="row" style="margin-top : 10px">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Nom :')}}
+                                            {{Form::text('nom_representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Pernom :')}}
+                                            {{Form::text('prenom_representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top : 10px">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','C.I.N.E :')}}
+                                            {{Form::text('cine_representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Type :')}}
+                                            {{Form::text('role_representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top : 10px">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Tel Fixe:')}}
+                                            {{Form::text('tel_fix_representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Tél Mobile :')}}
+                                            {{Form::text('tel_mobile_representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+                                </div> 
+
+
+                                <div class="row" style="margin-top : 10px">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Email :')}}
+                                            {{Form::text('email_representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            {{Form::label('','Adresse :')}}
+                                            {{Form::text('adresse_representant','',['class'=>'form-control'])}}
+                                        </div>
+                                    </div>
+                                </div>
                             
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Representant :')}}
-                                    {{Form::text('representant','',['class'=>'form-control'])}}
-                                </div>
-                            </div>    
-                        </div>
-
-                        <h6 style="margin-top : 10px"><b>Representant</b></h6>
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Nom :')}}
-                                    {{Form::text('raison_social','',['class'=>'form-control'])}}
-                                </div>
                             </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Pernom :')}}
-                                    {{Form::text('adresse','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','C.I.N.E :')}}
-                                    {{Form::text('rc','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Adresse :')}}
-                                    {{Form::text('tel_fix','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Tel Fixe:')}}
-                                    {{Form::text('fax','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Tél Mobile :')}}
-                                    {{Form::text('tel_mobile','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-                        </div> 
-
-
-                        <div class="row" style="margin-top : 10px">
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    {{Form::label('','Email :')}}
-                                    {{Form::text('email','',['class'=>'form-control'])}}
-                                </div>
-                            </div>
-                        </div>
+                                
                      </div> 
                     
                  </div>
@@ -294,7 +347,7 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
                             </div>
-                            {{Form::text('delai','',['class'=>'form-control pull-right','id'=>'datepicker_delai_input_id'])}}
+                            {{Form::text('delai','',['class'=>'form-control pull-right datepicker','id'=>'datepicker_delai_input_id'])}}
                         </div>
                     <!-- /.input group -->
                     </div>
@@ -307,13 +360,15 @@
             <div class="row" style="margin: 0 !important;">
                 <div class="table-responsive" style="margin-top: 12px">
                     <table class="table table-service-assigne">
-                        <tr style="text-align: center;">
-                            <th></th>
-                            <th>Service</th>
-                            <th>Ref</th>
-                            <th>Responsable</th>
-                            <th>Message</th>
-                        </tr>
+                        <thead class="create-table">
+                            <tr style="text-align: center;">
+                                <th></th>
+                                <th>Service</th>
+                                <th>Ref</th>
+                                <th>Responsable</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
                         <tbody id="service_assigne_tbody">
                         <tr></tr>
                         </tbody>
@@ -324,7 +379,7 @@
                             <b> Ajouter</b>
                         </a>
                     </div>
-                    <button type="button" class="btn delete-row btn-danger-table" id="delete_elemtent_row_service_btn"> <i class="fa fa-close"></i> Supprimer</button>
+                    <button type="button" class="btn delete-row btn-danger-table" id="delete_service_row_btn"> <i class="fa fa-close"></i> Supprimer</button>
                 </div>
             </div>
             <br>
@@ -335,12 +390,15 @@
             <div class="row" style="margin: 0 !important;">
                 <div class="table-responsive" style="margin-top: 12px">
                     <table class="table table-piece">
-                        <tr style="text-align: center;">
-                            <th></th>
-                            <th>Type de document</th>
-                            <th>Intitulé</th>
-                            <th>Mode de réception</th>
-                        </tr>
+                        <thead class="create-table">
+                            <tr style="text-align: center;">
+                                <th></th>
+                                <th>Type de document</th>
+                                <th>Intitulé</th>
+                                <th>Mode de réception</th>
+                                <th>Charger</th>
+                            </tr>
+                        </thead>
                         <tbody id="piece_courrier_tbody">
                         <tr>
                          
@@ -349,11 +407,11 @@
                     </table>
 
                     <div style="text-align: center">
-                        <a href="#" id="add_piece"> <i class="fa fa-plus"></i>
+                        <a href="#" id="add_piece_btn"> <i class="fa fa-plus"></i>
                             <b> Ajouter </b>
                         </a>
                     </div>
-                    <button type="button" class="btn delete-row btn-danger-table" id="delete_elemtent_row_courrier_document_btn"> <i class="fa fa-close"></i> Supprimer</button>
+                    <button type="button" class="btn delete-row btn-danger-table" id="delete_documents_row_btn"> <i class="fa fa-close"></i> Supprimer</button>
                 </div>
             </div>
             <br>
@@ -363,13 +421,16 @@
 
              <div class="row" style="margin: 0 !important;">
                 <div class="table-responsive" style="margin-top: 12px">
-                    <table class="table table-piece">
-                        <tr style="text-align: center;">
-                            <th></th>
-                            <th>Date</th>
-                            <th>Accusé</th>
-                        </tr>
-                        <tbody id="piece_courrier_tbody">
+                    <table class="table table-accuse-reception">
+                        <thead class="create-table">
+                             <tr style="text-align: center;">
+                                <th></th>
+                                <th>Date</th>
+                                <th>Accusé</th>
+                             </tr>
+                        </thead>
+                       
+                        <tbody id="acusse_reception_tbody">
                         <tr>
                          
                         </tr>
@@ -377,11 +438,11 @@
                     </table>
 
                     <div style="text-align: center">
-                        <a href="#" id="add_piece"> <i class="fa fa-plus"></i>
+                        <a href="#" id="add_accuse_reception_btn"> <i class="fa fa-plus"></i>
                             <b> Ajouter </b>
                         </a>
                     </div>
-                    <button type="button" class="btn delete-row btn-danger-table" id="delete_elemtent_row_courrier_document_btn"> <i class="fa fa-close"></i> Supprimer</button>
+                    <button type="button" class="btn delete-row btn-danger-table" id="delete_accuse_rception_row_btn"> <i class="fa fa-close"></i> Supprimer</button>
                 </div>
             </div>
 

@@ -15,7 +15,7 @@ class CreatePersonnesMoralesTable extends Migration
     {
         Schema::create('personnes_morales', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('ref');
+            $table->string('ref')->nullable();
             $table->string('raison_social')->nullable();
             $table->string('rc')->nullable();
             $table->string('adresse')->nullable();

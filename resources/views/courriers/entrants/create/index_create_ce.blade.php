@@ -40,6 +40,7 @@
 @endsection
 
 @push('added_scripts')
+
     <!-- bootstrap datepicker -->
     <script src="{{asset('vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
     
@@ -64,16 +65,19 @@
     <script src="{{asset('js/toastr.js')}}"></script>
 
 
-    <script src="{{asset('js/courriersEntrants/index.js')}}"></script>
+    <script src="{{asset('js/courriersEntrants/index_courriers_entrants.js')}}"></script>
+    <script src="{{asset('js/services/index_services.js')}}"></script>
+    <script src="{{asset('js/modesRecepetion/index_mode_reception.js')}}"></script>
 
 
 
     <script>
-        $('#datepicker').datepicker({
-            format: 'dd/mm/yyyy'
-        });
-        $('#datepicker_delai_input_id').datepicker({
-            format: 'dd/mm/yyyy'
-        });
+      
+
+
+ 
+
+
+        
     </script>
 @endpush

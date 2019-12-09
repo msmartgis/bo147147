@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCourrierServiceTable extends Migration
+class AddCourrierIdToDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,25 +13,13 @@ class CreateCourrierServiceTable extends Migration
      */
     public function up()
     {
-        Schema::create('courrier_service', function (Blueprint $table) {
-            $table->string('courrier_id')->index();
+        Schema::table('documents', function (Blueprint $table) {
+            $table->string('courrier_id', 36); // pour definir quelle organisation represente cette personne
 
             $table->foreign('courrier_id')
                 ->references('id')
                 ->on('courriers')
                 ->onDelete('cascade');
-
-
-            $table->string('service_id')->index();
-
-            $table->foreign('service_id')
-                ->references('id')
-                ->on('services')
-                ->onDelete('cascade');
-
-            $table->longText('message')->nullable();
-
-            $table->timestamps();
         });
     }
 
@@ -42,6 +30,9 @@ class CreateCourrierServiceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('courrier_service');
+        Schema::table('documents', function (Blueprint $table) {
+            $table->dropForeign(['courrier_id']);
+            $table->dropColumn('courrier_id');
+        });
     }
 }

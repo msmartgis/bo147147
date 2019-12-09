@@ -82,4 +82,13 @@ class ModeReceptionController extends Controller
     {
         //
     }
+
+
+    //get all modes reception
+    public function getAllModeReception()
+    {
+        $modeReception = ModeReception::all();
+
+        return response()->json($modeReception);
+    }
 }

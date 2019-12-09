@@ -45,9 +45,7 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Service $service)
-    {
-        //
-    }
+    { }
 
     /**
      * Show the form for editing the specified resource.
@@ -81,5 +79,13 @@ class ServiceController extends Controller
     public function destroy(Service $service)
     {
         //
+    }
+
+
+    //get service data
+    public function getService(Request $request)
+    {
+        $service = Service::find($request->service_id)->with('responsables')->get();
+        return $service;
     }
 }

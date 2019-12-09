@@ -1,4 +1,12 @@
  <!-- jQuery 3 -->
+
+ <script type="text/javascript">
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+  </script>
  
 	<script src="{{asset('vendor_components/jquery-3.3.1/jquery-3.3.1.js')}}"></script>
 
@@ -48,6 +56,10 @@
 
 <!-- bootstrap datepicker -->
 <script src="{{asset('vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+
+
+{{--functions---}}
+<script src="{{asset('js/functions.js')}}"></script>
 
 
  @stack('added_scripts')

@@ -19,8 +19,18 @@ Auth::routes();
 Route::group(
     ['middleware' => 'auth'],
     function () {
+        //services
+        Route::get('/services/get_service', 'ServiceController@getService')->name('services.getService');
+
+        //mode reception
+        Route::get('/modes-receptions/get-all-mode-reception', 'ModeReceptionController@getAllModeReception')->name('mode-reception.getAllModeReception');
+
+
+
         Route::resources([
             'courriers-entrants' => 'CourrierController',
+            'services' => 'ServiceController',
+            'modes-receptions' => 'ModeReceptionController',
         ]);
 
         Route::get('/home', 'HomeController@index')->name('home');

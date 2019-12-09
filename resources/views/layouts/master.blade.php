@@ -179,7 +179,7 @@
 
     <!-- Main content -->
     <section class="content m-content" style="overflow-y: hidden;">
-			@include('inc.messages')
+            @include('inc.messages')
 			@yield('content')
 	        
 	</section>

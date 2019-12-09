@@ -15,15 +15,15 @@ class CreatePersonnesPhysiquesTable extends Migration
     {
         Schema::create('personnes_physiques', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('ref');     
-            $table->string('nom')->nullable();     
-            $table->string('prenom')->nullable();     
-            $table->string('cine')->nullable();     
-            $table->string('adresse')->nullable();     
-            $table->string('tel_fixe')->nullable();     
-            $table->string('tel_mobile')->nullable();     
-            $table->string('email')->nullable();     
-            $table->integer('is_represantant')->nullable();     // is representant of a company 'gerant' 'directeur'...
+            $table->string('ref')->nullable();
+            $table->string('nom')->nullable();
+            $table->string('prenom')->nullable();
+            $table->string('cine')->nullable();
+            $table->string('adresse')->nullable();
+            $table->string('tel_fixe')->nullable();
+            $table->string('tel_mobile')->nullable();
+            $table->string('email')->nullable();
+            $table->integer('is_represantant')->default('0');     // is representant of a company 'gerant' 'directeur'...
             $table->string('role_en_entreprise')->nullable();     // son role en entreprise
             $table->timestamps();
             $table->softDeletes();

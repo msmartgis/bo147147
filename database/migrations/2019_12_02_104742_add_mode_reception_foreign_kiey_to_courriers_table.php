@@ -14,7 +14,7 @@ class AddModeReceptionForeignKieyToCourriersTable extends Migration
     public function up()
     {
         Schema::table('courriers', function (Blueprint $table) {
-            $table->string('mode_reception_id')->index();
+            $table->string('mode_reception_id')->index()->nullable();
 
             $table->foreign('mode_reception_id')
                 ->references('id')
