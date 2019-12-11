@@ -3,6 +3,8 @@ $(document).ready(function () {
     let item_number_piece = 0;
     let item_number_accuse_receptions = 0;
 
+    var markup_select_option = '';
+
 
     $('.datepicker').datepicker({
         format: 'yyyy-mm-dd'
@@ -39,65 +41,83 @@ $(document).ready(function () {
 
     //add document to list
     $('#add_piece_btn').on('click', function () {
-        $.ajax({
-            url: "/modes-receptions/get-all-mode-reception",
-            type: "GET",
-            dataType: 'JSON',
-            data: {},
-            success: function (res) {
-                let i = 0;
-                let markup_select_option = '';
+        data_modes_receptions = getModeReceptions();
+        data_documents_types = getDocumentsTypes();
 
-                for (i = 0; i < res.length; i++) {
-                    markup_select_option += '<option value="' + res[i].id + '">' + res[i].nom + '</option>'
-                }
+        let i = 0;
+        let item_document_type = 0;
+
+        let markup_select_option = '';
+        let markup_select_option_document_types = '';
 
 
-                $('.table-piece tr:last').after(
 
-                    '<tr>' +
+        for (i = 0; i < data_modes_receptions.length; i++) {
+            markup_select_option += '<option value="' + data_modes_receptions[i].id + '">' + data_modes_receptions[i].nom + '</option>'
+        }
 
-                    '<td>' +
-                    '<div class = "form-group"> ' +
-                    '<div class = "checkbox"> ' +
-                    '<input type="checkbox" id="row_' + item_number_piece + '"  name="record"> ' +
-                    '<label for="row_' + item_number_piece + '"></label> ' +
-                    '</div>' +
-                    '</div>' +
-                    '</td>' +
+        for (item_document_type = 0; item_document_type < data_documents_types.length; item_document_type++) {
 
-                    '<td> ' +
-                    '<div class = "form-group"> ' +
-                    '<input type="text"   name="types_documents[]"> ' +
-                    '</div>' +
-                    '</td>' +
+            markup_select_option_document_types += '<option value="' + data_documents_types[item_document_type].id + '">' + data_documents_types[item_document_type].nom + '</option>'
+
+        }
+
+        $('.table-piece tr:last').after(
+
+            '<tr>' +
+
+            '<td>' +
+            '<div class = "form-group"> ' +
+            '<div class = "checkbox"> ' +
+            '<input type="checkbox" id="row_' + item_number_piece + '"  name="record"> ' +
+            '<label for="row_' + item_number_piece + '"></label> ' +
+            '</div>' +
+            '</div>' +
+            '</td>' +
+
+            '<td> ' +
+            '<div class = "form-group"> ' +
+            '<select name="types_documents[]" class="form-control">' + markup_select_option_document_types +
+            '</select>' +
+            '</div>' +
+            '</td>' +
 
 
-                    '<td> ' +
-                    '<div class = "form-group"> ' +
-                    '<input type="text"   name="intitules[]"> ' +
-                    '</div>' +
-                    '</td>' +
+            '<td> ' +
+            '<div class = "form-group"> ' +
+            '<input type="text"   name="intitules[]" value="document sans nom"> ' +
+            '</div>' +
+            '</td>' +
 
-                    '<td> ' +
-                    '<div class = "form-group"> ' +
-                    '<select name="modes_receptions[]" class="form-control">' + markup_select_option +
-                    '</select>' +
-                    '</div>' +
-                    '</td>' +
+            '<td> ' +
+            '<div class = "form-group"> ' +
+            '<select name="modes_receptions[]" class="form-control">' + markup_select_option +
+            '</select>' +
+            '</div>' +
+            '</td>' +
 
-                    '<td>' +
-                    '<label class="btn btn-default">' +
-                    '<i class="fa fa-upload" style="margin-right:4px !important"></i>Ajouter un fichier  <input type="file" name="documents_uploads[]" hidden>' +
-                    '</label>' +
-                    '</td>' +
+            '<td> ' +
+            '<div class = "form-group"> ' +
+            '<input type="text" class="form-control datepicker-documents-table" value="' + actueDate + '"   name="date_reception_doc_input[]"> ' +
+            '</div>' +
+            '</td>' +
 
-                    '</tr>'
+            '<td>' +
+            '<div class="form-group">' +
+            '<input type="file" name="documents_ulpoad_input[]" class="form-control-file">' +
+            '</div>' +
+            '</td>' +
 
-                );
+            '</tr>'
 
-                item_number_piece++;
-            }
+        );
+
+        item_number_piece++;
+
+
+        $(".datepicker-documents-table").datepicker("destroy");
+        $(".datepicker-documents-table").datepicker({
+            format: 'yyyy-mm-dd'
         });
 
     })
@@ -127,9 +147,9 @@ $(document).ready(function () {
 
 
                 '<td>' +
-                '<label class="btn btn-default">' +
-                '<i class="fa fa-upload" style="margin-right:4px !important"></i>Ajouter un fichier  <input type="file" name="accuse_reception_uploads[]" hidden>' +
-                '</label>' +
+                '<div class="form-group">' +
+                '<input type="file" name="accuse_reception_uploads[]" class="form-control-file">' +
+                '</div>' +
                 '</td>' +
 
                 '</tr>'
@@ -142,7 +162,7 @@ $(document).ready(function () {
 
         $(".datepicker-table").datepicker("destroy");
         $(".datepicker-table").datepicker({
-            dateFormat: "yyyy-mm-dd'"
+            format: 'yyyy-mm-dd'
         });
 
 
@@ -167,4 +187,8 @@ $(document).ready(function () {
         $("#personne_morale_select_id").prop('disabled', !isDisabled);
         $("#ajouter_nouveau_personne_morale_div").toggle();
     })
+
+
+
+    
 })

@@ -9,6 +9,12 @@ function getService(service_id, item_number, message) {
         success: function (res) {
 
             //console.log(res[0].responsables[0].ref);
+            let responsable_nom;
+            if (res[0].responsables[0] != null) {
+                responsable_nom = res[0].responsables[0].nom;
+            } else {
+                responsable_nom = '';
+            }
 
             $('.table-service-assigne tr:last').after(
 
@@ -26,7 +32,7 @@ function getService(service_id, item_number, message) {
 
                 '<td> <input type="hidden" name="services_ids[]" value="' + res[0].id + '"/>' + res[0].nom + '</td>' +
                 '<td> ' + res[0].ref + '</td>' +
-                '<td> ' + res[0].responsables[0].nom + '</td>' +
+                '<td> ' + responsable_nom + '</td>' +
                 '<td> <input type="hidden" name="messages[]" value="' + message + '"/>' + message + '</td>' +
 
                 '</tr>'

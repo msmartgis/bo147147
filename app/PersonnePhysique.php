@@ -13,6 +13,12 @@ class PersonnePhysique extends Model
     protected $table = "personnes_physiques";
 
 
+    public function getFullNameAttribute($value)
+    {
+        return ucfirst($this->nom) . ' ' . ucfirst($this->prenom);
+    }
+
+
     public function service()
     {
         return $this->belongsTo('App\Service', 'service_id');

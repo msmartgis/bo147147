@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Service;
+use App\DocumentType;
 use Illuminate\Http\Request;
 
-class ServiceController extends Controller
+class DocumentTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,19 +41,21 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Service  $service
+     * @param  \App\DocumentType  $documentType
      * @return \Illuminate\Http\Response
      */
-    public function show(Service $service)
-    { }
+    public function show(DocumentType $documentType)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Service  $service
+     * @param  \App\DocumentType  $documentType
      * @return \Illuminate\Http\Response
      */
-    public function edit(Service $service)
+    public function edit(DocumentType $documentType)
     {
         //
     }
@@ -62,10 +64,10 @@ class ServiceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Service  $service
+     * @param  \App\DocumentType  $documentType
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Service $service)
+    public function update(Request $request, DocumentType $documentType)
     {
         //
     }
@@ -73,19 +75,18 @@ class ServiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Service  $service
+     * @param  \App\DocumentType  $documentType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Service $service)
+    public function destroy(DocumentType $documentType)
     {
         //
     }
 
-
-    //get service data
-    public function getService(Request $request)
+    // get document type name
+    public function getAllDocumentType()
     {
-        $service = Service::where('id', $request->service_id)->with('responsables')->get();
-        return $service;
+        $document_types = DocumentType::all();
+        return response()->json($document_types);
     }
 }

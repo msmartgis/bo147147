@@ -4,7 +4,6 @@
     'action' => 'CourrierController@store',
     'method'=>'POST',
     'class'=>'tab-wizard wizard-circle form-create',
-    'id'=>'create_demande_form',
     'enctype' => 'multipart/form-data'
     ]) !!}
         <!-- Step 1 -->
@@ -17,7 +16,7 @@
                         <div class="col-lg-6 col-md-6 col-sm-12">
                             <div class="form-group">
                                 {{Form::label('','Réf courrier :')}}
-                                {{Form::text('ref','',['class'=>'form-control'])}}
+                                {{Form::text('ref','',['class'=>'form-control','required'=>'required'])}}
                             </div>
                         </div>
 
@@ -75,8 +74,7 @@
                                 {{Form::select('type_expediteur',
                                 [
                                     'personne_physique' => 'Personne physique',
-                                    'personne_morale' =>'Personne morale'
-                                    
+                                    'personne_morale' =>'Personne morale'                                   
                                     
                                 ],
                                 'personne_physique',
@@ -396,6 +394,7 @@
                                 <th>Type de document</th>
                                 <th>Intitulé</th>
                                 <th>Mode de réception</th>
+                                <th>Date de réception</th>
                                 <th>Charger</th>
                             </tr>
                         </thead>

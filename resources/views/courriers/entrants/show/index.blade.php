@@ -1,7 +1,11 @@
 @extends('layouts.master')
 
 @section('added_css')
+<link rel="stylesheet" href="{{asset('css/datatable/datatables.min.css')}}" />
+<link rel="stylesheet" href="{{asset('css/datatable/select.dataTables.min.css')}}" />
 <style>
+
+
 .nav-tabs
 {
 	    border-bottom: 1px solid #009dc5;
@@ -38,7 +42,12 @@
 @endsection
 
 @push('added_scripts')
-
-
+<script src="{{asset('css/datatable/datatables.min.js')}}"></script>
+ <script src="{{asset('js/courriersEntrants/show/index_show_tous.js')}}"></script>
+ <script src="{{asset('js/courriersEntrants/show/index_show_brouillon.js')}}"></script>
+ <script src="{{asset('js/courriersEntrants/show/index_show_en_cours.js')}}"></script>
+ <script src="{{asset('js/courriersEntrants/show/index_show_en_retard.js')}}"></script>
+ <script src="{{asset('js/courriersEntrants/show/index_show_cloture.js')}}"></script>
+ <script src="{{asset('js/courriersEntrants/show/index_show_courrier_entrants.js')}}"></script>
 
 @endpush

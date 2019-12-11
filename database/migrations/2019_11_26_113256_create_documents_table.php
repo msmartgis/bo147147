@@ -15,9 +15,10 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('ref')->nullable();  
-            $table->string('date_reception')->nullable(); 
-            $table->string('path')->nullable(); 
+            $table->string('ref')->nullable();
+            $table->string('nom_document')->nullable();
+            $table->string('date_reception')->nullable();
+            $table->string('path')->nullable();
             $table->timestamps();
             $table->index(['id', 'created_at']);
         });

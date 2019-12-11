@@ -23,6 +23,9 @@ class Courrier extends Model
     ];
 
 
+
+
+
     public function modeReception()
     {
         return $this->belongsTo('App\ModeReception', 'mode_reception_id');

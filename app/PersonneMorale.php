@@ -12,6 +12,12 @@ class PersonneMorale extends Model
     public $incrementing = false;
     protected $table = "personnes_morales";
 
+
+    public function getRaisonSocialeAttribute($value)
+    {
+        return ucfirst($this->raison_social);
+    }
+
     public function courriers()
     {
         return $this->hasMany('App\Courrier');

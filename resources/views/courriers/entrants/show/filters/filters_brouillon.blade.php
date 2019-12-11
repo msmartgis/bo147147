@@ -6,7 +6,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="nature_expediteur_tous" id="nature_expediteur_tous_select_filter">
+                <select class="form-control select2" style="width: 100%;" name="nature_expediteur_brouillon" id="nature_expediteur_brouillon_select_filter">
                     <option value="all" selected>Indifferent</option>                                      
                     <option value="personne_morale">Personne morale</option>               
                     <option value="personne_physique">Personne physique</option> 
@@ -22,7 +22,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="expediteur_tous" id="expediteur_tous_select_filter">
+                <select class="form-control select2" style="width: 100%;" name="expediteur_brouillon" id="expediteur_brouillon_select_filter">
                     <option value="all" selected>Indifferent</option>
                     @foreach($personne_physiques as $p_physique)
                         <option value="personnePhysique_{{$p_physique->id}}">{{$p_physique->full_name}}</option>
@@ -42,7 +42,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="services_concernes_tous" id="services_concernes_tous_select_filter">
+                <select class="form-control select2" style="width: 100%;" name="services_concernes_brouillon" id="services_concernes_brouillon_select_filter">
                     <option value="all" selected>Indifferent</option>                   
                     @foreach($services as $service)
                         <option value="{{$service->id}}">{{$service->nom}}</option>
@@ -62,7 +62,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="mode_reception_tous" id="mode_reception_tous_select_filter">
+                <select class="form-control select2" style="width: 100%;" name="mode_reception_brouillon" id="mode_reception_brouillon_select_filter">
                     <option value="all" selected>Indifferent</option>                   
                     @foreach($modes_recpetions as $mode_recpetion)
                         <option value="{{$mode_recpetion->id}}">{{$mode_recpetion->nom}}</option>
@@ -81,7 +81,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" class="form-control pull-left" name="date_reception_tous_daterange" id="date_reception_tous_input" style="font-size: 0.94rem;" value="01/01/2000 - 01/01/2020">				
+                        <input type="text" class="form-control pull-left" name="date_reception_brouillon_daterange" id="date_reception_brouillon_input" style="font-size: 0.94rem;" value="01/01/2000 - 01/01/2020">				
 					 
                     </div>
                 </div>
@@ -94,7 +94,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="avis_tous" id="avis_tous_select_filter">
+                <select class="form-control select2" style="width: 100%;" name="avis_brouillon" id="avis_brouillon_select_filter">
                     <option value="all" selected>Indifferent</option>                   
                     <option value="favorable">Favorable</option>               
                     <option value="defavorable">Defavorable</option>               
