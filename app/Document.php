@@ -15,4 +15,16 @@ class Document extends Model
     {
         return $this->belongsTo('App\Courrier', 'courrier_id');
     }
+
+
+    public function typeDocument()
+    {
+        return $this->belongsTo('App\TypeDocument', 'type_document_id');
+    }
+
+
+    public function modeReception()
+    {
+        return $this->belongsTo('App\ModeReception', 'mode_reception_id');
+    }
 }

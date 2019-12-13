@@ -14,6 +14,7 @@ class CreateCourrierServiceTable extends Migration
     public function up()
     {
         Schema::create('courrier_service', function (Blueprint $table) {
+            $table->bigIncrements('id')->primary();
             $table->string('courrier_id')->index();
 
             $table->foreign('courrier_id')
@@ -30,6 +31,7 @@ class CreateCourrierServiceTable extends Migration
                 ->onDelete('cascade');
 
             $table->longText('message')->nullable();
+            $table->integer('vu')->default(0);
 
             $table->timestamps();
         });

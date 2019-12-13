@@ -29,6 +29,9 @@ Route::group(
         //document types
         Route::get('/type-documents/get-all-documents-types', 'DocumentTypeController@getAllDocumentType')->name('document-type.getDocumentType');
 
+        //files
+        Route::get('/files/download/{directory}/{id}/{file_name}', 'FilesController@fileDownload')->name('files.download');
+
 
         //courrier entrants
         Route::get('/courriers-entrants/tous', 'CourrierController@tousCourrier')->name('documents-entrants-tous');

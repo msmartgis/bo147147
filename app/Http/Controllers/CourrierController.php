@@ -11,6 +11,8 @@ use App\PersonnePhysique;
 use App\Service;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use DataTables;
@@ -284,7 +286,12 @@ class CourrierController extends Controller
      */
     public function edit($id)
     {
-        //
+        $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
+        $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->findOrFail($id);
+        return  view('courriers.entrants.edit.index_edit_ce')->with([
+            'courrier' => $courrier,
+            'modes_recpetion' => $modes_recpetion
+        ]);
     }
 
     /**

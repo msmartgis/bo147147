@@ -28,4 +28,9 @@ class PersonnePhysique extends Model
     {
         return $this->hasMany('App\Courrier');
     }
+
+    public function personneMoraleRepresentee()
+    {
+        return $this->hasOne('App\PersonneMorale');
+    }
 }

@@ -50,6 +50,12 @@ class Courrier extends Model
     }
 
 
+    public function etat()
+    {
+        return $this->belongsTo('App\EtatCourrier');
+    }
+
+
     public function accuse()
     {
         return $this->hasMany('App\Accuse');
@@ -58,6 +64,6 @@ class Courrier extends Model
 
     public function services()
     {
-        return $this->belongsToMany('App\Service', 'courrier_service', 'courrier_id', 'service_id')->withPivot('message')->withTimestamps();
+        return $this->belongsToMany('App\Service', 'courrier_service', 'courrier_id', 'service_id')->withPivot(['message', 'avis_id', 'vu'])->withTimestamps();
     }
 }

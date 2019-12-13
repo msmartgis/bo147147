@@ -22,4 +22,9 @@ class PersonneMorale extends Model
     {
         return $this->hasMany('App\Courrier');
     }
+
+    public function representant()
+    {
+        return $this->hasOne('App\PersonnePhysique');
+    }
 }

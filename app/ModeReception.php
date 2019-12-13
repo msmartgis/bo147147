@@ -12,9 +12,18 @@ class ModeReception extends Model
 
     protected $table = "modes_receptions";
 
+    public function getModeNameAttribute($value)
+    {
+        return ucwords($this->nom);
+    }
 
     public function courriers()
     {
         return $this->hasMany('App\Courrier');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany('App\Document');
     }
 }
