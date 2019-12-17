@@ -1,4 +1,4 @@
-<div class="tab-pane " id="brouillons_tab" role="tabpanel">
+<div class="tab-pane active" id="brouillons_tab" role="tabpanel">
     <div class="pad">  
         @include('courriers.entrants.show.filters.filters_brouillon')
         @include('courriers.entrants.show.inc.actions_buttons_brouillon')
@@ -12,7 +12,6 @@
                 <th>Expediteur</th>
                 <th>Objet</th>
                 <th>Delai</th>
-                <th>Avis</th>
                 <th>P.J</th>
                 </thead>
             </table>

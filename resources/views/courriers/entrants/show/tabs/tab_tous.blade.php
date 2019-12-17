@@ -1,4 +1,4 @@
-<div class="tab-pane active" id="tous_tab" role="tabpanel">
+<div class="tab-pane " id="tous_tab" role="tabpanel">
     <div class="pad">  
         @include('courriers.entrants.show.filters.filters_tous')
         @include('courriers.entrants.show.inc.actions_buttons_tous')
@@ -12,7 +12,6 @@
                 <th>Expediteur</th>
                 <th>Objet</th>
                 <th>Delai</th>
-                <th>Avis</th>
                 <th>P.J</th>
                 </thead>
             </table>

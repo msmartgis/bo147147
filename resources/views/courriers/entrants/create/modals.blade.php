@@ -15,7 +15,7 @@
                             <div class="col-md-6 col-lg-6 col-xl-6 col-12">
                                 <div class="form-group">
                                     {{Form::label('','Services/Division :')}}
-                                    {{Form::select('service', $services, null,
+                                    {{Form::select('service_select', $services, null,
                                     [
                                     'data-placeholder' => 'Selectionner un service',
                                     'class'=>'form-control ',

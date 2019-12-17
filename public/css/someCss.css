@@ -634,7 +634,10 @@ table.dataTable tbody>tr>.selected {
 }
 
 
-
+.btn-success-table {
+    padding: 0;
+    margin-top: 0;
+}
 
 .m-header-style {}
 

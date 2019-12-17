@@ -26,7 +26,40 @@ $(document).ready(function () {
         let service_id = $('#service_modal_input_id').val();
         let message = $('#message_service__modal_textarea').val();
 
-        getService(service_id, item_number, message);
+        data_service = getService(service_id);
+
+
+
+        if (data_service[0].responsables[0] != null) {
+            responsable_nom = data_service[0].responsables[0].nom;
+        } else {
+            responsable_nom = '';
+        }
+
+        $('.table-service-assigne tr:last').after(
+
+            '<tr>' +
+
+            '<td> ' +
+            '<div class = "form-group"> ' +
+            '<div class = "checkbox"> ' +
+            '<input type="checkbox" id="row_' + item_number + '"  name="record"> ' +
+            '<label for="row_' + item_number + '"></label> ' +
+            '</div>' +
+            '</div>' +
+            '</td>' +
+
+
+            '<td> <input type="hidden" name="services_ids[]" value="' + data_service[0].id + '"/>' + data_service[0].nom + '</td>' +
+            '<td> ' + data_service[0].ref + '</td>' +
+            '<td> ' + responsable_nom + '</td>' +
+            '<td> <input type="hidden" name="messages[]" value="' + message + '"/>' + message + '</td>' +
+
+            '</tr>'
+
+        );
+
+        $("#assigne_service_modal").modal('toggle');
 
         $('#assigne_service_form_id').trigger("reset");
         item_number++;
@@ -85,7 +118,7 @@ $(document).ready(function () {
 
             '<td> ' +
             '<div class = "form-group"> ' +
-            '<input type="text"   name="intitules[]" value="document sans nom"> ' +
+            '<input type="text" class="form-control"  name="intitules[]" value="document sans nom"> ' +
             '</div>' +
             '</td>' +
 
@@ -121,6 +154,11 @@ $(document).ready(function () {
         });
 
     })
+
+
+    $("#delete_documents_row_btn").click(function () {
+        removeRowFromTable('piece_courrier_tbody');
+    });
 
 
     //add accuse reception courrier entrants
@@ -190,5 +228,5 @@ $(document).ready(function () {
 
 
 
-    
+
 })

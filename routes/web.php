@@ -33,6 +33,8 @@ Route::group(
         Route::get('/files/download/{directory}/{id}/{file_name}', 'FilesController@fileDownload')->name('files.download');
 
 
+
+
         //courrier entrants
         Route::get('/courriers-entrants/tous', 'CourrierController@tousCourrier')->name('documents-entrants-tous');
         Route::get('/courriers-entrants/brouillon', 'CourrierController@brouillonCourrier')->name('documents-entrants-brouillon');
@@ -47,6 +49,8 @@ Route::group(
             'services' => 'ServiceController',
             'modes-receptions' => 'ModeReceptionController',
             'documents-types' => 'DocumentTypeController',
+            'users' => 'UsersController',
+
         ]);
 
         Route::get('/home', 'HomeController@index')->name('home');

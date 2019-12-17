@@ -89,19 +89,6 @@
         </div>       
 
 
-        <div class="col-lg-2">
-            <label>Avis :</label>
-        </div>
-        <div class="col-lg-2">
-            <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="avis_en_retard" id="avis_en_retard_select_filter">
-                    <option value="all" selected>Indifferent</option>                   
-                    <option value="favorable">Favorable</option>               
-                    <option value="defavorable">Defavorable</option>               
-                </select>
-            </div>
-            <!-- /.form-group -->
-        </div>
 
 
          

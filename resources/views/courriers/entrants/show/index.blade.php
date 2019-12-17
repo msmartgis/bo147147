@@ -25,11 +25,12 @@
                 @include('courriers.entrants.show.tabs')
                 <!-- Tab panes -->
                     <div class="tab-content" style="margin-top: 15px">
-                        @include('courriers.entrants.show.tabs.tab_tous')
+                        
                         @include('courriers.entrants.show.tabs.tab_brouillons')
                         @include('courriers.entrants.show.tabs.tab_en_cours')
                         @include('courriers.entrants.show.tabs.tab_en_retard')
                         @include('courriers.entrants.show.tabs.tab_cloture')
+                        @include('courriers.entrants.show.tabs.tab_tous')
                     </div>
                 </div>
                 <!-- /.box-body -->

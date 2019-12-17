@@ -65,7 +65,6 @@ $(document).ready(function () {
                 d.services = $("select[name=services_concernes_brouillon]").val();
                 d.mode_reception = $("select[name=mode_reception_brouillon]").val();
                 d.date_reception = $("select[name=date_reception_brouillon_daterange]").val();
-                d.avis = $("select[name=avis_brouillon]").val();
             }
         },
         columnDefs: [{
@@ -121,12 +120,7 @@ $(document).ready(function () {
                 width: "10%"
             },
 
-            {
-                data: "avis",
-                name: "courriers.avis",
-                searchable: true,
-                width: "10%"
-            },
+
             {
                 data: "pj",
                 name: "pj",
@@ -169,7 +163,7 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_brouillon_select_filter,#expediteur_brouillon_select_filter,#services_concernes_brouillon_select_filter,#mode_reception_brouillon_select_filter,#date_reception_brouillon_input,#avis_brouillon_select_filter').on('change paste keyup', function (e) {
+    $('#nature_expediteur_brouillon_select_filter,#expediteur_brouillon_select_filter,#services_concernes_brouillon_select_filter,#mode_reception_brouillon_select_filter,#date_reception_brouillon_input').on('change paste keyup', function (e) {
         courriersEntrantsBrouillonTable.draw();
         e.preventDefault();
     });

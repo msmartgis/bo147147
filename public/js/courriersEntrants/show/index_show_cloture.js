@@ -65,7 +65,6 @@ $(document).ready(function () {
                 d.services = $("select[name=services_concernes_cloture]").val();
                 d.mode_reception = $("select[name=mode_reception_cloture]").val();
                 d.date_reception = $("select[name=date_reception_cloture_daterange]").val();
-                d.avis = $("select[name=avis_cloture]").val();
             }
         },
         columnDefs: [{
@@ -121,12 +120,7 @@ $(document).ready(function () {
                 width: "10%"
             },
 
-            {
-                data: "avis",
-                name: "courriers.avis",
-                searchable: true,
-                width: "10%"
-            },
+
             {
                 data: "pj",
                 name: "pj",
@@ -169,7 +163,7 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_cloture_select_filter,#expediteur_cloture_select_filter,#services_concernes_cloture_select_filter,#mode_reception_cloture_select_filter,#date_reception_cloture_input,#avis_cloture_select_filter').on('change paste keyup', function (e) {
+    $('#nature_expediteur_cloture_select_filter,#expediteur_cloture_select_filter,#services_concernes_cloture_select_filter,#mode_reception_cloture_select_filter,#date_reception_cloture_input').on('change paste keyup', function (e) {
         courriersEntrantsClotureTable.draw();
         e.preventDefault();
     });

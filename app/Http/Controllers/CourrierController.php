@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Accuse;
+use App\Consigne;
 use App\Courrier;
 use App\Document;
 use App\ModeReception;
@@ -16,6 +17,9 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use DataTables;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\Input;
 
 class CourrierController extends Controller
 {
@@ -287,10 +291,12 @@ class CourrierController extends Controller
     public function edit($id)
     {
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
-        $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->findOrFail($id);
+        $services = Service::orderBy('nom')->pluck('nom', 'id');
+        $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne')->findOrFail($id);
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,
-            'modes_recpetion' => $modes_recpetion
+            'modes_recpetion' => $modes_recpetion,
+            'services' => $services
         ]);
     }
 
@@ -303,7 +309,253 @@ class CourrierController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $document_ids_request_array = [];
+        $document_ids_from_db_array = [];
+        $document_ids_difference_array = []; //get the documents deleted
+
+        $accuse_reception_ids_request_array = [];
+        $accuse_ids_from_db_array = [];
+        $accuse_ids_difference_array = [];
+
+
+        $courrier_to_edit = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne')->findorfail($id);
+
+        $courrier_to_edit->objet = $request->objet;
+        $courrier_to_edit->date_reception = $request->date_reception;
+        $courrier_to_edit->delai = $request->delai;
+        $courrier_to_edit->mode_reception_id = $request->mode_reception_id;
+
+        //update personne physique
+        if (isset($request->personne_physique_id)) {
+            $personne_phys_to_edit = PersonnePhysique::findorfail($request->personne_physique_id);
+            $personne_phys_to_edit->nom = $request->nom_personne_physique;
+            $personne_phys_to_edit->prenom = $request->prenom_personne_physique;
+            $personne_phys_to_edit->cine = $request->cine_personne_physique;
+            $personne_phys_to_edit->adresse = $request->adresse_personne_physique;
+            $personne_phys_to_edit->tel_mobile = $request->tel_mobile_personne_physique;
+            $personne_phys_to_edit->email = $request->email_personne_physique;
+            $personne_phys_to_edit->save();
+        }
+
+
+        //manage docuemnt fournis
+        $document_ids_request_array = $request->documents_ids;
+
+        foreach ($courrier_to_edit->piece as $piece) {
+            array_push($document_ids_from_db_array, $piece->id);
+        }
+
+        if (isset($request->documents_ids)) {
+            $document_ids_difference_array = array_diff($document_ids_from_db_array, $document_ids_request_array);
+
+            if (count($document_ids_difference_array) > 0) {
+                foreach ($document_ids_difference_array as  $doc_to_remove) {
+
+                    $piece_to_delete = Document::find($doc_to_remove);
+
+                    if ($piece_to_delete->path != null) {
+
+                        File::delete(storage_path() . '/courriers/entrants/' . $courrier_to_edit->id . '/' . $piece_to_delete->path);
+                        //Storage::disk('local')->delete('courriers/entrants/' . $courrier_to_edit . '/' . $piece_to_delete->path);
+                    }
+
+                    $piece_to_delete->delete();
+                }
+            }
+
+
+
+            //add the freshly added files
+            if (isset($request->types_documents_fournis)) {
+                $piece_file_names = array();
+                $document_types_ids =  $request->types_documents_fournis;
+                $document_noms =  $request->intitules_documents_fournis;
+                $document_modes_receptions =  $request->modes_receptions_documents_fournis;
+                $date_reception_doc_input =  $request->date_reception_documents_fournis;
+
+
+
+                if ($request->hasFile('documents_ulpoad_documents_fournis')) {
+
+                    $files =  $request->documents_ulpoad_documents_fournis;
+                    foreach ($files as $file) {
+                        // Get filename with the extension
+                        $filenameWithExt = $file->getClientOriginalName();
+                        // Get just filename
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        // Get just ext
+                        $extension = $file->getClientOriginalExtension();
+                        // Filename to store
+                        $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+
+                        array_push($piece_file_names, $fileNameToStore);
+                        // Upload Image
+                        $path = $file->storeAs('courriers/entrants/' . $courrier_to_edit->id, $fileNameToStore);
+                    }
+                }
+
+
+                for ($i = 0; $i < count($document_types_ids); $i++) {
+                    $document_courrier = new Document();
+
+                    if ($document_noms[$i] == "") {
+                        $document_courrier->nom_document = "Document sans nom";
+                    } else {
+                        $document_courrier->nom_document = $document_noms[$i];
+                    }
+
+                    if (count($piece_file_names) > 0) {
+                        $document_courrier->path = $piece_file_names[$i];
+                    } else {
+                        $document_courrier->path = '';
+                    }
+
+                    $document_courrier->type_document_id = $document_types_ids[$i];
+                    $document_courrier->mode_reception_id = $document_modes_receptions[$i];
+                    $document_courrier->mode_reception_id = $document_modes_receptions[$i];
+                    $document_courrier->date_reception = $date_reception_doc_input[$i];
+                    $document_courrier->courrier_id = $courrier_to_edit->id;
+
+                    $document_courrier->save();
+                }
+            }
+
+
+            //accuse reception 
+            $accuse_reception_ids_request_array = $request->accuse_reception_ids;
+
+
+            foreach ($courrier_to_edit->accuse as $accuse) {
+                array_push($accuse_ids_from_db_array, $accuse->id);
+            }
+
+
+            if (isset($request->accuse_reception_ids)) {
+                $accuse_ids_difference_array = array_diff($accuse_ids_from_db_array, $accuse_reception_ids_request_array);
+
+
+
+                if (count($accuse_ids_difference_array) > 0) {
+                    foreach ($accuse_ids_difference_array as  $accuse_to_remove) {
+
+                        $accuse_to_delete = Accuse::find($accuse_to_remove);
+
+                        if ($accuse_to_delete->path != null) {
+
+                            File::delete(storage_path() . '/courriers/entrants/accuses_receptions/' . $courrier_to_edit->id . '/' . $accuse_to_delete->path);
+                            //Storage::disk('local')->delete('courriers/entrants/' . $courrier_to_edit . '/' . $piece_to_delete->path);
+                        }
+
+                        $accuse_to_delete->delete();
+                    }
+                }
+            }
+            //added new accuse
+            if (isset($request->date_accuse_receptions)) {
+                $piece_file_names = array();
+                $date_accuse_receptions =  $request->date_accuse_receptions;
+
+                if ($request->hasFile('accuse_reception_uploads')) {
+
+                    $files =  $request->accuse_reception_uploads;
+                    foreach ($files as $file) {
+                        // Get filename with the extension
+                        $filenameWithExt = $file->getClientOriginalName();
+                        // Get just filename
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        // Get just ext
+                        $extension = $file->getClientOriginalExtension();
+                        // Filename to store
+                        $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+
+                        array_push($piece_file_names, $fileNameToStore);
+                        // Upload Image
+                        $path = $file->storeAs('courriers/entrants/accuses_reception' . $courrier_to_edit->id, $fileNameToStore);
+                    }
+                }
+
+
+                for ($i = 0; $i < count($date_accuse_receptions); $i++) {
+                    $accuse_reception = new Accuse();
+
+
+
+                    if (count($piece_file_names) > 0) {
+                        $accuse_reception->path = $piece_file_names[$i];
+                    } else {
+                        $accuse_reception->path = '';
+                    }
+
+                    $accuse_reception->date = $date_accuse_receptions[$i];
+                    $accuse_reception->user_id = Auth::user()->id;
+                    $accuse_reception->courrier_id = $courrier_to_edit->id;
+
+                    $accuse_reception->save();
+                }
+            }
+
+
+            //services
+            $services_ids_array = [];
+            $messages_array = [];
+            // if ($request->has('service_input_id')) {
+
+            //     array_push($services_ids_array, $request->service_input_id);
+
+            //     array_push($messages_array, $request->messages);
+
+            //     for ($i = 0; $i < count($services_ids_array); $i++) {
+            //         $courrier_to_edit->services()->attach($services_ids_array[$i], ['message' => $messages_array[$i]]);
+            //     }
+            // }
+
+
+            // array_push($services_ids_array, $request->service_input_id);
+            // array_push($messages_array, $request->messages);
+
+
+
+            if (isset($request->service_input_id)) {
+                $services_ids =  $request->service_input_id;
+                $messages = $request->messages;
+
+                $pivotData = array_fill(0, count($services_ids), ['message' => $messages[0], 'vu' => 0]);
+
+                $syncData  = array_combine($services_ids, $pivotData);
+
+                //$data_to_sync = array_combine($services_ids, $messages);
+
+                $courrier_to_edit->services()->sync($syncData);
+            } else {
+                $courrier_to_edit->services()->detach();
+            }
+
+
+            //remarques et consignes
+            //detach all elements first 
+            $courrier_to_edit->remarqueConsigne()->delete();
+
+            if (isset($request->consignes_added_message)) {
+
+                $consigne_array = $request->consignes_added_message;
+
+                foreach ($consigne_array as $csgn) {
+                    $consigne = new Consigne();
+                    $consigne->message = $csgn;
+                    $consigne->user_id = Auth::user()->id;
+                    $consigne->courrier_id = $courrier_to_edit->id;
+                    $consigne->save();
+                }
+            }
+
+
+
+            $courrier_to_edit->save();
+
+            if ($courrier_to_edit->save()) {
+                return redirect("/courriers-entrants" . "/" . $courrier_to_edit->id . "/edit")->with('success', 'Demande modifier avec succès');
+            }
+        }
     }
 
     /**
@@ -375,7 +627,8 @@ class CourrierController extends Controller
 
         //nature experediteur
         if ($nature_expediteur = $request->get('nature_expediteur')) {
-            if ($nature_expediteur == "all") { } else {
+            if ($nature_expediteur == "all") {
+            } else {
                 if ($nature_expediteur == "personne_morale") {
                     $courriers->where('personne_morale_id', '!=', null);
                 } else {
@@ -386,7 +639,8 @@ class CourrierController extends Controller
 
         //expediteur
         if ($expediteur = $request->get('expediteur')) {
-            if ($expediteur == "all") { } else {
+            if ($expediteur == "all") {
+            } else {
                 if (Str::contains($expediteur, 'personnePhysique')) {
                     $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
                         $query->where('id', '=', Str::substr($expediteur, 17));
@@ -404,7 +658,8 @@ class CourrierController extends Controller
 
         //service
         if ($services = $request->get('services')) {
-            if ($services == "all") { } else {
+            if ($services == "all") {
+            } else {
 
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
@@ -415,7 +670,8 @@ class CourrierController extends Controller
 
         //mode reception
         if ($mode_reception = $request->get('mode_reception')) {
-            if ($mode_reception == "all") { } else {
+            if ($mode_reception == "all") {
+            } else {
 
                 $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
                     $query->where('id', '=', $mode_reception);
@@ -426,7 +682,8 @@ class CourrierController extends Controller
 
         //avis
         if ($avis = $request->get('avis')) {
-            if ($avis == "all") { } else {
+            if ($avis == "all") {
+            } else {
                 $courriers->where('avis', '=', $avis);
             }
         }
@@ -439,6 +696,7 @@ class CourrierController extends Controller
     {
         $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'entrant'], ['etat_id', '=', 'de4d5fe6-a384-4df0-abeb-6f953f4102f4']])->orderBy('date_reception', 'desc');
 
+        // return $courriers;
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
 
@@ -482,7 +740,8 @@ class CourrierController extends Controller
 
         //nature experediteur
         if ($nature_expediteur = $request->get('nature_expediteur')) {
-            if ($nature_expediteur == "all") { } else {
+            if ($nature_expediteur == "all") {
+            } else {
                 if ($nature_expediteur == "personne_morale") {
                     $courriers->where('personne_morale_id', '!=', null);
                 } else {
@@ -493,7 +752,8 @@ class CourrierController extends Controller
 
         //expediteur
         if ($expediteur = $request->get('expediteur')) {
-            if ($expediteur == "all") { } else {
+            if ($expediteur == "all") {
+            } else {
                 if (Str::contains($expediteur, 'personnePhysique')) {
                     $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
                         $query->where('id', '=', Str::substr($expediteur, 17));
@@ -511,7 +771,8 @@ class CourrierController extends Controller
 
         //service
         if ($services = $request->get('services')) {
-            if ($services == "all") { } else {
+            if ($services == "all") {
+            } else {
 
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
@@ -522,7 +783,8 @@ class CourrierController extends Controller
 
         //mode reception
         if ($mode_reception = $request->get('mode_reception')) {
-            if ($mode_reception == "all") { } else {
+            if ($mode_reception == "all") {
+            } else {
 
                 $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
                     $query->where('id', '=', $mode_reception);
@@ -533,7 +795,8 @@ class CourrierController extends Controller
 
         //avis
         if ($avis = $request->get('avis')) {
-            if ($avis == "all") { } else {
+            if ($avis == "all") {
+            } else {
                 $courriers->where('avis', '=', $avis);
             }
         }
@@ -589,7 +852,8 @@ class CourrierController extends Controller
 
         //nature experediteur
         if ($nature_expediteur = $request->get('nature_expediteur')) {
-            if ($nature_expediteur == "all") { } else {
+            if ($nature_expediteur == "all") {
+            } else {
                 if ($nature_expediteur == "personne_morale") {
                     $courriers->where('personne_morale_id', '!=', null);
                 } else {
@@ -600,7 +864,8 @@ class CourrierController extends Controller
 
         //expediteur
         if ($expediteur = $request->get('expediteur')) {
-            if ($expediteur == "all") { } else {
+            if ($expediteur == "all") {
+            } else {
                 if (Str::contains($expediteur, 'personnePhysique')) {
                     $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
                         $query->where('id', '=', Str::substr($expediteur, 17));
@@ -618,7 +883,8 @@ class CourrierController extends Controller
 
         //service
         if ($services = $request->get('services')) {
-            if ($services == "all") { } else {
+            if ($services == "all") {
+            } else {
 
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
@@ -629,7 +895,8 @@ class CourrierController extends Controller
 
         //mode reception
         if ($mode_reception = $request->get('mode_reception')) {
-            if ($mode_reception == "all") { } else {
+            if ($mode_reception == "all") {
+            } else {
 
                 $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
                     $query->where('id', '=', $mode_reception);
@@ -640,7 +907,8 @@ class CourrierController extends Controller
 
         //avis
         if ($avis = $request->get('avis')) {
-            if ($avis == "all") { } else {
+            if ($avis == "all") {
+            } else {
                 $courriers->where('avis', '=', $avis);
             }
         }
@@ -698,7 +966,8 @@ class CourrierController extends Controller
 
         //nature experediteur
         if ($nature_expediteur = $request->get('nature_expediteur')) {
-            if ($nature_expediteur == "all") { } else {
+            if ($nature_expediteur == "all") {
+            } else {
                 if ($nature_expediteur == "personne_morale") {
                     $courriers->where('personne_morale_id', '!=', null);
                 } else {
@@ -709,7 +978,8 @@ class CourrierController extends Controller
 
         //expediteur
         if ($expediteur = $request->get('expediteur')) {
-            if ($expediteur == "all") { } else {
+            if ($expediteur == "all") {
+            } else {
                 if (Str::contains($expediteur, 'personnePhysique')) {
                     $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
                         $query->where('id', '=', Str::substr($expediteur, 17));
@@ -727,7 +997,8 @@ class CourrierController extends Controller
 
         //service
         if ($services = $request->get('services')) {
-            if ($services == "all") { } else {
+            if ($services == "all") {
+            } else {
 
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
@@ -738,7 +1009,8 @@ class CourrierController extends Controller
 
         //mode reception
         if ($mode_reception = $request->get('mode_reception')) {
-            if ($mode_reception == "all") { } else {
+            if ($mode_reception == "all") {
+            } else {
 
                 $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
                     $query->where('id', '=', $mode_reception);
@@ -749,7 +1021,8 @@ class CourrierController extends Controller
 
         //avis
         if ($avis = $request->get('avis')) {
-            if ($avis == "all") { } else {
+            if ($avis == "all") {
+            } else {
                 $courriers->where('avis', '=', $avis);
             }
         }
@@ -808,7 +1081,8 @@ class CourrierController extends Controller
 
         //nature experediteur
         if ($nature_expediteur = $request->get('nature_expediteur')) {
-            if ($nature_expediteur == "all") { } else {
+            if ($nature_expediteur == "all") {
+            } else {
                 if ($nature_expediteur == "personne_morale") {
                     $courriers->where('personne_morale_id', '!=', null);
                 } else {
@@ -819,7 +1093,8 @@ class CourrierController extends Controller
 
         //expediteur
         if ($expediteur = $request->get('expediteur')) {
-            if ($expediteur == "all") { } else {
+            if ($expediteur == "all") {
+            } else {
                 if (Str::contains($expediteur, 'personnePhysique')) {
                     $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
                         $query->where('id', '=', Str::substr($expediteur, 17));
@@ -837,7 +1112,8 @@ class CourrierController extends Controller
 
         //service
         if ($services = $request->get('services')) {
-            if ($services == "all") { } else {
+            if ($services == "all") {
+            } else {
 
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
@@ -848,7 +1124,8 @@ class CourrierController extends Controller
 
         //mode reception
         if ($mode_reception = $request->get('mode_reception')) {
-            if ($mode_reception == "all") { } else {
+            if ($mode_reception == "all") {
+            } else {
 
                 $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
                     $query->where('id', '=', $mode_reception);
@@ -859,7 +1136,8 @@ class CourrierController extends Controller
 
         //avis
         if ($avis = $request->get('avis')) {
-            if ($avis == "all") { } else {
+            if ($avis == "all") {
+            } else {
                 $courriers->where('avis', '=', $avis);
             }
         }

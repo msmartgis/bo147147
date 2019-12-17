@@ -16,3 +16,10 @@ var actueDate =
     d.getFullYear() + '-' +
     (('' + month).length < 2 ? '0' : '') + month + '-' +
     (('' + day).length < 2 ? '0' : '') + day;
+
+
+$('.activate-form-btn').on('click', function () {
+    $(".form-edit :input").prop("disabled", false);
+    $("button,a").removeClass("m-hidden");
+    $("button").removeClass("disabled");
+});

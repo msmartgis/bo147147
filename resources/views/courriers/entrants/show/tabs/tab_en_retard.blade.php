@@ -12,7 +12,6 @@
                 <th>Expediteur</th>
                 <th>Objet</th>
                 <th>Delai</th>
-                <th>Avis</th>
                 <th>P.J</th>
                 </thead>
             </table>
