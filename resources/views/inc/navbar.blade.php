@@ -1,5 +1,3 @@
-
-
     <ul class="navbar-nav">        
             <li class="nav-item {{ Route::is('home') ? 'active' : '' }}" >
                 <a class="nav-link" href="" ><span class="active-item-here"></span>
@@ -16,8 +14,8 @@
                 </a>
             </li>
 
-            <li class="nav-item ">
-                <a class="nav-link" href=""><span class=""></span>
+            <li class="nav-item {{ Route::is('documents-sortants') || Route::is('documents-sortants-create') || Route::is('courriers-sortants.edit')   ? 'active' : '' }} ">
+                <a class="nav-link" href="{{route('documents-sortants')}}"><span class=""></span>
                     <img src="{{asset('images/svg/writing.svg')}}" style="width: 1.2em;margin-right: 5px;" />
                     <span style="vertical-align: middle;" class="lato-bold">COURRIERS SORTANTS</span></a>
             </li>

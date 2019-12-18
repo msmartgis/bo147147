@@ -82,6 +82,9 @@ class CourrierController extends Controller
         $courrier->objet = $request->objet;
         $courrier->delai = $request->delai;
 
+
+
+
         //insert expediteur
         //create personne physique
         if ($request->type_expediteur == "personne_physique") {
@@ -336,6 +339,41 @@ class CourrierController extends Controller
             $personne_phys_to_edit->email = $request->email_personne_physique;
             $personne_phys_to_edit->save();
         }
+
+
+        //personne morale and representant data
+        if (isset($request->personne_morale_id)) {
+            $personne_morale_to_edit = PersonneMorale::findorfail($request->personne_morale_id);
+            $personne_morale_to_edit->raison_social = $request->raison_social_personne_morale;
+            $personne_morale_to_edit->rc = $request->rc_personne_morale;
+            $personne_morale_to_edit->adresse = $request->adresse_personne_morale;
+            $personne_morale_to_edit->tel_fix = $request->tel_fix_personne_morale;
+            $personne_morale_to_edit->tel_mobile = $request->tel_mobile_personne_morale;
+            $personne_morale_to_edit->fax = $request->fax_personne_morale;
+            $personne_morale_to_edit->email = $request->email_personne_morale;
+            $personne_morale_to_edit->save();
+
+
+            //representant
+            if (isset($request->representant_id)) {
+                $representant = PersonnePhysique::findorfail($request->representant_id);
+            } else {
+                $representant = new PersonnePhysique();
+            }
+
+            $representant->nom = $request->nom_representant;
+            $representant->prenom = $request->prenom_representant;
+            $representant->cine = $request->cine_representant;
+            $representant->adresse = $request->adresse_representant;
+            $representant->tel_mobile = $request->tel_mobile_representant;
+            $representant->email = $request->email_representant;
+            $representant->is_represantant = 1;
+            $representant->personne_morale_id = $request->personne_morale_id;
+            $representant->save();
+        }
+
+
+
 
 
         //manage docuemnt fournis

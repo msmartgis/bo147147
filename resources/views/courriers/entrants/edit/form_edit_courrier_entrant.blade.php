@@ -1,6 +1,6 @@
 
 {!! Form::model($courrier, ['route' => ['courriers-entrants.update', $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT','enctype' => 'multipart/form-data']) !!}
-
+<input type="hidden" name="courrier_id" value="{{$courrier->id}}" id="courrier_id_input">
 <div class="row">
     <div class="col-lg-9">
         <div class="row">
@@ -94,7 +94,8 @@
                                             <div class="row col-12">
                                                 <div class="col-lg-4">
                                                     {{Form::label('','Raison Social:')}}
-                                                    <div class="form-group form-group-edit">                                                    
+                                                    <div class="form-group form-group-edit">  
+                                                    <input type="hidden" name="personne_morale_id" value="{{$courrier->personneMorale()->first()->id}}">                                                  
                                                         {{Form::text('raison_social_personne_morale',$courrier->personneMorale()->first()->raison_social,['class'=>'form-control','disabled' => 'disabled'])}}
                                                     </div>
                                                 </div>
@@ -149,12 +150,13 @@
                                             </div>
                                            
                                             <h6 style="margin-top : 12px"><b>Informations de Représentant:</b></h6>
-                                            @if ($courrier->personneMorale()->first()->representant() != null)
-                                           
+                                            @if ($courrier->personneMorale()->first()->representant != null)
+
                                                 <div class="row col-12">
+                                                    <input type="hidden" name="representant_id" value="{{$courrier->personneMorale()->first()->representant->nom}}">     
                                                     <div class="col-lg-4">
                                                         {{Form::label('','Nom:')}}
-                                                        <div class="form-group form-group-edit">                                                    
+                                                        <div class="form-group form-group-edit">  
                                                             {{Form::text('nom_representant',$courrier->personneMorale()->first()->representant->nom,['class'=>'form-control','disabled' => 'disabled'])}}
                                                         </div>
                                                     </div>
@@ -200,6 +202,59 @@
                                                     </div>
 
                                                 </div>
+
+                                            @else
+
+                                            <div class="row col-12">
+                                                    <div class="col-lg-4">
+                                                        {{Form::label('','Nom:')}}
+                                                        <div class="form-group form-group-edit">                                                    
+                                                            {{Form::text('nom_representant','',['class'=>'form-control','disabled' => 'disabled'])}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+                                                        {{Form::label('','Prènom:')}}
+                                                        <div class="form-group form-group-edit">                                                    
+                                                            {{Form::text('prenom_representant','',['class'=>'form-control','disabled' => 'disabled'])}}
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-lg-4">
+                                                        {{Form::label('','C.I.N.E:')}}
+                                                        <div class="form-group form-group-edit">                                                    
+                                                            {{Form::text('cine_representant','',['class'=>'form-control','disabled' => 'disabled'])}}
+                                                        </div>
+                                                    </div>                                             
+
+                                                </div>
+
+                                                <div class="row col-12" style="margin-top: 8px">
+                                                    <div class="col-lg-4">
+                                                        {{Form::label('','Adresse:')}}
+                                                        <div class="form-group form-group-edit">                                                    
+                                                            {{Form::text('adresse_representant','',['class'=>'form-control','disabled' => 'disabled'])}}
+                                                        </div>
+                                                    </div>
+                                                    
+
+                                                    <div class="col-lg-4">
+                                                        {{Form::label('','Tel Mobile:')}}
+                                                        <div class="form-group form-group-edit">                                                    
+                                                            {{Form::text('tel_mobile_representant','',['class'=>'form-control','disabled' => 'disabled'])}}
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+                                                        {{Form::label('','Email:')}}
+                                                        <div class="form-group form-group-edit">                                                    
+                                                            {{Form::text('email_representant','',['class'=>'form-control','disabled' => 'disabled'])}}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
                                                 
                                             @endif
                                         
@@ -247,7 +302,7 @@
 
                                                             <td style="text-align: center;">
                                                                 @if($item->path != '')
-                                                                    <a href="/files/download/courriers/{{$courrier->id}}/{{$item->path}}">
+                                                                    <a href="/files/download/courriers/entrants/{{$courrier->id}}/{{$item->path}}">
                                                                         <button type="button"  class="btn btn-success-table " >
                                                                             <i class="fa fa-download"></i>
                                                                             Télécharger</button>
@@ -308,7 +363,7 @@
 
                                                             <td style="text-align: center;">
                                                                 @if($item->path != '')
-                                                                    <a href="/files/download/courriers/{{$courrier->id}}/{{$item->path}}">
+                                                                    <a href="/files/download/courriers/entrants_accuses_reception/{{$courrier->id}}/{{$item->path}}">
                                                                         <button type="button"  class="btn btn-success-table " >
                                                                             <i class="fa fa-download"></i>
                                                                             Télécharger</button>
@@ -630,7 +685,7 @@
                     <button type="button" id="activate_form_edit_btn" class="btn  btn-success activate-form-btn" style="width:90%;margin:auto auto 4px auto;display: block;" ><i class="fa fa-edit" style="margin-right: 8px;"></i>Activer la modification</button>
 
                     @if ($courrier->etat_id == "de4d5fe6-a384-4df0-abeb-6f953f4102f4")
-                         <button type="button" id="activate_edit_btn" class="btn  btn-success disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-edit" style="margin-right: 8px;"></i>Valider</button>
+                         <button type="button" id="valider_courrier_entrant_btn" class="btn  btn-success disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-edit" style="margin-right: 8px;"></i>Valider</button>
                     @endif
 
 

@@ -12,8 +12,19 @@ class FilesController extends Controller
     {
         $file_name = $request->file_name;
         $directory = $request->directory;
+        $subdirectory = $request->subdirectory;
 
         $local_path = '';
+
+        if ($subdirectory == "entrants") {
+            $local_path = 'courriers/entrants/';
+        }
+
+        if ($subdirectory == "entrants_accuses_reception") {
+            $local_path = 'courriers/entrants/accuses_receptions/';
+        }
+
+
 
 
 

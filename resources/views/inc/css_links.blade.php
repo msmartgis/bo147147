@@ -1,6 +1,4 @@
 <!-- Bootstrap 4.0-->
-
-
 <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 
 
@@ -20,8 +18,6 @@
 <!--alerts CSS -->
 <link href="{{asset('vendor_components/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css">
 
-
-
 {{-- font awesome --}}
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -32,9 +28,9 @@
 <link href="https://fonts.googleapis.com/css?family=Markazi+Text&display=swap" rel="stylesheet">
 
 <!-- daterange picker -->	
-	<link rel="stylesheet" href="{{asset('vendor_components/bootstrap-daterangepicker/daterangepicker.css')}}">
+<link rel="stylesheet" href="{{asset('vendor_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 
 
 
 
-    @yield('added_css')
+@yield('added_css')

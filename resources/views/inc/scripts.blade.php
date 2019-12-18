@@ -18,7 +18,7 @@
 <script src="{{asset('vendor_components/popper/dist/popper.min.js')}}"></script>
 
 <!-- Bootstrap 4.0-->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 <!-- Slimscroll -->
 <script src="{{asset('vendor_components/jquery-slimscroll/jquery.slimscroll.js')}}"></script>
@@ -33,9 +33,7 @@
 <script src="{{asset('js/template.js')}}"></script>
 
 
-<script src="https://unpkg.com/ionicons@4.5.0/dist/ionicons.js"></script>
-
-	<!-- Select2 -->
+<!-- Select2 -->
 <script src="{{asset('vendor_components/select2/dist/js/select2.full.js')}}"></script>
 
 <!-- iCheck 1.0.1 -->
@@ -44,7 +42,6 @@
 	<!-- Fab Admin for advanced form element -->
 <script src="{{asset('js/advanced-form-element.js')}}"></script>
 
- <script src="{{asset('js/jquery.price_format.js')}}"></script>
 
  <!-- Sweet-Alert  -->
  <script src="{{asset('vendor_components/sweetalert/sweetalert.min.js')}}"></script>

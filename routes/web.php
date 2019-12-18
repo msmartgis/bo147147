@@ -30,7 +30,7 @@ Route::group(
         Route::get('/type-documents/get-all-documents-types', 'DocumentTypeController@getAllDocumentType')->name('document-type.getDocumentType');
 
         //files
-        Route::get('/files/download/{directory}/{id}/{file_name}', 'FilesController@fileDownload')->name('files.download');
+        Route::get('/files/download/{directory}/{subdirectory}/{id}/{file_name}', 'FilesController@fileDownload')->name('files.download');
 
 
 
@@ -46,6 +46,7 @@ Route::group(
 
         Route::resources([
             'courriers-entrants' => 'CourrierController',
+            'courriers-sortants' => 'CourrierSortantController',
             'services' => 'ServiceController',
             'modes-receptions' => 'ModeReceptionController',
             'documents-types' => 'DocumentTypeController',
@@ -58,5 +59,10 @@ Route::group(
         //courriers entrants
         Route::get('/courriers-entrants', 'CourrierController@index')->name('documents-entrants');
         Route::get('/courriers-entrants/create', 'CourrierController@create')->name('documents-entrants-create');
+
+
+        //Courriers sortants
+        Route::get('/courriers-sortants', 'CourrierSortantController@index')->name('documents-sortants');
+        Route::get('/courriers-sortants/create', 'CourrierSortantController@create')->name('documents-sortants-create');
     }
 );
