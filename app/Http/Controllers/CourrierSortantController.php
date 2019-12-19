@@ -278,7 +278,14 @@ class CourrierSortantController extends Controller
      */
     public function edit($id)
     {
-        //
+        $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
+        $services = Service::orderBy('nom')->pluck('nom', 'id');
+        $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne')->findOrFail($id);
+        return  view('courriers.sortants.edit.index_edit_cs')->with([
+            'courrier' => $courrier,
+            'modes_recpetion' => $modes_recpetion,
+            'services' => $services
+        ]);
     }
 
     /**
@@ -302,5 +309,459 @@ class CourrierSortantController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+
+     public function tousCourrier(Request $request)
+    {
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant']])->orderBy('date_reception', 'desc');
+
+        if ($request->ajax()) {
+            $datatables = Datatables::eloquent($courriers)
+
+                ->addColumn('objet', function ($courriers) {
+                    return $courriers->objet ? Str::limit($courriers->objet, 100, '...') : '';
+                })
+
+                ->addColumn('expediteur', function (Courrier $courrier) {
+                    if ($courrier->personnePhysique != null) {
+                        return $courrier->personnePhysique->full_name;
+                    }
+
+
+                    if ($courrier->personneMorale != null) {
+                        return $courrier->personneMorale->raison_sociale;
+                    }
+
+                    if ($courrier->personneMorale == null && $courrier->personnePhysique == null) {
+                        return "";
+                    }
+                })
+
+                ->addColumn('pj', function (Courrier $courrier) {
+                    if ($courrier->piece()->exists()) {
+                        return '<i class="fa fa-paperclip" style="font-size: 20px;color: #1b3398;" data-toggle="tooltip" data-html="true"   data-placement="left" title="Nombre Documents : ' . $courrier->piece_count . '"></i>';
+                    } else {
+                        return "";
+                    }
+                })
+
+                ->addColumn('ref', function ($courriers) {
+                    return '<a  href="courriers-sortants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="Objet : ' . $courriers->objet . '">' . $courriers->ref . '</a>';
+                })
+
+                ->addColumn('checkbox', function ($courriers) {
+                    return '<input style="text-align: center;" type="checkbox" id="courriersSortantTous_' . $courriers->id . '" name="checkbox_tous" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantTous_' . $courriers->id . '" class="block" ></label>';
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref']);
+        }
+
+
+        //nature experediteur
+        if ($nature_expediteur = $request->get('nature_expediteur')) {
+            if ($nature_expediteur == "all") {
+            } else {
+                if ($nature_expediteur == "personne_morale") {
+                    $courriers->where('personne_morale_id', '!=', null);
+                } else {
+                    $courriers->where('personne_physique_id', '!=', null);
+                }
+            }
+        }
+
+        //expediteur
+        if ($expediteur = $request->get('expediteur')) {
+            if ($expediteur == "all") {
+            } else {
+                if (Str::contains($expediteur, 'personnePhysique')) {
+                    $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
+                        $query->where('id', '=', Str::substr($expediteur, 17));
+                    });
+                }
+
+
+                if (Str::contains($expediteur, 'personneMorale')) {
+                    $courriers->whereHas('personneMorale', function ($query) use ($expediteur) {
+                        $query->where('id', '=', Str::substr($expediteur, 15));
+                    });
+                }
+            }
+        }
+
+        //service
+        if ($services = $request->get('services')) {
+            if ($services == "all") {
+            } else {
+
+                $courriers->whereHas('services', function ($query) use ($services) {
+                    $query->where('services.id', '=', $services);
+                });
+            }
+        }
+
+
+        //mode reception
+        if ($mode_reception = $request->get('mode_reception')) {
+            if ($mode_reception == "all") {
+            } else {
+
+                $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
+                    $query->where('id', '=', $mode_reception);
+                });
+            }
+        }
+
+
+        //avis
+        if ($avis = $request->get('avis')) {
+            if ($avis == "all") {
+            } else {
+                $courriers->where('avis', '=', $avis);
+            }
+        }
+
+        return $datatables->make(true);
+    }
+
+
+    public function brouillonCourrier(Request $request)
+    {
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', 'de4d5fe6-a384-4df0-abeb-6f953f4102f4']])->orderBy('date_reception', 'desc');
+
+        // return $courriers;
+        if ($request->ajax()) {
+            $datatables = Datatables::eloquent($courriers)
+
+                ->addColumn('objet', function ($courriers) {
+                    return $courriers->objet ? Str::limit($courriers->objet, 100, '...') : '';
+                })
+
+                ->addColumn('expediteur', function (Courrier $courrier) {
+                    if ($courrier->personnePhysique != null) {
+                        return $courrier->personnePhysique->full_name;
+                    }
+
+
+                    if ($courrier->personneMorale != null) {
+                        return $courrier->personneMorale->raison_sociale;
+                    }
+
+                    if ($courrier->personneMorale == null && $courrier->personnePhysique == null) {
+                        return "";
+                    }
+                })
+
+                ->addColumn('pj', function (Courrier $courrier) {
+                    if ($courrier->piece()->exists()) {
+                        return '<i class="fa fa-paperclip" style="font-size: 20px;color: #1b3398;" data-toggle="tooltip" data-html="true"   data-placement="left" title="Nombre Documents : ' . $courrier->piece_count . '"></i>';
+                    } else {
+                        return "";
+                    }
+                })
+
+                ->addColumn('ref', function ($courriers) {
+                    return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                })
+
+                ->addColumn('checkbox', function ($courriers) {
+                    return '<input style="text-align: center;" type="checkbox" id="courriersSortantBrouillon_' . $courriers->id . '" name="checkbox_brouillon" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantBrouillon_' . $courriers->id . '" class="block" ></label>';
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref']);
+        }
+
+
+        //nature experediteur
+        if ($nature_expediteur = $request->get('nature_expediteur')) {
+            if ($nature_expediteur == "all") {
+            } else {
+                if ($nature_expediteur == "personne_morale") {
+                    $courriers->where('personne_morale_id', '!=', null);
+                } else {
+                    $courriers->where('personne_physique_id', '!=', null);
+                }
+            }
+        }
+
+        //expediteur
+        if ($expediteur = $request->get('expediteur')) {
+            if ($expediteur == "all") {
+            } else {
+                if (Str::contains($expediteur, 'personnePhysique')) {
+                    $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
+                        $query->where('id', '=', Str::substr($expediteur, 17));
+                    });
+                }
+
+
+                if (Str::contains($expediteur, 'personneMorale')) {
+                    $courriers->whereHas('personneMorale', function ($query) use ($expediteur) {
+                        $query->where('id', '=', Str::substr($expediteur, 15));
+                    });
+                }
+            }
+        }
+
+        //service
+        if ($services = $request->get('services')) {
+            if ($services == "all") {
+            } else {
+
+                $courriers->whereHas('services', function ($query) use ($services) {
+                    $query->where('services.id', '=', $services);
+                });
+            }
+        }
+
+
+        //mode reception
+        if ($mode_reception = $request->get('mode_reception')) {
+            if ($mode_reception == "all") {
+            } else {
+
+                $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
+                    $query->where('id', '=', $mode_reception);
+                });
+            }
+        }
+
+
+        //avis
+        if ($avis = $request->get('avis')) {
+            if ($avis == "all") {
+            } else {
+                $courriers->where('avis', '=', $avis);
+            }
+        }
+
+        return $datatables->make(true);
+    }
+
+
+    public function enCoursCourrier(Request $request)
+    {
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8']])->orderBy('date_reception', 'desc');
+
+        if ($request->ajax()) {
+            $datatables = Datatables::eloquent($courriers)
+
+                ->addColumn('objet', function ($courriers) {
+                    return $courriers->objet ? Str::limit($courriers->objet, 100, '...') : '';
+                })
+
+                ->addColumn('expediteur', function (Courrier $courrier) {
+                    if ($courrier->personnePhysique != null) {
+                        return $courrier->personnePhysique->full_name;
+                    }
+
+
+                    if ($courrier->personneMorale != null) {
+                        return $courrier->personneMorale->raison_sociale;
+                    }
+
+                    if ($courrier->personneMorale == null && $courrier->personnePhysique == null) {
+                        return "";
+                    }
+                })
+
+                ->addColumn('pj', function (Courrier $courrier) {
+                    if ($courrier->piece()->exists()) {
+                        return '<i class="fa fa-paperclip" style="font-size: 20px;color: #1b3398;" data-toggle="tooltip" data-html="true"   data-placement="left" title="Nombre Documents : ' . $courrier->piece_count . '"></i>';
+                    } else {
+                        return "";
+                    }
+                })
+
+                ->addColumn('ref', function ($courriers) {
+                    return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                })
+
+                ->addColumn('checkbox', function ($courriers) {
+                    return '<input style="text-align: center;" type="checkbox" id="courriersSortantEnCours_' . $courriers->id . '" name="checkbox_en_cours" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantEnCours_' . $courriers->id . '" class="block" ></label>';
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref']);
+        }
+
+
+        //nature experediteur
+        if ($nature_expediteur = $request->get('nature_expediteur')) {
+            if ($nature_expediteur == "all") {
+            } else {
+                if ($nature_expediteur == "personne_morale") {
+                    $courriers->where('personne_morale_id', '!=', null);
+                } else {
+                    $courriers->where('personne_physique_id', '!=', null);
+                }
+            }
+        }
+
+        //expediteur
+        if ($expediteur = $request->get('expediteur')) {
+            if ($expediteur == "all") {
+            } else {
+                if (Str::contains($expediteur, 'personnePhysique')) {
+                    $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
+                        $query->where('id', '=', Str::substr($expediteur, 17));
+                    });
+                }
+
+
+                if (Str::contains($expediteur, 'personneMorale')) {
+                    $courriers->whereHas('personneMorale', function ($query) use ($expediteur) {
+                        $query->where('id', '=', Str::substr($expediteur, 15));
+                    });
+                }
+            }
+        }
+
+        //service
+        if ($services = $request->get('services')) {
+            if ($services == "all") {
+            } else {
+
+                $courriers->whereHas('services', function ($query) use ($services) {
+                    $query->where('services.id', '=', $services);
+                });
+            }
+        }
+
+
+        //mode reception
+        if ($mode_reception = $request->get('mode_reception')) {
+            if ($mode_reception == "all") {
+            } else {
+
+                $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
+                    $query->where('id', '=', $mode_reception);
+                });
+            }
+        }
+
+
+        //avis
+        if ($avis = $request->get('avis')) {
+            if ($avis == "all") {
+            } else {
+                $courriers->where('avis', '=', $avis);
+            }
+        }
+
+        return $datatables->make(true);
+    }
+
+
+
+    public function clotureCourrier(Request $request)
+    {
+        $actu_date = Carbon::now()->format('Y-m-d');
+
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858']])->orderBy('date_reception', 'desc');
+
+        if ($request->ajax()) {
+            $datatables = Datatables::eloquent($courriers)
+
+                ->addColumn('objet', function ($courriers) {
+                    return $courriers->objet ? Str::limit($courriers->objet, 100, '...') : '';
+                })
+
+                ->addColumn('expediteur', function (Courrier $courrier) {
+                    if ($courrier->personnePhysique != null) {
+                        return $courrier->personnePhysique->full_name;
+                    }
+
+
+                    if ($courrier->personneMorale != null) {
+                        return $courrier->personneMorale->raison_sociale;
+                    }
+
+                    if ($courrier->personneMorale == null && $courrier->personnePhysique == null) {
+                        return "";
+                    }
+                })
+
+                ->addColumn('pj', function (Courrier $courrier) {
+                    if ($courrier->piece()->exists()) {
+                        return '<i class="fa fa-paperclip" style="font-size: 20px;color: #1b3398;" data-toggle="tooltip" data-html="true"   data-placement="left" title="Nombre Documents : ' . $courrier->piece_count . '"></i>';
+                    } else {
+                        return "";
+                    }
+                })
+
+                ->addColumn('ref', function ($courriers) {
+                    return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                })
+
+                ->addColumn('checkbox', function ($courriers) {
+                    return '<input style="text-align: center;" type="checkbox" id="courriersSortantCloture_' . $courriers->id . '" name="checkbox_cloture" class="demande-cloture-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantCloture_' . $courriers->id . '" class="block" ></label>';
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref']);
+        }
+
+
+        //nature experediteur
+        if ($nature_expediteur = $request->get('nature_expediteur')) {
+            if ($nature_expediteur == "all") {
+            } else {
+                if ($nature_expediteur == "personne_morale") {
+                    $courriers->where('personne_morale_id', '!=', null);
+                } else {
+                    $courriers->where('personne_physique_id', '!=', null);
+                }
+            }
+        }
+
+        //expediteur
+        if ($expediteur = $request->get('expediteur')) {
+            if ($expediteur == "all") {
+            } else {
+                if (Str::contains($expediteur, 'personnePhysique')) {
+                    $courriers->whereHas('personnePhysique', function ($query) use ($expediteur) {
+                        $query->where('id', '=', Str::substr($expediteur, 17));
+                    });
+                }
+
+
+                if (Str::contains($expediteur, 'personneMorale')) {
+                    $courriers->whereHas('personneMorale', function ($query) use ($expediteur) {
+                        $query->where('id', '=', Str::substr($expediteur, 15));
+                    });
+                }
+            }
+        }
+
+        //service
+        if ($services = $request->get('services')) {
+            if ($services == "all") {
+            } else {
+
+                $courriers->whereHas('services', function ($query) use ($services) {
+                    $query->where('services.id', '=', $services);
+                });
+            }
+        }
+
+
+        //mode reception
+        if ($mode_reception = $request->get('mode_reception')) {
+            if ($mode_reception == "all") {
+            } else {
+
+                $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
+                    $query->where('id', '=', $mode_reception);
+                });
+            }
+        }
+
+
+        //avis
+        if ($avis = $request->get('avis')) {
+            if ($avis == "all") {
+            } else {
+                $courriers->where('avis', '=', $avis);
+            }
+        }
+
+        return $datatables->make(true);
     }
 }

@@ -44,6 +44,15 @@ Route::group(
         Route::post('/courriers/valider', 'CourrierController@validateCourrier')->name('courriers-entrants-validateCourrier');
 
 
+        //courrier sortants
+        Route::get('/courriers-sortants/tous', 'CourrierSortantController@tousCourrier')->name('documents-sortants-tous');
+        Route::get('/courriers-sortants/brouillon', 'CourrierSortantController@brouillonCourrier')->name('documents-sortants-brouillon');
+        Route::get('/courriers-sortants/en-cours', 'CourrierSortantController@enCoursCourrier')->name('documents-sortants-en-cours');
+        //Route::get('/courriers-entrants/en-retard', 'CourrierController@enRetardCourrier')->name('documents-entrants-en-retard');
+        Route::get('/courriers-sortants/cloture', 'CourrierSortantController@clotureCourrier')->name('documents-sortants-cloture');
+        Route::post('/courriers/valider', 'CourrierController@validateCourrier')->name('courriers-entrants-validateCourrier');
+
+
         Route::resources([
             'courriers-entrants' => 'CourrierController',
             'courriers-sortants' => 'CourrierSortantController',

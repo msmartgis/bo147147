@@ -44,11 +44,11 @@
 
 @push('added_scripts')
 <script src="{{asset('css/datatable/datatables.min.js')}}"></script>
- <script src="{{asset('js/courriersEntrants/show/index_show_tous.js')}}"></script>
- <script src="{{asset('js/courriersEntrants/show/index_show_brouillon.js')}}"></script>
- <script src="{{asset('js/courriersEntrants/show/index_show_en_cours.js')}}"></script>
- <script src="{{asset('js/courriersEntrants/show/index_show_en_retard.js')}}"></script>
- <script src="{{asset('js/courriersEntrants/show/index_show_cloture.js')}}"></script>
- <script src="{{asset('js/courriersEntrants/show/index_show_courrier_entrants.js')}}"></script>
+ <script src="{{asset('js/courriersSortants/show/index_show_tous.js')}}"></script>
+ <script src="{{asset('js/courriersSortants/show/index_show_brouillon.js')}}"></script>
+ <script src="{{asset('js/courriersSortants/show/index_show_en_cours.js')}}"></script>
+ <script src="{{asset('js/courriersSortants/show/index_show_en_retard.js')}}"></script>
+ <script src="{{asset('js/courriersSortants/show/index_show_cloture.js')}}"></script>
+ <script src="{{asset('js/courriersSortants/show/index_show_courrier_sortants.js')}}"></script>
 
 @endpush
