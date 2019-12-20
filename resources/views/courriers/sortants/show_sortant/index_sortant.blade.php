@@ -25,8 +25,7 @@
                     
                 @include('courriers.sortants.show_sortant.tabs_sortant')
                 <!-- Tab panes -->
-                    <div class="tab-content" style="margin-top: 15px">
-                        
+                    <div class="tab-content" style="margin-top: 15px">                        
                         @include('courriers.sortants.show_sortant.tabs_sortant.tab_brouillons_sortant')
                         @include('courriers.sortants.show_sortant.tabs_sortant.tab_en_cours_sortant')
                         @include('courriers.sortants.show_sortant.tabs_sortant.tab_cloture_sortant')

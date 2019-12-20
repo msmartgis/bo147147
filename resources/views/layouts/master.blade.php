@@ -11,7 +11,6 @@
     <title>{{config('app.name')}}</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
      @include('inc.css_links')
-
      <style>	  
 		 
          @font-face {

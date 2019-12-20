@@ -18,7 +18,7 @@
 <script src="{{asset('vendor_components/popper/dist/popper.min.js')}}"></script>
 
 <!-- Bootstrap 4.0-->
-<script src="js/bootstrap.min.js"></script>
+<script src="{{asset('js/bootstrap.min.js')}}"></script>
 
 <!-- Slimscroll -->
 <script src="{{asset('vendor_components/jquery-slimscroll/jquery.slimscroll.js')}}"></script>

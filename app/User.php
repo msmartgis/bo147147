@@ -50,4 +50,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Consigne');
     }
+
+
+    public function hitorique()
+    {
+        return $this->hasMany('App\Historique');
+    }
 }

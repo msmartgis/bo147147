@@ -63,7 +63,7 @@ Route::group(
 
         ]);
 
-        Route::get('/home', 'HomeController@index')->name('home');
+        Route::get('/home', 'DashboardController@index')->name('home');
 
         //courriers entrants
         Route::get('/courriers-entrants', 'CourrierController@index')->name('documents-entrants');

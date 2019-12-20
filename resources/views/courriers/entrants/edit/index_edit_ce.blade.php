@@ -34,7 +34,6 @@
 @endsection
 
 @section('content')
-
 	<div class="row">
         <div class="col-12">
             <div class="box">
@@ -43,8 +42,7 @@
                     <div id="tabs_courrier_edit" style="margin-left: 12px;">
                         @include('courriers.entrants.edit.tabs_edit_courrier')
                         @include('courriers.entrants.edit.form_edit_courrier_entrant')
-                    </div>
-             
+                    </div>            
                
                 <!-- /.box-body -->
             </div>
@@ -54,18 +52,11 @@
     
     @include('courriers.entrants.edit.modals')
     @include('courriers.entrants.create.modals')
-
 @endsection
 
 @push('added_scripts')
     <!-- bootstrap datepicker -->
-    <script src="{{asset('vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
-    
-    <!-- steps -->
-    <script src="{{asset('vendor_components/jquery-steps-master/build/jquery.steps.js')}}"></script>
-
-    <!-- wizard -->
-    <script src="{{asset('js/steps.js')}}"></script>
+    <script src="{{asset('vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>  
 
     	<!-- Fab Admin for advanced form element -->
     <script src="{{asset('js/advanced-form-element.js')}}"></script>

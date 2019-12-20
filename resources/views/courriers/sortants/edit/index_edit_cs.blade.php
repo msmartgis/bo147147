@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="{{asset('vendor_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" />
     <!-- toast CSS -->
 <link href="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.css')}}" rel="stylesheet">
+ <!--alerts CSS -->
+    <link href="{{asset('vendor_components/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css">
 <style>
 
 .nav-tabs
@@ -39,6 +41,7 @@
             <div class="box">
                 <h3 style="text-align : center; margin-top : 12px">Fiche détaillée : Courrier {{$courrier->ref}} </h3>
                 <!-- /.box-header -->
+              
                     <div id="tabs_courrier_edit" style="margin-left: 12px;">                        
                         @include('courriers.sortants.edit.tabs_edit_courrier')
                         @include('courriers.sortants.edit.form_edit_courrier_sortant')
@@ -56,12 +59,6 @@
 @push('added_scripts')
     <!-- bootstrap datepicker -->
     <script src="{{asset('vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
-    
-    <!-- steps -->
-    <script src="{{asset('vendor_components/jquery-steps-master/build/jquery.steps.js')}}"></script>
-
-    <!-- wizard -->
-    <script src="{{asset('js/steps.js')}}"></script>
 
     	<!-- Fab Admin for advanced form element -->
     <script src="{{asset('js/advanced-form-element.js')}}"></script>
@@ -76,6 +73,10 @@
     <!-- toast -->
     <script src="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')}}"></script>
     <script src="{{asset('js/toastr.js')}}"></script>
+
+    <!-- Sweet-Alert  -->
+    <script src="{{asset('vendor_components/sweetalert/sweetalert.min.js')}}"></script>
+    <script src="{{asset('vendor_components/sweetalert/jquery.sweet-alert.custom.js')}}"></script>
 
     <script src="{{asset('js/courriersSortants/index_courriers_sortants_edit.js')}}"></script>
     <script src="{{asset('js/courriersSortants/show/index_show_courrier_sortants.js')}}"></script>

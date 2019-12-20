@@ -49,6 +49,12 @@ class Courrier extends Model
         return $this->hasMany('App\Document');
     }
 
+    public function hitorique()
+    {
+        return $this->hasMany('App\Historique');
+    }
+
+
 
     public function remarqueConsigne()
     {

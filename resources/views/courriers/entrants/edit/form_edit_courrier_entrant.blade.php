@@ -153,7 +153,7 @@
                                             @if ($courrier->personneMorale()->first()->representant != null)
 
                                                 <div class="row col-12">
-                                                    <input type="hidden" name="representant_id" value="{{$courrier->personneMorale()->first()->representant->nom}}">     
+                                                    <input type="hidden" name="representant_id" value="{{$courrier->personneMorale()->first()->representant->id}}">     
                                                     <div class="col-lg-4">
                                                         {{Form::label('','Nom:')}}
                                                         <div class="form-group form-group-edit">  
@@ -568,6 +568,22 @@
                                                 </thead>
                                                 <tbody id="historique_tbody">
                                                 <tr></tr>
+                                                @php
+                                                    $history_item = 1;
+                                                @endphp
+                                                @foreach ($courrier->hitorique as $hitory_rec)
+                                                <tr>
+                                                    <td>{{$history_item}}</td>
+                                                    <td>{{$hitory_rec->operation_type->type_operation_nom}}</td>
+                                                    <td>{{$hitory_rec->created_at}}</td>
+                                                    <td>{{$hitory_rec->user->full_name}}</td>
+                                                    <td>{{$hitory_rec->created_at}}</td>
+                                                </tr>
+                                                    
+                                                @php
+                                                    $history_item++;
+                                                @endphp
+                                                @endforeach
                                                 </tbody>
                                             </table>
 
@@ -657,18 +673,22 @@
                     </div>
 
 
-
-                    <div class="row row-edit">
-                        <div class="col-lg-4">
-                            {{Form::label('','Sortant:',['style'=> 'font-size : 11px'])}}
-                        </div>
-
-                        <div class="col-lg-8">
-                            <div class="form-group form-group-edit">
-                                {{Form::text('longueur','',['class'=>'form-control','disabled'])}}
+                    @if ($courrier->courrier_sortant_id != null)
+                        <div class="row row-edit">
+                            <div class="col-lg-4">
+                                {{Form::label('','Sortant:',['style'=> 'font-size : 11px'])}}
                             </div>
+                        
+                            <div class="col-lg-8">
+                                <div class="form-group form-group-edit">
+                                    {{Form::text('longueur','',['class'=>'form-control','disabled'])}}
+                                </div>
+                            </div>                       
+                            <a href="courriers-sortants/{{$courrier->courrier_sortant_id}}/edit"></a>                       
+                            
                         </div>
-                    </div>
+                    @endif
+
 
                     <br>
                     <h5>Génération des documents : </h5>
