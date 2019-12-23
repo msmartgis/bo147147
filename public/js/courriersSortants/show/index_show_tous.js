@@ -123,6 +123,12 @@ $(document).ready(function () {
                 name: "pj",
                 searchable: true,
                 width: "10%"
+            },
+            {
+                data: "etat",
+                name: "etat",
+                searchable: true,
+                width: "10%"
             }
 
         ],

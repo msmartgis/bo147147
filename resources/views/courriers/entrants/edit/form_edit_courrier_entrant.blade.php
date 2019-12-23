@@ -280,7 +280,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="piece_courrier_tbody">
-                                                    @foreach ($courrier->piece as $item)
+                                                     @foreach ($courrier->piece as $item)
                                                         <tr>
                                                             <input type="hidden" name="documents_ids[]" value="{{$item->id}}">
                                                             {{-- <td>
@@ -313,6 +313,7 @@
                                                            
                                                         </tr>
                                                     @endforeach
+                                                   
                                                 </tbody>
                                             </table>
 
@@ -343,7 +344,6 @@
                                                 </thead>
                                             
                                                 <tbody id="acusse_reception_tbody">
-                                               
                                                     @foreach ($courrier->accuse as $item)
                                                         <tr>
                                                             <input type="hidden" name="accuse_reception_ids[]" value=" {{$item->id}}">
@@ -373,7 +373,7 @@
                                                                 <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
                                                             </td>                                                           
                                                         </tr>
-                                                    @endforeach                                                
+                                                    @endforeach                                 
                                                 
                                                 </tbody>
                                             </table>
@@ -412,8 +412,8 @@
                                                         <th></th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="service_assigne_tbody">                                                    
-                                                    @foreach ($courrier->services as $item)
+                                                <tbody id="service_assigne_tbody">  
+                                                       @foreach ($courrier->services as $item)
                                                         <tr>
                                                             <input type="hidden" name="service_input_id[]" value="{{$item->id}}">
                                                             <input type="hidden" name="messages[]" value="{{$item->pivot->message}}">
@@ -452,7 +452,6 @@
                                                             </td>                                                       
                                                         </tr>
                                                     @endforeach 
-
                                                 
                                                 </tbody>
                                             </table>
@@ -495,6 +494,7 @@
                                                         
                                                     @endphp
                                                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}" id="user_id_input" />
+
                                                      @foreach ($courrier->remarqueConsigne as $remarque)
                                                         <tr>
                                                             <td>
@@ -526,7 +526,7 @@
                                                         @php
                                                             $remarque_item++;                                                        
                                                         @endphp
-                                                    @endforeach
+                                                    @endforeach                                                  
 
                                                     <input type="hidden" name="remarque_item_max" value="{{$remarque_item}}" id="remarque_item_max_id" />
                                                 
@@ -571,6 +571,7 @@
                                                 @php
                                                     $history_item = 1;
                                                 @endphp
+                                                
                                                 @foreach ($courrier->hitorique as $hitory_rec)
                                                 <tr>
                                                     <td>{{$history_item}}</td>

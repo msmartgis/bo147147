@@ -50,6 +50,7 @@
                 <!-- /.box-body -->
             </div>
             <!-- /.box -->
+            @include('courriers.sortants.edit.modals')
         </div>
     </div>    
  

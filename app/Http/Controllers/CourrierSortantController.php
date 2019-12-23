@@ -281,6 +281,7 @@ class CourrierSortantController extends Controller
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne', 'hitorique')->findOrFail($id);
+
         return  view('courriers.sortants.edit.index_edit_cs')->with([
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,
@@ -362,159 +363,166 @@ class CourrierSortantController extends Controller
 
 
         //manage docuemnt fournis
-        $document_ids_request_array = $request->documents_ids;
 
-        foreach ($courrier_to_edit->piece as $piece) {
-            array_push($document_ids_from_db_array, $piece->id);
+        if (isset($request->types_documents_fournis)) {
+
+            $document_ids_request_array = $request->documents_ids;
+
+            foreach ($courrier_to_edit->piece as $piece) {
+                array_push($document_ids_from_db_array, $piece->id);
+            }
+
+            if (count($document_ids_from_db_array) > 0) {
+                $document_ids_difference_array = array_diff($document_ids_from_db_array, $document_ids_request_array);
+                if (count($document_ids_difference_array) > 0) {
+                    foreach ($document_ids_difference_array as  $doc_to_remove) {
+
+                        $piece_to_delete = Document::find($doc_to_remove);
+
+                        if ($piece_to_delete->path != null) {
+
+                            File::delete(storage_path() . '/courriers/sortants/' . $courrier_to_edit->id . '/' . $piece_to_delete->path);
+                            //Storage::disk('local')->delete('courriers/entrants/' . $courrier_to_edit . '/' . $piece_to_delete->path);
+                        }
+
+                        $piece_to_delete->delete();
+                    }
+                }
+            }
+
+            //add the freshly added files
+            $piece_file_names = array();
+            $document_types_ids =  $request->types_documents_fournis;
+            $document_noms =  $request->intitules_documents_fournis;
+
+            if ($request->hasFile('documents_ulpoad_documents_fournis')) {
+                $files =  $request->documents_ulpoad_documents_fournis;
+                foreach ($files as $file) {
+                    // Get filename with the extension
+                    $filenameWithExt = $file->getClientOriginalName();
+                    // Get just filename
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    // Get just ext
+                    $extension = $file->getClientOriginalExtension();
+                    // Filename to store
+                    $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+
+                    array_push($piece_file_names, $fileNameToStore);
+                    // Upload Image
+                    $path = $file->storeAs('courriers/sortants/' . $courrier_to_edit->id, $fileNameToStore);
+                }
+            }
+
+            for ($i = 0; $i < count($document_types_ids); $i++) {
+                $document_courrier = new Document();
+
+                if ($document_noms[$i] == "") {
+                    $document_courrier->nom_document = "Document sans nom";
+                } else {
+                    $document_courrier->nom_document = $document_noms[$i];
+                }
+
+                if (count($piece_file_names) > 0) {
+                    $document_courrier->path = $piece_file_names[$i];
+                } else {
+                    $document_courrier->path = '';
+                }
+
+                $document_courrier->type_document_id = $document_types_ids[$i];
+                $document_courrier->courrier_id = $courrier_to_edit->id;
+
+                $document_courrier->save();
+            }
         }
 
-        if (isset($request->documents_ids)) {
-            $document_ids_difference_array = array_diff($document_ids_from_db_array, $document_ids_request_array);
+        //accuse envoi 
+        $accuse_envoi_ids_request_array = $request->accuse_envoi_ids;
 
-            if (count($document_ids_difference_array) > 0) {
-                foreach ($document_ids_difference_array as  $doc_to_remove) {
 
-                    $piece_to_delete = Document::find($doc_to_remove);
+        foreach ($courrier_to_edit->accuse as $accuse) {
+            array_push($accuse_ids_from_db_array, $accuse->id);
+        }
 
-                    if ($piece_to_delete->path != null) {
 
-                        File::delete(storage_path() . '/courriers/entrants/' . $courrier_to_edit->id . '/' . $piece_to_delete->path);
+        if (isset($request->accuse_envoi_ids)) {
+            $accuse_ids_difference_array = array_diff($accuse_ids_from_db_array, $accuse_envoi_ids_request_array);
+
+
+
+            if (count($accuse_ids_difference_array) > 0) {
+                foreach ($accuse_ids_difference_array as  $accuse_to_remove) {
+
+                    $accuse_to_delete = Accuse::find($accuse_to_remove);
+
+                    if ($accuse_to_delete->path != null) {
+
+                        File::delete(storage_path() . '/courriers/entrants/accuses_envois/' . $courrier_to_edit->id . '/' . $accuse_to_delete->path);
                         //Storage::disk('local')->delete('courriers/entrants/' . $courrier_to_edit . '/' . $piece_to_delete->path);
                     }
 
-                    $piece_to_delete->delete();
-                }
-            }
-
-
-
-            //add the freshly added files
-            if (isset($request->types_documents_fournis)) {
-                $piece_file_names = array();
-                $document_types_ids =  $request->types_documents_fournis;
-                $document_noms =  $request->intitules_documents_fournis;
-                $document_modes_receptions =  $request->modes_receptions_documents_fournis;
-                $date_reception_doc_input =  $request->date_reception_documents_fournis;
-
-
-
-                if ($request->hasFile('documents_ulpoad_documents_fournis')) {
-
-                    $files =  $request->documents_ulpoad_documents_fournis;
-                    foreach ($files as $file) {
-                        // Get filename with the extension
-                        $filenameWithExt = $file->getClientOriginalName();
-                        // Get just filename
-                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                        // Get just ext
-                        $extension = $file->getClientOriginalExtension();
-                        // Filename to store
-                        $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-
-                        array_push($piece_file_names, $fileNameToStore);
-                        // Upload Image
-                        $path = $file->storeAs('courriers/entrants/' . $courrier_to_edit->id, $fileNameToStore);
-                    }
-                }
-
-
-                for ($i = 0; $i < count($document_types_ids); $i++) {
-                    $document_courrier = new Document();
-
-                    if ($document_noms[$i] == "") {
-                        $document_courrier->nom_document = "Document sans nom";
-                    } else {
-                        $document_courrier->nom_document = $document_noms[$i];
-                    }
-
-                    if (count($piece_file_names) > 0) {
-                        $document_courrier->path = $piece_file_names[$i];
-                    } else {
-                        $document_courrier->path = '';
-                    }
-
-                    $document_courrier->type_document_id = $document_types_ids[$i];
-                    $document_courrier->mode_reception_id = $document_modes_receptions[$i];
-                    $document_courrier->mode_reception_id = $document_modes_receptions[$i];
-                    $document_courrier->date_reception = $date_reception_doc_input[$i];
-                    $document_courrier->courrier_id = $courrier_to_edit->id;
-
-                    $document_courrier->save();
+                    $accuse_to_delete->delete();
                 }
             }
         }
-        // //accuse reception 
-        // $accuse_reception_ids_request_array = $request->accuse_reception_ids;
+        //added new accuse
+        if (isset($request->date_accuse_envois)) {
+            $piece_file_names = array();
+            $date_accuse_envois =  $request->date_accuse_envois;
+
+            if ($request->hasFile('accuse_envoi_uploads')) {
+
+                $files =  $request->accuse_envoi_uploads;
+                foreach ($files as $file) {
+                    // Get filename with the extension
+                    $filenameWithExt = $file->getClientOriginalName();
+                    // Get just filename
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    // Get just ext
+                    $extension = $file->getClientOriginalExtension();
+                    // Filename to store
+                    $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+
+                    array_push($piece_file_names, $fileNameToStore);
+                    // Upload Image
+                    $path = $file->storeAs('courriers/entrants/accuses_envoi' . $courrier_to_edit->id, $fileNameToStore);
+                }
+            }
 
 
-        // foreach ($courrier_to_edit->accuse as $accuse) {
-        //     array_push($accuse_ids_from_db_array, $accuse->id);
-        // }
-
-
-        // if (isset($request->accuse_reception_ids)) {
-        //     $accuse_ids_difference_array = array_diff($accuse_ids_from_db_array, $accuse_reception_ids_request_array);
-
-
-
-        //     if (count($accuse_ids_difference_array) > 0) {
-        //         foreach ($accuse_ids_difference_array as  $accuse_to_remove) {
-
-        //             $accuse_to_delete = Accuse::find($accuse_to_remove);
-
-        //             if ($accuse_to_delete->path != null) {
-
-        //                 File::delete(storage_path() . '/courriers/entrants/accuses_receptions/' . $courrier_to_edit->id . '/' . $accuse_to_delete->path);
-        //                 //Storage::disk('local')->delete('courriers/entrants/' . $courrier_to_edit . '/' . $piece_to_delete->path);
-        //             }
-
-        //             $accuse_to_delete->delete();
-        //         }
-        //     }
-        // }
-        // //added new accuse
-        // if (isset($request->date_accuse_receptions)) {
-        //     $piece_file_names = array();
-        //     $date_accuse_receptions =  $request->date_accuse_receptions;
-
-        //     if ($request->hasFile('accuse_reception_uploads')) {
-
-        //         $files =  $request->accuse_reception_uploads;
-        //         foreach ($files as $file) {
-        //             // Get filename with the extension
-        //             $filenameWithExt = $file->getClientOriginalName();
-        //             // Get just filename
-        //             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        //             // Get just ext
-        //             $extension = $file->getClientOriginalExtension();
-        //             // Filename to store
-        //             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-
-        //             array_push($piece_file_names, $fileNameToStore);
-        //             // Upload Image
-        //             $path = $file->storeAs('courriers/entrants/accuses_reception' . $courrier_to_edit->id, $fileNameToStore);
-        //         }
-        //     }
-
-
-        //     for ($i = 0; $i < count($date_accuse_receptions); $i++) {
-        //         $accuse_reception = new Accuse();
+            for ($i = 0; $i < count($date_accuse_envois); $i++) {
+                $accuse_envoi = new Accuse();
 
 
 
-        //         if (count($piece_file_names) > 0) {
-        //             $accuse_reception->path = $piece_file_names[$i];
-        //         } else {
-        //             $accuse_reception->path = '';
-        //         }
+                if (count($piece_file_names) > 0) {
+                    $accuse_envoi->path = $piece_file_names[$i];
+                } else {
+                    $accuse_envoi->path = '';
+                }
 
-        //         $accuse_reception->date = $date_accuse_receptions[$i];
-        //         $accuse_reception->user_id = Auth::user()->id;
-        //         $accuse_reception->courrier_id = $courrier_to_edit->id;
+                $accuse_envoi->date = $date_accuse_envois[$i];
+                $accuse_envoi->user_id = Auth::user()->id;
+                $accuse_envoi->courrier_id = $courrier_to_edit->id;
 
-        //         $accuse_reception->save();
-        //     }
-        // }
+                $accuse_envoi->save();
+            }
+        }
+
+
+        if (isset($request->service_input_id)) {
+
+            $services_ids =  $request->service_input_id;
+            $messages = $request->messages;
+            $pivotData = array_fill(0, count($services_ids), ['message' => $messages[0]]);
+
+            $syncData  = array_combine($services_ids, $pivotData);
+
+            //$data_to_sync = array_combine($services_ids, $messages);
+
+            $courrier_to_edit->services()->sync($syncData);
+        } else {
+            $courrier_to_edit->services()->detach();
+        }
 
 
 
@@ -580,7 +588,28 @@ class CourrierSortantController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersSortantTous_' . $courriers->id . '" name="checkbox_tous" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantTous_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref']);
+
+                ->addColumn('etat', function ($courriers) {
+                    switch ($courriers->etat_id) {
+                        case '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8':
+                            return "<b style='color : #009dc5'>En cours</b>";
+                            break;
+                        case 'de4d5fe6-a384-4df0-abeb-6f953f4102f4':
+                            return "<b style='color : #7dd8fb'>Brouillon</b>";
+                            break;
+                        case '110a3194-9e8e-40b3-953e-256a68cdfcf7':
+                            return "<b style='color : #ff3200'>En retard</b>";
+                            break;
+                        case 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858':
+                            return "<b style='color : #9fd037'>Cloturé</b>";
+                            break;
+
+                        default:
+
+                            break;
+                    }
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref', 'etat']);
         }
 
 

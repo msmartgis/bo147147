@@ -23,6 +23,8 @@
 	background-color: #7dd8fb;
 }
 
+
+
 </style>
     
 @endsection
@@ -260,8 +262,7 @@
 									  <a href="/projet" class="small-box-footer" style="z-index: 0;font-weight: 100;"><b>Voir les details </b> <i class="fa fa-arrow-right" ></i></a>
 								  </div>					 
 								</div>		
-							</div>	
-					
+							</div>					
 													
 						</div>
 						<div class="col-xl-9 col-lg-9 col-md-9 col-12" >   
@@ -274,34 +275,38 @@
 									<div class="box" style="margin-bottom: 0px;background-color: unset !important;-webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05); box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);border: 1px solid #dce3e6 !important">
 										<div class="box-header" style="background: #FFF;height:100%">
 										  <h5 class="box-title">Dernièrement reçus</h5>
-											<table class="table table-responsive">	
-												<thead>
-													<th>Objet</th>
-													<th>Expéditeur</th>
-													<th>Délai</th>
-													<th>Etat</th>
-												</thead>
-												<tbody>
-													@foreach ($dernierement_recu as $dernier_recu_item)
-														<tr>
-															<td style="text-align: left;">{{ str_limit($dernier_recu_item->objet, 50) }}</td>
+										  <div class="table-responsive">
+											  <table class="table">	
+													<thead>
+														<th>Objet</th>
+														<th>Expéditeur</th>
+														<th>Délai</th>
+														<th>Etat</th>
+													</thead>
+													<tbody>
+														@foreach ($dernierement_recu as $dernier_recu_item)
+															<tr>
+																<td style="text-align: left;">{{ str_limit($dernier_recu_item->objet, 50) }}</td>
 
-															@if ($dernier_recu_item->personne_physique_id != null )
-																<td style="text-align: left;">{{$dernier_recu_item->personnePhysique()->first()->full_name}}</td>
-															@else
-																@if ($dernier_recu_item->personneMorale()->first() != null)
-																	<td style="text-align: left;">{{$dernier_recu_item->personneMorale()->first()->raison_social}}</td>
+																@if ($dernier_recu_item->personne_physique_id != null )
+																	<td style="text-align: left;">{{$dernier_recu_item->personnePhysique()->first()->full_name}}</td>
 																@else
-																	<td style="text-align: left;"></td>
-																@endif															
-															@endif
-														
-															<td style="text-align: left;">{{$dernier_recu_item->delai}}</td>
-															<td style="text-align: left;">{{$dernier_recu_item->etat->etat_nom}}</td>
-														</tr>														
-													@endforeach
-												</tbody>
-											</table>
+																	@if ($dernier_recu_item->personneMorale()->first() != null)
+																		<td style="text-align: left;">{{$dernier_recu_item->personneMorale()->first()->raison_social}}</td>
+																	@else
+																		<td style="text-align: left;"></td>
+																	@endif															
+																@endif
+															
+																<td style="text-align: left;">{{$dernier_recu_item->delai}}</td>
+																<td style="text-align: left;">{{$dernier_recu_item->etat->etat_nom}}</td>
+															</tr>														
+														@endforeach
+													</tbody>
+												</table>
+
+										  </div>
+											
 											<div class="col-12" style="text-align : right">
 												<a href="#"  class="more-details" > <i class="fa fa-arrow-right"></i>
                                                     <b> Voir les details </b>
@@ -318,29 +323,32 @@
 									<div class="box" style="margin-bottom: 0px;background-color: unset !important;-webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05); box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);border: 1px solid #dce3e6 !important">
 										<div class="box-header" style="background: #FFF;height:100%">
 										  <h5 class="box-title">Dernièrement cloturés</h5>
-											<table class="table table-responsive">
-												<thead>
-													<th>Objet</th>
-													<th>Expediteur</th>
-												</thead>	
-												<tbody>
-													@foreach ($dernierement_cloture as $dernier_cloture_item)
-														<tr>
-															<td style="text-align: left;">{{ str_limit($dernier_cloture_item->objet, 50) }}</td>
+										  <div class="table-responsive">
+											  <table class="table">
+													<thead>
+														<th>Objet</th>
+														<th>Expediteur</th>
+													</thead>	
+													<tbody>
+														@foreach ($dernierement_cloture as $dernier_cloture_item)
+															<tr>
+																<td style="text-align: left;">{{ str_limit($dernier_cloture_item->objet, 50) }}</td>
 
-															@if ($dernier_cloture_item->personne_physique_id != null )
-																<td style="text-align: left;">{{$dernier_cloture_item->personnePhysique()->first()->full_name}}</td>
-															@else
-																@if ($dernier_cloture_item->personneMorale()->first() != null)
-																	<td style="text-align: left;">{{$dernier_cloture_item->personneMorale()->first()->raison_social}}</td>
+																@if ($dernier_cloture_item->personne_physique_id != null )
+																	<td style="text-align: left;">{{$dernier_cloture_item->personnePhysique()->first()->full_name}}</td>
 																@else
-																	<td style="text-align: left;"></td>
-																@endif															
-															@endif
-														</tr>														
-													@endforeach
-												</tbody>
-											</table>
+																	@if ($dernier_cloture_item->personneMorale()->first() != null)
+																		<td style="text-align: left;">{{$dernier_cloture_item->personneMorale()->first()->raison_social}}</td>
+																	@else
+																		<td style="text-align: left;"></td>
+																	@endif															
+																@endif
+															</tr>														
+														@endforeach
+													</tbody>
+												</table>
+										  </div>
+											
 										</div>
 										 							 
 									</div>								
@@ -350,7 +358,8 @@
 									<div class="box" style="margin-bottom: 0px;background-color: unset !important;-webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05); box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);border: 1px solid #dce3e6 !important">
 										<div class="box-header" style="background: #FFF;height:100%">
 										  <h5 class="box-title">Dernièrement en retard</h5>
-											<table class="table table-responsive">
+										  <div class="table-responsive">
+											  <table class="table">
 												<thead>
 													<th>Objet</th>
 													<th>Expediteur</th>
@@ -382,6 +391,8 @@
 												
 												</tbody>
 											</table>
+										  </div>
+											
 										</div>
 										 							 
 									</div>								

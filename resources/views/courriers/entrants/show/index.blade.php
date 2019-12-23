@@ -10,6 +10,23 @@
 {
 	    border-bottom: 1px solid #009dc5;
 }
+
+
+.en-retard-line{
+	background-color: #ff3200;
+}
+
+.cloturer-line{
+	background-color: #9fd037;
+}
+
+.en-cours-line{
+	background-color: #009dc5;
+}
+
+.brouillon-line{
+	background-color: #7dd8fb;
+}
 </style>
     
 @endsection

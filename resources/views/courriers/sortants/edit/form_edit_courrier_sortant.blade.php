@@ -251,15 +251,65 @@
                                                             {{Form::text('email_representant','',['class'=>'form-control','disabled' => 'disabled'])}}
                                                         </div>
                                                     </div>
-
-                                                </div>
-
-                                                
-                                            @endif
-                                        
-
+                                                </div>                                                
+                                            @endif  
                                         @endif
+                                    </div>
 
+
+                                     <br>
+                                    <br>
+                                    <h5>DOCUMENTS: </h5>
+                                    <hr style="color:#2d353c;margin:0">
+                                    <div class="row" style="margin: 0 !important;">
+                                        <div class="table-responsive" style="margin-top: 12px">
+                                            <table class="table table-piece">
+                                                <thead class="create-table">
+                                                    <tr style="text-align: center;">
+                                                        <th>Type de document</th>
+                                                        <th>Intitulé</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="piece_courrier_tbody">
+                                                     @foreach ($courrier->piece as $item)
+                                                        <tr>
+                                                            <input type="hidden" name="documents_ids[]" value="{{$item->id}}">
+                                                            {{-- <td>
+                                                                <input style="text-align: center;" type="checkbox" id="documentFourni_{{$item->id}}" name="checkbox_document_fourni" class=" chk-col-green" value="{{$item->id}}"   data-id="{{$item->id}}" class="chk-col-green"><label for="documentFourni_{{$item->id}}" class="block" ></label>
+                                                            </td> --}}
+                                                            <td style="text-align: center">
+                                                                {{$item->typeDocument()->first()->nom_type}}                                                               
+                                                            </td>
+                                                            <td style="text-align: center">
+                                                                {{$item->nom_document}}
+                                                               
+                                                            </td>
+                                                          
+
+                                                            <td style="text-align: center;">
+                                                                @if($item->path != '')
+                                                                    <a href="/files/download/courriers/entrants/{{$courrier->id}}/{{$item->path}}">
+                                                                        <button type="button"  class="btn btn-success-table " >
+                                                                            <i class="fa fa-download"></i>
+                                                                            Télécharger</button>
+                                                                    </a>
+                                                                @endif
+                                                                <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
+                                                            </td> 
+                                                        </tr>
+                                                    @endforeach
+                                                   
+                                                </tbody>
+                                            </table>
+
+                                            <div style="text-align: center">
+                                                <a href="#" id="add_piece_btn" class="m-hidden"> <i class="fa fa-plus"></i>
+                                                    <b> Ajouter </b>
+                                                </a>
+                                            </div>
+                                            
+                                        </div>
                                     </div>
 
                                     <br>
@@ -275,13 +325,12 @@
                                                         <th>Ref</th>
                                                         <th>Responsable</th>
                                                         <th>Message</th>
-                                                        <th>Date d'envoi</th>
-                                                        <th></th>
+                                                        <th>Date de réception</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="service_assigne_tbody">                                                    
-                                                    @foreach ($courrier->services as $item)
+                                                <tbody id="service_assigne_tbody">
+                                                      @foreach ($courrier->services as $item)
                                                         <tr>
                                                             <input type="hidden" name="service_input_id[]" value="{{$item->id}}">
                                                             <input type="hidden" name="messages[]" value="{{$item->pivot->message}}">
@@ -320,6 +369,8 @@
                                                             </td>                                                       
                                                         </tr>
                                                     @endforeach 
+                                                                                                 
+                                                  
 
                                                 
                                                 </tbody>
@@ -337,11 +388,11 @@
 
                                     <br>
                                     <br>
-                                    <h5>ACCUSE DE RECEPTION (VERSION SCANNEE) : </h5>
+                                    <h5>ACCUSE D'ENVOI (VERSION SCANNEE) : </h5>
 
                                     <div class="row" style="margin: 0 !important;">
                                         <div class="table-responsive" style="margin-top: 12px">
-                                            <table class="table table-accuse-reception">
+                                            <table class="table table-accuse-envoi">
                                                 <thead class="create-table">
                                                     <tr style="text-align: center;">
                                                         <th>Date</th>
@@ -351,13 +402,12 @@
                                                     </tr>
                                                 </thead>
                                             
-                                                <tbody id="acusse_reception_tbody">
-                                               
-                                                    @foreach ($courrier->accuse as $item)
+                                                <tbody id="acusse_envoi_tbody">
+                                                            @foreach ($courrier->accuse as $item)
                                                         <tr>
-                                                            <input type="hidden" name="accuse_reception_ids[]" value=" {{$item->id}}">
+                                                            <input type="hidden" name="accuse_envoi_ids[]" value=" {{$item->id}}">
                                                             {{-- <td>
-                                                                <input style="text-align: center;" type="checkbox" id="accuseReception_{{$item->id}}" name="checkbox_accuse_reception" class=" chk-col-green" value="{{$item->id}}"   data-id="{{$item->id}}" class="chk-col-green"><label for="accuseReception_{{$item->id}}" class="block" ></label>
+                                                                <input style="text-align: center;" type="checkbox" id="accuseenvoi_{{$item->id}}" name="checkbox_accuse_envoi" class=" chk-col-green" value="{{$item->id}}"   data-id="{{$item->id}}" class="chk-col-green"><label for="accuseenvoi_{{$item->id}}" class="block" ></label>
                                                             </td> --}}
                                                             <td style="text-align: center">
                                                                 {{$item->date}}
@@ -372,7 +422,7 @@
 
                                                             <td style="text-align: center;">
                                                                 @if($item->path != '')
-                                                                    <a href="/files/download/courriers/sortants_accuses_reception/{{$courrier->id}}/{{$item->path}}">
+                                                                    <a href="/files/download/courriers/sortants_accuses_envoi/{{$courrier->id}}/{{$item->path}}">
                                                                         <button type="button"  class="btn btn-success-table " >
                                                                             <i class="fa fa-download"></i>
                                                                             Télécharger</button>
@@ -382,13 +432,16 @@
                                                                 <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
                                                             </td>                                                           
                                                         </tr>
-                                                    @endforeach                                                
+                                                    @endforeach   
+                                                  
+                                               
+                                                                                             
                                                 
                                                 </tbody>
                                             </table>
 
                                             <div style="text-align: center">
-                                                <a href="#" id="add_accuse_reception_btn" class="m-hidden"> <i class="fa fa-plus"></i>
+                                                <a href="#" id="add_accuse_envoi_btn" class="m-hidden"> <i class="fa fa-plus"></i>
                                                     <b> Ajouter </b>
                                                 </a>
                                             </div>

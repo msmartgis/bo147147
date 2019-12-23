@@ -455,7 +455,6 @@ class CourrierController extends Controller
 
                     $document_courrier->type_document_id = $document_types_ids[$i];
                     $document_courrier->mode_reception_id = $document_modes_receptions[$i];
-                    $document_courrier->mode_reception_id = $document_modes_receptions[$i];
                     $document_courrier->date_reception = $date_reception_doc_input[$i];
                     $document_courrier->courrier_id = $courrier_to_edit->id;
 
@@ -560,9 +559,9 @@ class CourrierController extends Controller
 
 
         if (isset($request->service_input_id)) {
+
             $services_ids =  $request->service_input_id;
             $messages = $request->messages;
-
             $pivotData = array_fill(0, count($services_ids), ['message' => $messages[0], 'vu' => 0]);
 
             $syncData  = array_combine($services_ids, $pivotData);
@@ -677,7 +676,28 @@ class CourrierController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersEntrantTous_' . $courriers->id . '" name="checkbox_tous" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersEntrantTous_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref']);
+
+                ->addColumn('etat', function ($courriers) {
+                    switch ($courriers->etat_id) {
+                        case '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8':
+                            return "<b style='color : #009dc5'>En cours</b>";
+                            break;
+                        case 'de4d5fe6-a384-4df0-abeb-6f953f4102f4':
+                            return "<b style='color : #7dd8fb'>Brouillon</b>";
+                            break;
+                        case '110a3194-9e8e-40b3-953e-256a68cdfcf7':
+                            return "<b style='color : #ff3200'>En retard</b>";
+                            break;
+                        case 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858':
+                            return "<b style='color : #9fd037'>Cloturé</b>";
+                            break;
+
+                        default:
+
+                            break;
+                    }
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref', 'etat']);
         }
 
 

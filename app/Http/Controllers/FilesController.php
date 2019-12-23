@@ -20,8 +20,19 @@ class FilesController extends Controller
             $local_path = 'courriers/entrants/';
         }
 
+
+        if ($subdirectory == "sortants") {
+            $local_path = 'courriers/sortants/';
+        }
+
+
         if ($subdirectory == "entrants_accuses_reception") {
             $local_path = 'courriers/entrants/accuses_receptions/';
+        }
+
+
+        if ($subdirectory == "sortants_accuses_envoi") {
+            $local_path = 'courriers/sortants/accuses_envois/';
         }
 
 
