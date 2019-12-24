@@ -6,6 +6,7 @@ use App\Accuse;
 use App\Consigne;
 use App\Courrier;
 use App\Document;
+use App\Historique;
 use App\ModeReception;
 use App\PersonneMorale;
 use App\PersonnePhysique;
@@ -253,6 +254,8 @@ class CourrierSortantController extends Controller
         }
 
         if ($courrier->save()) {
+            //add to history
+            $this->addToHistory('8a40844d-1bed-41c0-ac6e-7b1516d459a6', $courrier->id, Auth::user()->id);
             return redirect('/courriers-sortants')->with('success', 'Courrier ajouté avec succès');
         } else {
             return "error";
@@ -280,12 +283,18 @@ class CourrierSortantController extends Controller
     {
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
-        $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne', 'hitorique')->findOrFail($id);
+        $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'remarqueConsigne')->findOrFail($id);
+
+
+
+        $historique = Historique::where('courrier_id', '=', $id)->orderBy('created_at', 'desc')->get();
+
 
         return  view('courriers.sortants.edit.index_edit_cs')->with([
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,
-            'services' => $services
+            'services' => $services,
+            'historique' => $historique,
         ]);
     }
 
@@ -307,11 +316,11 @@ class CourrierSortantController extends Controller
         $accuse_ids_difference_array = [];
 
 
-        $courrier_to_edit = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne')->findorfail($id);
+        $courrier_to_edit = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'services', 'remarqueConsigne')->findorfail($id);
 
         $courrier_to_edit->objet = $request->objet;
         $courrier_to_edit->date_reception = $request->date_reception;
-        $courrier_to_edit->delai = $request->delai;
+        $courrier_to_edit->date_envoie = $request->date_envoi;
         $courrier_to_edit->mode_reception_id = $request->mode_reception_id;
 
         //update personne physique
@@ -363,34 +372,43 @@ class CourrierSortantController extends Controller
 
 
         //manage docuemnt fournis
+        $documents_from_database = array();
+        $array_diff = array();
+        $still_in_table = array();
+        if (isset($request->documents_ids)) {
+            $still_in_table = $request->documents_ids;
+        }
+
+
+
+        foreach ($courrier_to_edit->piece as $item) {
+            array_push($documents_from_database, $item->id);
+        }
+
+
+
+
+        if (count($still_in_table)  == 0) {
+            $array_diff = $documents_from_database;
+        } else {
+            $array_diff = (array) array_diff($documents_from_database, $still_in_table);
+        }
+
+
+
+
+
+        if (count($array_diff) > 0) {
+            foreach ($array_diff as $item) {
+                $document_to_delete = Document::find($item);
+
+                Storage::delete('courriers/sortants/' . $id . '/' . $document_to_delete->path);
+                $document_to_delete->delete();
+            }
+        }
+
 
         if (isset($request->types_documents_fournis)) {
-
-            $document_ids_request_array = $request->documents_ids;
-
-            foreach ($courrier_to_edit->piece as $piece) {
-                array_push($document_ids_from_db_array, $piece->id);
-            }
-
-            if (count($document_ids_from_db_array) > 0) {
-                $document_ids_difference_array = array_diff($document_ids_from_db_array, $document_ids_request_array);
-                if (count($document_ids_difference_array) > 0) {
-                    foreach ($document_ids_difference_array as  $doc_to_remove) {
-
-                        $piece_to_delete = Document::find($doc_to_remove);
-
-                        if ($piece_to_delete->path != null) {
-
-                            File::delete(storage_path() . '/courriers/sortants/' . $courrier_to_edit->id . '/' . $piece_to_delete->path);
-                            //Storage::disk('local')->delete('courriers/entrants/' . $courrier_to_edit . '/' . $piece_to_delete->path);
-                        }
-
-                        $piece_to_delete->delete();
-                    }
-                }
-            }
-
-            //add the freshly added files
             $piece_file_names = array();
             $document_types_ids =  $request->types_documents_fournis;
             $document_noms =  $request->intitules_documents_fournis;
@@ -430,49 +448,56 @@ class CourrierSortantController extends Controller
 
                 $document_courrier->type_document_id = $document_types_ids[$i];
                 $document_courrier->courrier_id = $courrier_to_edit->id;
-
                 $document_courrier->save();
             }
         }
 
         //accuse envoi 
-        $accuse_envoi_ids_request_array = $request->accuse_envoi_ids;
-
-
-        foreach ($courrier_to_edit->accuse as $accuse) {
-            array_push($accuse_ids_from_db_array, $accuse->id);
-        }
-
+        $still_in_table_accuse = array();
+        $accuses_from_database = array();
+        $array_diff_accuse = array();
 
         if (isset($request->accuse_envoi_ids)) {
-            $accuse_ids_difference_array = array_diff($accuse_ids_from_db_array, $accuse_envoi_ids_request_array);
+            $still_in_table_accuse = $request->accuse_envoi_ids;
+        }
 
 
 
-            if (count($accuse_ids_difference_array) > 0) {
-                foreach ($accuse_ids_difference_array as  $accuse_to_remove) {
+        foreach ($courrier_to_edit->accuse as $item) {
+            array_push($accuses_from_database, $item->id);
+        }
 
-                    $accuse_to_delete = Accuse::find($accuse_to_remove);
 
-                    if ($accuse_to_delete->path != null) {
+        if (count($still_in_table_accuse)  == 0) {
+            $array_diff_accuse = $accuses_from_database;
+        } else {
+            $array_diff_accuse = (array) array_diff($accuses_from_database, $still_in_table_accuse);
+        }
 
-                        File::delete(storage_path() . '/courriers/entrants/accuses_envois/' . $courrier_to_edit->id . '/' . $accuse_to_delete->path);
-                        //Storage::disk('local')->delete('courriers/entrants/' . $courrier_to_edit . '/' . $piece_to_delete->path);
-                    }
 
-                    $accuse_to_delete->delete();
-                }
+
+
+
+        if (count($array_diff_accuse) > 0) {
+            foreach ($array_diff_accuse as $item) {
+                $accuse_to_delete = Accuse::find($item);
+                Storage::delete('courriers/sortants/accuses_envois/' . $id . '/' . $accuse_to_delete->path);
+                $accuse_to_delete->delete();
             }
         }
-        //added new accuse
+
+
         if (isset($request->date_accuse_envois)) {
-            $piece_file_names = array();
-            $date_accuse_envois =  $request->date_accuse_envois;
+
+            $date_accuse_envois = $request->date_accuse_envois;
+            $accuse_file_names = array();
+
 
             if ($request->hasFile('accuse_envoi_uploads')) {
-
                 $files =  $request->accuse_envoi_uploads;
+
                 foreach ($files as $file) {
+
                     // Get filename with the extension
                     $filenameWithExt = $file->getClientOriginalName();
                     // Get just filename
@@ -482,46 +507,44 @@ class CourrierSortantController extends Controller
                     // Filename to store
                     $fileNameToStore = $filename . '_' . time() . '.' . $extension;
 
-                    array_push($piece_file_names, $fileNameToStore);
+                    array_push($accuse_file_names, $fileNameToStore);
                     // Upload Image
-                    $path = $file->storeAs('courriers/entrants/accuses_envoi' . $courrier_to_edit->id, $fileNameToStore);
+                    $path = $file->storeAs('courriers/sortants/accuses_envois/' . $courrier_to_edit->id, $fileNameToStore);
                 }
             }
 
 
             for ($i = 0; $i < count($date_accuse_envois); $i++) {
-                $accuse_envoi = new Accuse();
+                $accuse = new Accuse();
 
 
 
-                if (count($piece_file_names) > 0) {
-                    $accuse_envoi->path = $piece_file_names[$i];
+                if (count($accuse_file_names) > 0) {
+                    $accuse->path = $accuse_file_names[$i];
                 } else {
-                    $accuse_envoi->path = '';
+                    $accuse->path = '';
                 }
 
-                $accuse_envoi->date = $date_accuse_envois[$i];
-                $accuse_envoi->user_id = Auth::user()->id;
-                $accuse_envoi->courrier_id = $courrier_to_edit->id;
+                $accuse->date = $date_accuse_envois[$i];
+                $accuse->user_id = Auth::user()->id;
+                $accuse->courrier_id = $courrier_to_edit->id;
 
-                $accuse_envoi->save();
+
+                $accuse->save();
             }
         }
 
 
+
+        //services
         if (isset($request->service_input_id)) {
+            $courrier_to_edit->services()->detach();
 
             $services_ids =  $request->service_input_id;
             $messages = $request->messages;
-            $pivotData = array_fill(0, count($services_ids), ['message' => $messages[0]]);
-
-            $syncData  = array_combine($services_ids, $pivotData);
-
-            //$data_to_sync = array_combine($services_ids, $messages);
-
-            $courrier_to_edit->services()->sync($syncData);
-        } else {
-            $courrier_to_edit->services()->detach();
+            for ($i = 0; $i < count($services_ids); $i++) {
+                $courrier_to_edit->services()->attach($services_ids[$i], ['message' => $messages[$i]]);
+            }
         }
 
 
@@ -529,6 +552,8 @@ class CourrierSortantController extends Controller
         $courrier_to_edit->save();
 
         if ($courrier_to_edit->save()) {
+            //add to history
+            $this->addToHistory('2ba53ab3-aba8-421b-b650-46b4fa06e493', $courrier_to_edit->id, Auth::user()->id);
             return redirect("/courriers-sortants" . "/" . $courrier_to_edit->id . "/edit")->with('success', 'Courrier modifier avec succès');
         }
     }
@@ -546,6 +571,25 @@ class CourrierSortantController extends Controller
 
 
 
+    //validate courrier
+    public function validateCourrier(Request $request)
+    {
+        $courriers_ids = $request->courriers_ids;
+        $state_id = $request->state;
+        $values = Courrier::whereIn('id', $courriers_ids)->update(['etat_id' => $state_id]);
+        if ($values) {
+            for ($i = 0; $i < count($courriers_ids); $i++) {
+                if ($state_id == "4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8") { //validate
+                    $this->addToHistory('3b2d24db-b718-4425-a820-5630dd2843e1', $courriers_ids[$i], Auth::user()->id);
+                }
+
+                if ($state_id == "bfe54fe8-fc87-4fec-aaf0-1cb5beacf858") { //cloturer
+                    $this->addToHistory('4a25a0b0-d216-446e-8342-c50272ec4631', $courriers_ids[$i], Auth::user()->id);
+                }
+            }
+        }
+        return response()->json();
+    }
 
     public function tousCourrier(Request $request)
     {
@@ -1017,5 +1061,17 @@ class CourrierSortantController extends Controller
         }
 
         return $datatables->make(true);
+    }
+
+
+    public function addToHistory($type_operation_id, $courrier_id, $user_id)
+    {
+        $new_history = new Historique();
+
+        $new_history->type_operation_id = $type_operation_id;
+        $new_history->courrier_id = $courrier_id;
+        $new_history->user_id = $user_id;
+
+        $new_history->save();
     }
 }

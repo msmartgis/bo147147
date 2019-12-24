@@ -87,9 +87,8 @@ $(document).ready(function () {
     })
 
 
-    //add accuse envoi courrier entrants
+    //add accuse envoi courrier sortants
     $('#add_accuse_envoi_btn').on('click', function () {
-
         $('.table-accuse-envoi tr:last').after(
 
             '<tr>' +
@@ -157,7 +156,6 @@ $(document).ready(function () {
             '<td> <input type="hidden" name="messages[]" value="' + message + '"/>' + message + '</td>' +
 
             '<td></td>' +
-            '<td></td>' +
 
             '</tr>'
 
@@ -168,4 +166,25 @@ $(document).ready(function () {
         $('#assigne_service_form_id').trigger("reset");
         item_service_number++;
     })
+
+
+
+    $("#valider_courrier_sortant_btn").click(function () {
+        var courrier_id_input_array = [];
+        courrier_id_input_array.push($('#courrier_id_input').val());
+        changeStateCourrier(courrier_id_input_array, '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8');
+    });
+
+    $("#cloture_courrier_edit_btn").click(function () {
+        var courrier_id_input_array = [];
+        courrier_id_input_array.push($('#courrier_id_input').val());
+        changeStateCourrier(courrier_id_input_array, 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858');
+    });
+
+
+    $("#delete_courrier_btn").click(function () {
+        var courrier_id = $(this).data('id');
+        delete_courrier(courrier_id);
+
+    });
 })

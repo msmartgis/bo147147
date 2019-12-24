@@ -89,7 +89,7 @@
         <a href="{{ route('home') }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <b class="logo-mini" style="height: 100%;width: auto;">
-                <span class="light-logo"><img src="{{asset('images/logo/logo_cp.png')}}" alt="logo" style="height: 100%;width: auto;"></span>
+                <span class="light-logo"><img src="{{asset('images/logo/document_logo.png')}}" alt="logo" style="height: 100%;width: auto;"></span>
             </b>
             <!-- logo for regular state and mobile devices -->
             <!--

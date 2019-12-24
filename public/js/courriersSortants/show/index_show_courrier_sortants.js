@@ -13,7 +13,7 @@ function changeStateCourrier(el, state) {
         if (isConfirm) {
 
             $.ajax({
-                url: '/courriers/valider',
+                url: '/courriers-sortants/valider',
                 type: 'POST',
                 data: {
                     _token: $('meta[name="_token"]').attr('content'),

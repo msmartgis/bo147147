@@ -19,7 +19,6 @@
 }
 
 .table>thead>tr>th {
-
     text-align: center;
     background-color: #0b2942 !important;
     color: #F3F3F3 !important;
@@ -85,4 +84,10 @@
     <script src="{{asset('js/users/index_users.js')}}"></script>
     <script src="{{asset('js/modesRecepetion/index_mode_reception.js')}}"></script>
     <script src="{{asset('js/documentsTypes/index_documents_types.js')}}"></script>
+
+    <script>
+     $(".datepicker").datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    </script>
 @endpush

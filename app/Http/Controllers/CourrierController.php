@@ -298,12 +298,14 @@ class CourrierController extends Controller
     {
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
-        $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne', 'hitorique')->findOrFail($id);
+        $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'services', 'remarqueConsigne')->findOrFail($id);
+        $historique = Historique::where('courrier_id', '=', $id)->orderBy('created_at', 'desc')->get();
 
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,
-            'services' => $services
+            'services' => $services,
+            'historique' => $historique,
         ]);
     }
 
@@ -610,7 +612,8 @@ class CourrierController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $courrier = Courrier::find($id);
+        $courrier->destroy();
     }
 
 

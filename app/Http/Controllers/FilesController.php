@@ -32,6 +32,7 @@ class FilesController extends Controller
 
 
         if ($subdirectory == "sortants_accuses_envoi") {
+
             $local_path = 'courriers/sortants/accuses_envois/';
         }
 
@@ -40,6 +41,7 @@ class FilesController extends Controller
 
 
         $id =  $request->id;
+
         if (Storage::exists($local_path . $id . '/' . $file_name)) {
             return Storage::download($local_path . $id . '/' . $file_name);
         } else {

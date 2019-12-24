@@ -17,7 +17,6 @@
 }
 
 .table>thead>tr>th {
-
     text-align: center;
     background-color: #0b2942 !important;
     color: #F3F3F3 !important;

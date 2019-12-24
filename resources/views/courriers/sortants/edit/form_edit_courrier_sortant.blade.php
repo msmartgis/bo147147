@@ -282,14 +282,13 @@
                                                                 {{$item->typeDocument()->first()->nom_type}}                                                               
                                                             </td>
                                                             <td style="text-align: center">
-                                                                {{$item->nom_document}}
-                                                               
+                                                                {{$item->nom_document}}                                                               
                                                             </td>
                                                           
 
                                                             <td style="text-align: center;">
                                                                 @if($item->path != '')
-                                                                    <a href="/files/download/courriers/entrants/{{$courrier->id}}/{{$item->path}}">
+                                                                    <a href="/files/download/courriers/sortants/{{$courrier->id}}/{{$item->path}}">
                                                                         <button type="button"  class="btn btn-success-table " >
                                                                             <i class="fa fa-download"></i>
                                                                             Télécharger</button>
@@ -325,7 +324,6 @@
                                                         <th>Ref</th>
                                                         <th>Responsable</th>
                                                         <th>Message</th>
-                                                        <th>Date de réception</th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
@@ -353,17 +351,7 @@
                                                             <td style="text-align: center">
                                                                 {{$item->pivot->message}}
                                                             </td>                                                           
-                                                            
-                                                            <td style="text-align: center">
-                                                                {{$item->pivot->created_at}}
-                                                            </td>  
-                                                            <td>
-                                                                @if ($item->pivot->vu == 1)
-                                                                    <img src="{{asset('images/svg/double-tick-indicator.svg')}}"  width=20 height=20 alt="">
-                                                                @else
-                                                                    <img src="{{asset('images/svg/tick.svg')}}"  width=15 height=15 alt="">
-                                                                @endif                                                                
-                                                            </td>  
+                                                         
                                                             <td>
                                                                 <button type="button" class="btn delete-row btn-danger-table m-hidden" id="delete_service_row_btn"> <i class="fa fa-close"></i> Supprimer</button>
                                                             </td>                                                       
@@ -432,10 +420,7 @@
                                                                 <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
                                                             </td>                                                           
                                                         </tr>
-                                                    @endforeach   
-                                                  
-                                               
-                                                                                             
+                                                    @endforeach                             
                                                 
                                                 </tbody>
                                             </table>
@@ -458,6 +443,7 @@
                                     <h5>HISTORIQUES</h5>
                                     <hr style="color:#2d353c;margin:0">
 
+                                    
                                     <div class="row" style="margin: 0 !important;">
                                         <div class="table-responsive" style="margin-top: 12px">
                                             <table class="table table-historique">
@@ -470,12 +456,13 @@
                                                         <th>Distribué à</th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="historique_tbody">
+                                                 <tbody id="historique_tbody">
                                                 <tr></tr>
                                                 @php
                                                     $history_item = 1;
                                                 @endphp
-                                                @foreach ($courrier->hitorique as $hitory_rec)
+                                                
+                                                @foreach ($historique as $hitory_rec)
                                                 <tr>
                                                     <td>{{$history_item}}</td>
                                                     <td>{{$hitory_rec->operation_type->type_operation_nom}}</td>
@@ -598,7 +585,7 @@
                     
                     <button type="submit" id="save_edit_btn" class="btn  btn-success submit-btn-edit disabled" style="width:90%;margin-top:4x;margin:auto auto 4px auto;display: block;" ><i class="fa fa-save" style="margin-right: 8px;" disabled></i>Enregistrer</button>
 
-                    <button type="button"  class="btn  btn-danger disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash" style="margin-right: 8px;"></i>Supprimer</button>
+                    <button type="button" id="delete_courrier_btn"  class="btn  btn-danger disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled data-id="{{$courrier->id}}"><i class="fa fa-trash" style="margin-right: 8px;"></i>Supprimer</button>
                 </div>
                     
                 <!-- /.box-body -->
