@@ -290,8 +290,7 @@
                                                                 {{$item->typeDocument()->first()->nom_type}}                                                               
                                                             </td>
                                                             <td style="text-align: center">
-                                                                {{$item->nom_document}}
-                                                               
+                                                                {{$item->nom_document}}                                                               
                                                             </td>
                                                             <td style="text-align: center">
                                                                 {{$item->modeReception()->first()->mode_name}}
@@ -682,10 +681,10 @@
                         
                             <div class="col-lg-8">
                                 <div class="form-group form-group-edit">
-                                    {{Form::text('longueur','',['class'=>'form-control','disabled'])}}
+                                    {{Form::text('ref_sortant',$courrier->ref_sortant,['class'=>'form-control','disabled'])}}
                                 </div>
                             </div>                       
-                            <a href="courriers-sortants/{{$courrier->courrier_sortant_id}}/edit"></a>                       
+                           <a href="/courriers-sortants/{{$courrier->courrier_sortant_id}}/edit" style="margin-top: 8px"><i class="fa fa-arrow-right"></i><b>Basculer vers courrier sortant</b></a>                       
                             
                         </div>
                     @endif
@@ -716,8 +715,12 @@
                    
                     
                     <button type="submit" id="save_edit_btn" class="btn  btn-success submit-btn-edit disabled" style="width:90%;margin-top:4x;margin:auto auto 4px auto;display: block;" ><i class="fa fa-save" style="margin-right: 8px;" disabled></i>Enregistrer</button>
-
-                    <button type="button"  class="btn  btn-danger disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash" style="margin-right: 8px;"></i>Supprimer</button>
+{!! Form::close() !!}
+                    {!! Form::open(['route' => ['courriers-delete'],'id'=>'delete_form','method' => 'POST']) !!}
+                        <input type="hidden" name="type_courrier" value="entrant">
+                        <input type="hidden" name="courrier_id" value="{{$courrier->id}}">
+                        <button type="submit"  class="btn  btn-danger disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash" style="margin-right: 8px;"></i>Supprimer</button>
+                    {!! Form::close() !!}
                 </div>
                     
                 <!-- /.box-body -->
@@ -728,4 +731,4 @@
     <!-- /.col -->
 </div>
 <!-- /.row -->
-{!! Form::close() !!}
+

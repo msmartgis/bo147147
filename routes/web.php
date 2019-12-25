@@ -44,6 +44,8 @@ Route::group(
         Route::post('/courriers/valider', 'CourrierController@validateCourrier')->name('courriers-entrants-validateCourrier');
 
 
+
+
         //courrier sortants
         Route::get('/courriers-sortants/tous', 'CourrierSortantController@tousCourrier')->name('documents-sortants-tous');
         Route::get('/courriers-sortants/brouillon', 'CourrierSortantController@brouillonCourrier')->name('documents-sortants-brouillon');
@@ -63,6 +65,9 @@ Route::group(
 
         ]);
 
+        //delete courrier
+        Route::post('/courriers/delete', 'CourrierController@deleteCourrier')->name('courriers-delete');
+
         Route::get('/home', 'DashboardController@index')->name('home');
 
         //courriers entrants
@@ -70,8 +75,10 @@ Route::group(
         Route::get('/courriers-entrants/create', 'CourrierController@create')->name('documents-entrants-create');
 
 
+
         //Courriers sortants
         Route::get('/courriers-sortants', 'CourrierSortantController@index')->name('documents-sortants');
         Route::get('/courriers-sortants/create', 'CourrierSortantController@create')->name('documents-sortants-create');
+        Route::get('/courriers-sortants/{id}/create-sortant', 'CourrierSortantController@createSortant')->name('documents-entrants-create-sortant');
     }
 );

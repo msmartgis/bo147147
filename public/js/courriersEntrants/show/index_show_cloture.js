@@ -175,5 +175,47 @@ $(document).ready(function () {
     });
 
 
+    courriersEntrantsClotureTable.on('draw', function () {
+        for (i = 0; i < checkedelementsCourrierEntrantCloture.length; i++) {
+            $("#courriersEntrantCloture_" + checkedelementsCourrierEntrantCloture[i]).prop('checked', true);
+        }
+
+        $('#courriers_entrant_cloture_datatables :input[type="checkbox"]').change(function () {
+
+            boxes = $(":checkbox:checked");
+
+            if (this.checked) {
+                checkedelementsCourrierEntrantCloture.push($(this).val());
+            } else {
+                checkedelementsCourrierEntrantCloture.splice(checkedelementsCourrierEntrantCloture.indexOf($(this).val()), 1);
+            }
+
+
+            //get the right button activated
+            number_checked = checkedelementsCourrierEntrantCloture.length;
+
+
+            if (number_checked === 0 || number_checked > 1) {
+                $('.unique-choice-cloture').attr('disabled', true);
+            } else {
+                $('.unique-choice-cloture').removeAttr("disabled");
+            }
+
+
+
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+    });
+
+
+
+    //create sortant
+    $("#create_courrier_sortant_cloture_btn").click(function () {
+        createOutputCourrierFromInput(checkedelementsCourrierEntrantCloture, 'sortant');
+    });
+
+
 
 });

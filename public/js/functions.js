@@ -25,7 +25,8 @@ $('.activate-form-btn').on('click', function () {
 });
 
 
-function delete_courrier(courrier_id) {
+$("#delete_form").on("submit", function (e) {
+    e.preventDefault();
     swal({
         title: "Vous êtes sûr?",
         text: 'Voulez vous vraiment supprimer le courrier',
@@ -38,29 +39,10 @@ function delete_courrier(courrier_id) {
         closeOnCancel: false
     }, function (isConfirm) {
         if (isConfirm) {
-
-            $.ajax({
-                url: 'courriers-entrants/' + courrier_id,
-                type: 'DELETE',
-                data: {
-                    _token: $('meta[name="_token"]').attr('content'),
-                },
-                dataType: 'JSON',
-                success: function (data) {
-
-                    if (data.length == 0) {
-                        swal("Réussi!", 'L\'opération a été effectuée avec succès', "success");
-                        setTimeout(location.reload.bind(location), 500);
-                    }
-                }
-            });
-
-            if (delete_btn.closest('tr').remove()) {
-                swal("Réussi!", 'L\'opération a été effectuée avec succès', "success");
-            }
-
+            $('#delete_form').unbind('submit').submit();
+            swal("Réussi!", 'L\'opération a été effectuée avec succès', "success");
         } else {
             swal("L'operation est annulée", "Aucun changement a été éffectué", "error");
         }
     });
-}
+})

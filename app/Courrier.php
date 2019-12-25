@@ -3,11 +3,12 @@
 namespace App;
 
 use App\Traits\Uuids;
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Courrier extends Model
 {
+    use SoftDeletes;
     use Uuids;
     public $incrementing = false;
 

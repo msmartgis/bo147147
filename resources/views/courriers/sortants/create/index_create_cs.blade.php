@@ -27,7 +27,14 @@
 
                 <!-- /.box-header -->
                 <div class="box-body">
-                    @include('courriers.sortants.create.form_add_courrier_sortant')               
+
+                    @if( ! empty($courrier_entrant))
+                    
+                     @include('courriers.sortants.create.form_add_courrier_sortant_from_entrant') 
+                    @else
+                        @include('courriers.sortants.create.form_add_courrier_sortant')    
+                    @endif
+                            
                 </div>
                 <!-- /.box-body -->
             </div>

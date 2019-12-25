@@ -551,10 +551,10 @@
                         
                             <div class="col-lg-8">
                                 <div class="form-group form-group-edit">
-                                    {{Form::text('longueur','',['class'=>'form-control','disabled'])}}
+                                    {{Form::text('ref_entrant',$courrier->ref_entrant,['class'=>'form-control','disabled'])}}
                                 </div>
                             </div>                       
-                        <a href="courriers-entrants/{{$courrier->courrier_entrant_id}}/edit"></a>                       
+                           <a href="/courriers-entrants/{{$courrier->courrier_entrant_id}}/edit" style="margin-top: 8px"><i class="fa fa-arrow-right"></i><b>Basculer vers courrier entrant</b></a>                       
                             
                         </div>
                     @endif
@@ -584,8 +584,12 @@
                    
                     
                     <button type="submit" id="save_edit_btn" class="btn  btn-success submit-btn-edit disabled" style="width:90%;margin-top:4x;margin:auto auto 4px auto;display: block;" ><i class="fa fa-save" style="margin-right: 8px;" disabled></i>Enregistrer</button>
-
-                    <button type="button" id="delete_courrier_btn"  class="btn  btn-danger disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled data-id="{{$courrier->id}}"><i class="fa fa-trash" style="margin-right: 8px;"></i>Supprimer</button>
+{!! Form::close() !!}
+                    {!! Form::open(['route' => ['courriers-delete'],'id'=>'delete_form','method' => 'POST']) !!}
+                        <input type="hidden" name="type_courrier" value="sortant">
+                        <input type="hidden" name="courrier_id" value="{{$courrier->id}}">
+                        <button type="submit"  class="btn  btn-danger disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash" style="margin-right: 8px;"></i>Supprimer</button>
+                    {!! Form::close() !!}
                 </div>
                     
                 <!-- /.box-body -->
@@ -596,4 +600,4 @@
     <!-- /.col -->
 </div>
 <!-- /.row -->
-{!! Form::close() !!}
+

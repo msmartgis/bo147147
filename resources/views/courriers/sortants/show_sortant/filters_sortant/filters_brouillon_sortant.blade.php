@@ -2,7 +2,7 @@
 <div class="filters" style="margin-bottom: 4px;margin-top: 6px">
     <div class="row">
         <div class="col-lg-2">
-            <label >Nature de l'éxpiditeur :</label>
+            <label >Nature de destinataire :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
@@ -18,7 +18,7 @@
 
 
         <div class="col-lg-2">
-            <label>Expediteur :</label>
+            <label>Destinataire :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
@@ -58,7 +58,7 @@
     <!--Row-->
     <div class="row" style="margin-top: 6px">
         <div class="col-lg-2">
-            <label>Mode reception :</label>
+            <label>Mode d'envoi :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
@@ -73,7 +73,7 @@
         </div>
 
         <div class="col-lg-2">
-            <label>Date de la réception :</label>
+            <label>Date d'envoi :</label>
         </div>
         <div class="col-lg-2">
              <div class="form-group">

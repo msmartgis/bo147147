@@ -13,6 +13,7 @@
                 <th>Objet</th>
                 <th>Delai</th>
                 <th>P.J</th>
+                <th>Sortant</th>
                 </thead>
             </table>
         </div>

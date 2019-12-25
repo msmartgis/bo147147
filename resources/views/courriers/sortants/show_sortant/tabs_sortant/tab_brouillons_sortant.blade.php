@@ -8,10 +8,9 @@
                 <thead >
                 <th ></th>
                 <th >Réf</th>
-                <th >Date Réception</th>
-                <th>Expediteur</th>
+                <th >Date Envoi</th>
+                <th>Destinataire</th>
                 <th>Objet</th>
-                <th>Delai</th>
                 <th>P.J</th>
                 </thead>
             </table>

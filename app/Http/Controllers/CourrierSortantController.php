@@ -82,74 +82,97 @@ class CourrierSortantController extends Controller
         $courrier->date_envoie = $request->date_envoi;
         $courrier->objet = $request->objet;
 
+        if (isset($request->courrier_entrant_id)) {
+            //update courrier entrant 
 
-        //insert destinataire
-        //create personne physique
-        if ($request->type_destinataire == "personne_physique") {
-            if ($request->nom_personne_physique == null) {
-                $courrier->personne_physique_id = $request->personne_physique_id_from_db;
-            } else {
-                $personne_physique = new PersonnePhysique();
-                $personne_physique->nom = $request->nom_personne_physique;
-                $personne_physique->prenom = $request->prenom_personne_physique;
-                $personne_physique->cine = $request->cine_personne_physique;
-                $personne_physique->adresse = $request->adresse_personne_physique;
-                $personne_physique->adresse = $request->adresse_personne_physique;
-                $personne_physique->tel_fixe = $request->tel_fixe_personne_physique;
-                $personne_physique->tel_mobile = $request->tel_mobile_personne_physique;
-                $personne_physique->email = $request->email_personne_physique;
 
-                $personne_physique->save();
+            $courrier->courrier_entrant_id = $request->courrier_entrant_id;
 
-                if ($personne_physique->save()) {
-                    $courrier->personne_physique_id = $personne_physique->id;
+            if (isset($request->personne_physique_from_entrant_id)) {
+                $courrier->personne_physique_id = $request->personne_physique_from_entrant_id;
+            }
+
+
+            if (isset($request->personne_morale_from_entrant_id)) {
+                $courrier->personne_morale_id = $request->personne_morale_from_entrant_id;
+            }
+        } else {
+
+            //insert destinataire
+            //create personne physique
+            if ($request->type_destinataire == "personne_physique") {
+                if ($request->nom_personne_physique == null) {
+                    $courrier->personne_physique_id = $request->personne_physique_id_from_db;
+                } else {
+                    $personne_physique = new PersonnePhysique();
+                    $personne_physique->nom = $request->nom_personne_physique;
+                    $personne_physique->prenom = $request->prenom_personne_physique;
+                    $personne_physique->cine = $request->cine_personne_physique;
+                    $personne_physique->adresse = $request->adresse_personne_physique;
+                    $personne_physique->adresse = $request->adresse_personne_physique;
+                    $personne_physique->tel_fixe = $request->tel_fixe_personne_physique;
+                    $personne_physique->tel_mobile = $request->tel_mobile_personne_physique;
+                    $personne_physique->email = $request->email_personne_physique;
+
+                    $personne_physique->save();
+                    if ($personne_physique->save()) {
+                        $courrier->personne_physique_id = $personne_physique->id;
+                    }
                 }
             }
-        }
 
-        if ($request->type_destinataire == "personne_morale") {
+            if ($request->type_destinataire == "personne_morale") {
 
-            if ($request->raison_social == null) {
+                if ($request->raison_social == null) {
 
-                $courrier->personne_morale_id = $request->personne_morale_id_from_db;
-            } else {
-                $personne_morale = new PersonneMorale();
-                $personne_morale->raison_social = $request->raison_social;
-                $personne_morale->rc = $request->rc;
-                $personne_morale->adresse = $request->adresse;
-                $personne_morale->tel_fix = $request->tel_fix_personne_morale;
-                $personne_morale->tel_mobile = $request->tel_mobile_personne_morale;
-                $personne_morale->fax = $request->fax_personne_morale;
-                $personne_morale->email = $request->email_personne_morale;
+                    $courrier->personne_morale_id = $request->personne_morale_id_from_db;
+                } else {
+                    $personne_morale = new PersonneMorale();
+                    $personne_morale->raison_social = $request->raison_social;
+                    $personne_morale->rc = $request->rc;
+                    $personne_morale->adresse = $request->adresse;
+                    $personne_morale->tel_fix = $request->tel_fix_personne_morale;
+                    $personne_morale->tel_mobile = $request->tel_mobile_personne_morale;
+                    $personne_morale->fax = $request->fax_personne_morale;
+                    $personne_morale->email = $request->email_personne_morale;
 
-                $personne_morale->save();
+                    $personne_morale->save();
 
-                if ($personne_morale->save()) {
-                    //insert representant data if exists
-                    if ($request->nom_representant != null) {
-                        $representant = new PersonnePhysique();
+                    if ($personne_morale->save()) {
+                        //insert representant data if exists
+                        if ($request->nom_representant != null) {
+                            $representant = new PersonnePhysique();
 
-                        $representant->is_represantant = 1;
-                        $representant->nom = $request->nom_representant;
-                        $representant->prenom = $request->prenom_representant;
-                        $representant->cine = $request->cine_representant;
-                        $representant->role_en_entreprise = $request->role_representant;
-                        $representant->tel_fixe = $request->tel_fix_representant;
-                        $representant->tel_mobile = $request->tel_mobile_representant;
-                        $representant->email = $request->email_representant;
-                        $representant->adresse = $request->adresse_representant;
-                        $representant->personne_morale_id = $personne_morale->id;
+                            $representant->is_represantant = 1;
+                            $representant->nom = $request->nom_representant;
+                            $representant->prenom = $request->prenom_representant;
+                            $representant->cine = $request->cine_representant;
+                            $representant->role_en_entreprise = $request->role_representant;
+                            $representant->tel_fixe = $request->tel_fix_representant;
+                            $representant->tel_mobile = $request->tel_mobile_representant;
+                            $representant->email = $request->email_representant;
+                            $representant->adresse = $request->adresse_representant;
+                            $representant->personne_morale_id = $personne_morale->id;
 
-                        $representant->save();
+                            $representant->save();
+                        }
+
+                        $courrier->personne_morale_id = $personne_morale->id;
                     }
-
-                    $courrier->personne_morale_id = $personne_morale->id;
                 }
             }
         }
 
         $courrier->save();
 
+
+        if ($courrier->save()) {
+            if (isset($request->courrier_entrant_id)) {
+                $courrier_entrant_to_update = Courrier::find($request->courrier_entrant_id);
+                $courrier_entrant_to_update->courrier_sortant_id = $courrier->id;
+                $courrier_entrant_to_update->save();
+            }
+        }
 
 
         //store documents
@@ -285,9 +308,13 @@ class CourrierSortantController extends Controller
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'remarqueConsigne')->findOrFail($id);
 
-
-
         $historique = Historique::where('courrier_id', '=', $id)->orderBy('created_at', 'desc')->get();
+
+        $courrier->ref_entrant = '';
+        if ($courrier->courrier_entrant_id != null) {
+            $courrier_entrant = Courrier::findOrFail($courrier->courrier_entrant_id);
+            $courrier->ref_entrant = $courrier_entrant->ref;
+        }
 
 
         return  view('courriers.sortants.edit.index_edit_cs')->with([
@@ -366,8 +393,6 @@ class CourrierSortantController extends Controller
             $representant->personne_morale_id = $request->personne_morale_id;
             $representant->save();
         }
-
-
 
 
 
@@ -570,6 +595,26 @@ class CourrierSortantController extends Controller
     }
 
 
+
+    public function createSortant($id)
+    {
+        $actu_date = Carbon::now()->format('Y-m-d');
+        $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
+        $services = Service::orderBy('nom')->pluck('nom', 'id');
+        $personne_physiques = PersonnePhysique::orderBy('nom')->get();
+        $personne_morales = PersonneMorale::orderBy('raison_social')->get();
+        $courrier = new Courrier();
+        $courrier_entrant = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'services', 'remarqueConsigne')->find($id);
+        return view('courriers.sortants.create.index_create_cs')->with([
+            'actu_date' => $actu_date,
+            'courrier' => $courrier,
+            'services' => $services,
+            'personne_physiques' => $personne_physiques,
+            'personne_morales' => $personne_morales,
+            'modes_recpetion' => $modes_recpetion,
+            'courrier_entrant' => $courrier_entrant
+        ]);
+    }
 
     //validate courrier
     public function validateCourrier(Request $request)

@@ -11,6 +11,13 @@ class DashboardController extends Controller
     public function index()
     {
         $actu_date = Carbon::now()->format('Y-m-d');
+        //update courriers state
+        Courrier::where([['type', '=', 'entrant'], ['delai', '<', $actu_date], ['etat_id', '!=', 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858'], ['etat_id', '!=', 'de4d5fe6-a384-4df0-abeb-6f953f4102f4']])
+            ->update(['etat_id' => '110a3194-9e8e-40b3-953e-256a68cdfcf7']);
+
+
+
+        $actu_date = Carbon::now()->format('Y-m-d');
         $nombre_courrier = Courrier::all()->count();
         $courrier_brouillons = Courrier::where([['type', '=', 'entrant'], ['etat_id', '=', 'de4d5fe6-a384-4df0-abeb-6f953f4102f4']])->count();
         $courrier_en_cours = Courrier::where([['type', '=', 'entrant'], ['etat_id', '=', '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8']])->count();

@@ -110,7 +110,7 @@ $(document).ready(function () {
                 data: "objet",
                 name: "courriers.objet",
                 searchable: true,
-                width: "30%"
+                width: "40%"
             },
 
             {
@@ -125,6 +125,12 @@ $(document).ready(function () {
                 name: "pj",
                 searchable: true,
                 width: "10%"
+            },
+            {
+                data: "courrier_sortant",
+                name: "courrier_sortant",
+                searchable: true,
+                width: "8%"
             }
 
         ],
@@ -192,6 +198,12 @@ $(document).ready(function () {
                 $('.multiple-choice-en-cours').attr('disabled', true);
             }
 
+            if (number_checked === 0 || number_checked > 1) {
+                $('.unique-choice-en-cours').attr('disabled', true);
+            } else {
+                $('.unique-choice-en-cours').removeAttr("disabled");
+            }
+
             if (number_checked > 0) {
                 $('.multiple-choice-en-cours').removeAttr("disabled");
             }
@@ -207,6 +219,12 @@ $(document).ready(function () {
     //a traiter
     $("#cloturer_courrier_entrant_btn").click(function () {
         changeStateCourrier(checkedelementsCourrierEntrantEnCours, 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858');
+    });
+
+
+    //create sortant
+    $("#create_courrier_sortant_en_cours_btn").click(function () {
+        createOutputCourrierFromInput(checkedelementsCourrierEntrantEnCours, 'sortant');
     });
 
 

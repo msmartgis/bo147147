@@ -647,3 +647,8 @@ table.dataTable tbody>tr>.selected {
 
 
 .m-btn-submit-modal {}
+
+.btn-danger-table {
+    padding: 0;
+    margin: 0;
+}

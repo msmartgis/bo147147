@@ -34,5 +34,31 @@ function changeStateCourrier(el, state) {
         }
     });
 
+}
+
+
+function createOutputCourrierFromInput(el, output_type) {
+    swal({
+        title: "Vous êtes sûr?",
+        text: 'Voulez vous vraiment créer un courrier',
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Confirmer",
+        cancelButtonText: "Non",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    }, function (isConfirm) {
+        if (isConfirm) {
+            if (output_type == "sortant") {
+                window.location.replace("courriers-sortants/" + el + "/create-sortant");
+            }
+
+        } else {
+            swal("L'operation est annulée", "Aucun changement a été éffectué", "error");
+        }
+    });
+
+
 
 }

@@ -93,8 +93,8 @@ $(document).ready(function () {
                 searchable: true
             },
             {
-                data: "date_reception",
-                name: "courriers.date_reception",
+                data: "date_envoie",
+                name: "courriers.date_envoie",
                 searchable: true,
                 width: "10%"
             },
@@ -111,13 +111,6 @@ $(document).ready(function () {
                 name: "courriers.objet",
                 searchable: true,
                 width: "30%"
-            },
-
-            {
-                data: "delai",
-                name: "courriers.delai",
-                searchable: true,
-                width: "10%"
             },
 
             {
