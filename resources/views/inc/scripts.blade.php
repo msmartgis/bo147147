@@ -59,4 +59,14 @@
 <script src="{{asset('js/functions.js')}}"></script>
 
 
+<script>
+	 $(window).on('load', function () {
+            // Animate loader off screen
+            $(".se-pre-con").fadeOut("slow");
+			$(function () {
+			  $('[data-toggle="tooltip"]').tooltip()
+			})
+        });
+</script>
+
  @stack('added_scripts')

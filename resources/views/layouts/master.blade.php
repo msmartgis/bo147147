@@ -65,6 +65,12 @@
              font-size: 12px;
          }
 
+         .no-js #loader { display: none;  }
+         .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+         .se-pre-con {
+            
+         }
+
 
 
          .mobile-nav
@@ -80,6 +86,13 @@
 </head>
 
 <body class="hold-transition skin-blue layout-top-nav has-drawer">
+<div  class="se-pre-con" style=" width: 100%;height: 100%;z-index: 99998;position: fixed; left: 0px; top: 0px;background:#efefef "> 
+	<div style="text-align: center; position: fixed; left: calc(50% - 70px); top: calc(50% - 140px);">
+		<img src="{{URL::to('/')}}/images/logo/document_logo.png" style="height:140px;width:140px;z-index: 99999;">
+			</br>
+		<img src="{{URL::to('/')}}/images/loader/Ellipsis-2.1s-140px.gif" style="margin-top:-40px">
+	</div>
+</div>
 
 <div class="wrapper">
 

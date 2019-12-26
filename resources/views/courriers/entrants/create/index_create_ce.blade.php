@@ -26,7 +26,7 @@
             <div class="box">
 
                 <!-- /.box-header -->
-                <div class="box-body">
+                <div class="box-body wizard-content">
                     @include('courriers.entrants.create.form_add_courrier_entrant')               
                 </div>
                 <!-- /.box-body -->

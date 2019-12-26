@@ -622,7 +622,7 @@ class CourrierController extends Controller
         if ($courrier_to_edit->save()) {
             //add to history
             $this->addToHistory('2ba53ab3-aba8-421b-b650-46b4fa06e493', $courrier_to_edit->id, Auth::user()->id);
-            return redirect("/courriers-entrants" . "/" . $courrier_to_edit->id . "/edit")->with('success', 'Demande modifier avec succès');
+            return redirect("/courriers-entrants" . "/" . $courrier_to_edit->id . "/edit")->with('success', 'Courrier modifier avec succès');
         }
     }
 
