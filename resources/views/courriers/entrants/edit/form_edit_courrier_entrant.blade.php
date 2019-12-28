@@ -307,7 +307,11 @@
                                                                             Télécharger</button>
                                                                     </a>
                                                                 @endif
-                                                                <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
+
+                                                                @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                                                    <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
+                                                                @endif
+                                                                
                                                             </td>                                                            
                                                            
                                                         </tr>
@@ -368,8 +372,9 @@
                                                                             Télécharger</button>
                                                                     </a>
                                                                 @endif
-
-                                                                <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
+                                                                @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                                                    <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
+                                                                @endif
                                                             </td>                                                           
                                                         </tr>
                                                     @endforeach                                 
@@ -395,8 +400,7 @@
                                 <div class="pad">
                                     <br>
                                     <h5>ASSIGNE A UN SERVICE/UNE DIVISION</h5>
-                                    <hr style="color:#2d353c;margin:0">                                    
-
+                                    <hr style="color:#2d353c;margin:0">      
                                     <div class="row" style="margin: 0 !important;">
                                         <div class="table-responsive" style="margin-top: 12px">
                                             <table class="table table-service-assigne">
@@ -447,7 +451,9 @@
                                                                 @endif                                                                
                                                             </td>  
                                                             <td>
-                                                                <button type="button" class="btn delete-row btn-danger-table m-hidden" id="delete_service_row_btn"> <i class="fa fa-close"></i> Supprimer</button>
+                                                                @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                                                    <button type="button" class="btn delete-row btn-danger-table m-hidden" id="delete_service_row_btn"> <i class="fa fa-close"></i> Supprimer</button>
+                                                                @endif
                                                             </td>                                                       
                                                         </tr>
                                                     @endforeach 
@@ -455,11 +461,13 @@
                                                 </tbody>
                                             </table>
 
-                                            <div style="text-align: center">
-                                                <a href="#"  data-toggle="modal" data-target="#assigne_service_modal" class="m-hidden"> <i class="fa fa-plus"></i>
-                                                    <b> Ajouter</b>
-                                                </a>
-                                            </div>
+                                            @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                                <div style="text-align: center">
+                                                    <a href="#"  data-toggle="modal" data-target="#assigne_service_modal" class="m-hidden"> <i class="fa fa-plus"></i>
+                                                        <b> Ajouter</b>
+                                                    </a>
+                                                </div>
+                                            @endif
                                             
                                         </div>
                                     </div>                                       
@@ -474,6 +482,8 @@
                                     <br>
                                     <h5>REMARQUES/CONSIGNES</h5>
                                     <hr style="color:#2d353c;margin:0">
+
+                           
 
                                     <div class="row" style="margin: 0 !important;">
                                         <div class="table-responsive" style="margin-top: 12px">
@@ -532,11 +542,14 @@
                                                 </tbody>
                                             </table>
 
-                                            <div style="text-align: center">
-                                                <a href="#"  data-toggle="modal" data-target="#remarque_consigne_modal" class="m-hidden"> <i class="fa fa-plus"></i>
-                                                    <b> Ajouter</b>
-                                                </a>
-                                            </div>
+                                            @if (Auth::user()->role->id == 3)
+                                                <div style="text-align: center">
+                                                    <a href="#"  data-toggle="modal" data-target="#remarque_consigne_modal" class="m-hidden"> <i class="fa fa-plus"></i>
+                                                        <b> Ajouter</b>
+                                                    </a>
+                                                </div>                                                
+                                            @endif
+                                            
                                             
                                         </div>
                                     </div>                                    
@@ -703,14 +716,15 @@
                     <h5>Edition : </h5>
                     <hr>
                     <button type="button" id="activate_form_edit_btn" class="btn  btn-success activate-form-btn" style="width:90%;margin:auto auto 4px auto;display: block;" ><i class="fa fa-edit" style="margin-right: 8px;"></i>Activer la modification</button>
+                    @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1 )
+                        @if ($courrier->etat_id == "de4d5fe6-a384-4df0-abeb-6f953f4102f4")
+                            <button type="button" id="valider_courrier_entrant_btn" class="btn  btn-success disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-edit" style="margin-right: 8px;"></i>Valider</button>
+                        @endif
 
-                    @if ($courrier->etat_id == "de4d5fe6-a384-4df0-abeb-6f953f4102f4")
-                         <button type="button" id="valider_courrier_entrant_btn" class="btn  btn-success disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-edit" style="margin-right: 8px;"></i>Valider</button>
-                    @endif
 
-
-                     @if ($courrier->etat_id == "4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8")
-                         <button type="button" id="cloture_courrier_edit_btn" class="btn  btn-success disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-edit" style="margin-right: 8px;"></i>Cloturer</button>
+                        @if ($courrier->etat_id == "4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8")
+                            <button type="button" id="cloture_courrier_edit_btn" class="btn  btn-success disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-edit" style="margin-right: 8px;"></i>Cloturer</button>
+                        @endif
                     @endif
                    
                     

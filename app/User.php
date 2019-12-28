@@ -56,4 +56,16 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Historique');
     }
+
+
+    public function role()
+    {
+        return $this->belongsTo('App\UserRole', 'role_id');
+    }
+
+
+    public function service()
+    {
+        return $this->belongsTo('App\Service', 'service_id');
+    }
 }

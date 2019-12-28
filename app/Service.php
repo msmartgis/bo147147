@@ -28,4 +28,10 @@ class Service extends Model
     {
         return $this->belongsToMany('App\Courrier', 'courrier_service', 'courrier_id', 'service_id')->withPivot('message')->withTimestamps();
     }
+
+
+    public function users()
+    {
+        return $this->hasMany('App\User');
+    }
 }

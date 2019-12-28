@@ -1,6 +1,8 @@
 <div class="row" >
     <div class="col-lg-6 col-xl-6 col-md-6 col-12">
-        <button type="button" class="btn btn-default pull-left multiple-choice-en-cours" id="cloturer_courrier_sortant_btn" style="margin-right : 6px" disabled><i class="fa fa-calendar-check-o" style="margin-right: 6px"></i>Cloturer </button>
+        @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+            <button type="button" class="btn btn-default pull-left multiple-choice-en-cours" id="cloturer_courrier_sortant_btn" style="margin-right : 6px" disabled><i class="fa fa-calendar-check-o" style="margin-right: 6px"></i>Cloturer </button>
+        @endif
     </div>
 
     <div class="col-lg-6 col-xl-6 col-md-6 col-12">            

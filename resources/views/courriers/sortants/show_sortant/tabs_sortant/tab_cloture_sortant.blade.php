@@ -12,6 +12,7 @@
                 <th>Destinataire</th>
                 <th>Objet</th>
                 <th>P.J</th>
+                <th>Entrant</th>
                 </thead>
             </table>
         </div>

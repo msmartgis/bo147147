@@ -698,7 +698,17 @@ class CourrierSortantController extends Controller
                             break;
                     }
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref', 'etat']);
+
+
+                ->addColumn('courrier_entrant', function ($courriers) {
+                    if ($courriers->courrier_entrant_id  != null) {
+                        $courrier_entrant = Courrier::find($courriers->courrier_entrant_id);
+                        return '<a  href="courriers-entrants/' . $courrier_entrant->id . '/edit" >' . $courrier_entrant->ref . '</a>';
+                    } else {
+                        return '';
+                    }
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref', 'etat', 'courrier_entrant']);
         }
 
 
@@ -811,7 +821,16 @@ class CourrierSortantController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersSortantBrouillon_' . $courriers->id . '" name="checkbox_brouillon" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantBrouillon_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref']);
+
+                ->addColumn('courrier_entrant', function ($courriers) {
+                    if ($courriers->courrier_entrant_id  != null) {
+                        $courrier_entrant = Courrier::find($courriers->courrier_entrant_id);
+                        return '<a  href="courriers-entrants/' . $courrier_entrant->id . '/edit" >' . $courrier_entrant->ref . '</a>';
+                    } else {
+                        return '';
+                    }
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref', 'courrier_entrant']);
         }
 
 
@@ -923,7 +942,19 @@ class CourrierSortantController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersSortantEnCours_' . $courriers->id . '" name="checkbox_en_cours" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantEnCours_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref']);
+
+
+
+                ->addColumn('courrier_entrant', function ($courriers) {
+                    if ($courriers->courrier_entrant_id  != null) {
+                        $courrier_entrant = Courrier::find($courriers->courrier_entrant_id);
+                        return '<a  href="courriers-entrants/' . $courrier_entrant->id . '/edit" >' . $courrier_entrant->ref . '</a>';
+                    } else {
+                        return '';
+                    }
+                })
+
+                ->rawColumns(['pj', 'checkbox', 'ref', 'courrier_entrant']);
         }
 
 
@@ -1038,7 +1069,16 @@ class CourrierSortantController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersSortantCloture_' . $courriers->id . '" name="checkbox_cloture" class="demande-cloture-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantCloture_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref']);
+
+                ->addColumn('courrier_entrant', function ($courriers) {
+                    if ($courriers->courrier_entrant_id  != null) {
+                        $courrier_entrant = Courrier::find($courriers->courrier_entrant_id);
+                        return '<a  href="courriers-entrants/' . $courrier_entrant->id . '/edit" >' . $courrier_entrant->ref . '</a>';
+                    } else {
+                        return '';
+                    }
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref', 'courrier_entrant']);
         }
 
 

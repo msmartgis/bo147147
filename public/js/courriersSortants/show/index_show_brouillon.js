@@ -118,6 +118,12 @@ $(document).ready(function () {
                 name: "pj",
                 searchable: true,
                 width: "10%"
+            },
+            {
+                data: "courrier_entrant",
+                name: "courrier_entrant",
+                searchable: true,
+                width: "8%"
             }
 
         ],

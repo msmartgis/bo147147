@@ -298,7 +298,7 @@ class CourrierController extends Controller
     {
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
-        $courrier = Courrier::with('personnePhysique', 'personneMorale', 'services', 'remarqueConsigne')->findOrFail($id);
+        $courrier = Courrier::with('personnePhysique', 'personneMorale', 'remarqueConsigne')->findOrFail($id);
         $courrier->ref_sortant = '';
         if ($courrier->courrier_sortant_id != null) {
             $courrier_sortant = Courrier::findOrFail($courrier->courrier_sortant_id);
@@ -403,16 +403,11 @@ class CourrierController extends Controller
         }
 
 
-
-
         if (count($still_in_table)  == 0) {
             $array_diff = $documents_from_database;
         } else {
             $array_diff = (array) array_diff($documents_from_database, $still_in_table);
         }
-
-
-
 
 
         if (count($array_diff) > 0) {
@@ -588,7 +583,7 @@ class CourrierController extends Controller
         //services
 
         if (isset($request->service_input_id)) {
-
+            return $request->service_input_id;
             $courrier_to_edit->services()->detach();
             $services_ids =  $request->service_input_id;
             $messages = $request->messages;
@@ -1200,7 +1195,16 @@ class CourrierController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersEntrantCloture_' . $courriers->id . '" name="checkbox_cloture" class="demande-cloture-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersEntrantCloture_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref']);
+
+                ->addColumn('courrier_sortant', function ($courriers) {
+                    if ($courriers->courrier_sortant_id  != null) {
+                        $courrier_sortant = Courrier::find($courriers->courrier_sortant_id);
+                        return '<a  href="courriers-sortants/' . $courrier_sortant->id . '/edit" >' . $courrier_sortant->ref . '</a>';
+                    } else {
+                        return '';
+                    }
+                })
+                ->rawColumns(['pj', 'checkbox', 'ref', 'courrier_sortant']);
         }
 
 

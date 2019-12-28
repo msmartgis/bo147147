@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable();
             $table->string('remember_token')->nullable();
             $table->string('role')->nullable();
-            $table->string('service_id')->index();
+            $table->string('service_id')->index()->nullable();
             $table->timestamps();
             $table->foreign('service_id')
                 ->references('id')

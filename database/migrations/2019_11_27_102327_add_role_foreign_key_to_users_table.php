@@ -16,8 +16,7 @@ class AddRoleForeignKeyToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('role');
 
-            $table->bigInteger('role_id')->unsigned()->index();
-
+            $table->bigInteger('role_id')->unsigned()->index()->nullable();
             $table->foreign('role_id')
                 ->references('id')
                 ->on('users_roles')

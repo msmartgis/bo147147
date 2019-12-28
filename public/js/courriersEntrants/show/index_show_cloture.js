@@ -126,6 +126,12 @@ $(document).ready(function () {
                 name: "pj",
                 searchable: true,
                 width: "10%"
+            },
+            {
+                data: "courrier_sortant",
+                name: "courrier_sortant",
+                searchable: true,
+                width: "8%"
             }
 
         ],

@@ -13,6 +13,7 @@
                 <th>Objet</th>
                 <th>P.J</th>
                 <th>Etat</th>
+                <th>Entrant</th>
                 </thead>
             </table>
         </div>

@@ -80,5 +80,10 @@ Route::group(
         Route::get('/courriers-sortants', 'CourrierSortantController@index')->name('documents-sortants');
         Route::get('/courriers-sortants/create', 'CourrierSortantController@create')->name('documents-sortants-create');
         Route::get('/courriers-sortants/{id}/create-sortant', 'CourrierSortantController@createSortant')->name('documents-entrants-create-sortant');
+
+
+        //parametres
+        Route::get('/parametres', 'ParametresController@index')->name('parametres.index');
+        Route::get('/settings/users', 'ParametresController@getUsers');
     }
 );
