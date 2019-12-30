@@ -62,6 +62,7 @@ Route::group(
             'modes-receptions' => 'ModeReceptionController',
             'documents-types' => 'DocumentTypeController',
             'users' => 'UsersController',
+            'diffusion-interne' => 'DiffusionInterneController',
 
         ]);
 
