@@ -210,7 +210,6 @@ class CourrierController extends Controller
 
                 $document_courrier->type_document_id = $document_types_ids[$i];
                 $document_courrier->mode_reception_id = $document_modes_receptions[$i];
-                $document_courrier->mode_reception_id = $document_modes_receptions[$i];
                 $document_courrier->date_reception = $date_reception_doc_input[$i];
                 $document_courrier->courrier_id = $courrier->id;
 

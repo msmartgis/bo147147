@@ -27,7 +27,7 @@
 
                 <!-- /.box-header -->
                 <div class="box-body wizard-content">
-                    @include('courriers.entrants.create.form_add_courrier_entrant')               
+                    @include('diffusion_interne.create.form_add_diffusion_interne')               
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -35,7 +35,7 @@
         </div>
     </div>
     
-    @include('courriers.entrants.create.modals')
+    @include('diffusion_interne.create.modals')
 
 @endsection
 
@@ -63,8 +63,6 @@
     <script src="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')}}"></script>
     <script src="{{asset('js/toastr.js')}}"></script>
 
-    <script src="{{asset('js/courriersEntrants/index_courriers_entrants.js')}}"></script>
+    <script src="{{asset('js/diffusion_interne/index.js')}}"></script>
     <script src="{{asset('js/services/index_services.js')}}"></script>
-    <script src="{{asset('js/modesRecepetion/index_mode_reception.js')}}"></script>
-    <script src="{{asset('js/documentsTypes/index_documents_types.js')}}"></script>
 @endpush

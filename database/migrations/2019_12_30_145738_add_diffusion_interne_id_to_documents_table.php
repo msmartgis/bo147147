@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCourrierIdToDocumentsTable extends Migration
+class AddDiffusionInterneIdToDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,11 @@ class AddCourrierIdToDocumentsTable extends Migration
     public function up()
     {
         Schema::table('documents', function (Blueprint $table) {
-            $table->string('courrier_id', 36)->nullable(); // pour definir quelle organisation represente cette personne
+            $table->string('diffusion_interne_id', 36)->nullable();
 
-            $table->foreign('courrier_id')
+            $table->foreign('diffusion_interne_id')
                 ->references('id')
-                ->on('courriers')
+                ->on('diffusions_internes')
                 ->onDelete('cascade');
         });
     }
@@ -31,8 +31,8 @@ class AddCourrierIdToDocumentsTable extends Migration
     public function down()
     {
         Schema::table('documents', function (Blueprint $table) {
-            $table->dropForeign(['courrier_id']);
-            $table->dropColumn('courrier_id');
+            $table->dropForeign(['diffusion_interne_id']);
+            $table->dropColumn('diffusion_interne_id');
         });
     }
 }

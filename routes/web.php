@@ -62,7 +62,7 @@ Route::group(
             'modes-receptions' => 'ModeReceptionController',
             'documents-types' => 'DocumentTypeController',
             'users' => 'UsersController',
-            'diffusion-interne' => 'DiffusionInterneController',
+            'diffusions-internes' => 'DiffusionInterneController',
 
         ]);
 
@@ -82,6 +82,10 @@ Route::group(
         Route::get('/courriers-sortants/create', 'CourrierSortantController@create')->name('documents-sortants-create');
         Route::get('/courriers-sortants/{id}/create-sortant', 'CourrierSortantController@createSortant')->name('documents-entrants-create-sortant');
 
+
+        //diffusion internes 
+        Route::get('/diffusions-internes', 'DiffusionInterneController@index')->name('diffusions-internes');
+        Route::get('/diffusions-internes/create', 'DiffusionInterneController@create')->name('diffusions-internes-create');
 
         //parametres
         Route::get('/parametres', 'ParametresController@index')->name('parametres.index');
