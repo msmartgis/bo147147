@@ -16,6 +16,7 @@ class CreateEtatsCourriersTable extends Migration
         Schema::create('etats_courriers', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nom');
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }

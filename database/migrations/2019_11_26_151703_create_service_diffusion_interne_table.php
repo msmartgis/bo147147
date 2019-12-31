@@ -14,6 +14,7 @@ class CreateServiceDiffusionInterneTable extends Migration
     public function up()
     {
         Schema::create('service_diffusion_interne', function (Blueprint $table) {
+            //$table->bigIncrements('id')->primary();
             $table->string('service_id')->index();
 
             $table->foreign('service_id')

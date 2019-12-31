@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Model;
 
 class CourrierService extends Model
 {
+    use Uuids;
+    public $incrementing = false;
     protected $table = "courrier_service";
 
 

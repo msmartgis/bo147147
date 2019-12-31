@@ -14,8 +14,12 @@ class CreateCourrierServiceTable extends Migration
     public function up()
     {
         Schema::create('courrier_service', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary();
-            $table->string('courrier_id')->index();
+            $table->uuid('id')->primary();
+            $table->string('courrier_id')->nullable();
+            $table->string('service_id')->nullable();
+            $table->longText('message')->nullable();
+            $table->integer('vu')->default(0);
+            $table->timestamps();
 
             $table->foreign('courrier_id')
                 ->references('id')
@@ -23,17 +27,10 @@ class CreateCourrierServiceTable extends Migration
                 ->onDelete('cascade');
 
 
-            $table->string('service_id')->index();
-
             $table->foreign('service_id')
                 ->references('id')
                 ->on('services')
                 ->onDelete('cascade');
-
-            $table->longText('message')->nullable();
-            $table->integer('vu')->default(0);
-
-            $table->timestamps();
         });
     }
 

@@ -16,6 +16,7 @@ class CreatTypesOperationsTable extends Migration
         Schema::create('types_operations', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nom');
+            $table->longText('description')->nullable();
             $table->timestamps();
         });
     }
