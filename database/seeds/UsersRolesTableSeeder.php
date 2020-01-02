@@ -12,16 +12,32 @@ class UsersRolesTableSeeder extends Seeder
      */
     public function run()
     {
-        UserRole::insert([
-            'role_name' => 'admin',
-        ]);
 
-        UserRole::insert([
-            'role_name' => 'bureau_ordre',
-        ]);
+        $admin = new UserRole();
+        $admin->role_name = "admin";
+        $admin->desciption = "admin gere tous les autres utlisateurs et il a toutes les permissions";
+        $admin->save();
 
-        UserRole::insert([
-            'role_name' => 'president',
-        ]);
+        $bureau_ordre = new UserRole();
+        $bureau_ordre->role_name = "bureau_ordre";
+        $bureau_ordre->desciption = "pour les utilisateur de bureau d ordre";
+        $bureau_ordre->save();
+
+        $president = new UserRole();
+        $president->role_name = "president";
+        $president->desciption = "pour le president et le directeur general";
+        $president->save();
+
+        // UserRole::insert([
+        //     'role_name' => 'admin',
+        // ]);
+
+        // UserRole::insert([
+        //     'role_name' => 'bureau_ordre',
+        // ]);
+
+        // UserRole::insert([
+        //     'role_name' => 'president',
+        // ]);
     }
 }

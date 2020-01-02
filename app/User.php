@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo('App\UserRole', 'role_id');
+        return $this->belongsToMany('App\UserRole', 'user_role', 'user_id', 'role_id');
     }
 
 

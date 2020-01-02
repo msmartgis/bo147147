@@ -12,19 +12,20 @@ class NatureDiffusionTableSeeder extends Seeder
      */
     public function run()
     {
-        NatureDiffusion::insert([
-            [
-                'id' => 'f1ba48e5-263b-4e93-95ce-f2dfbc7d12dc',
-                'nom' => 'ND 001'
-            ],
-            [
-                'id' => '674b61d4-f8ea-4c6c-9a25-345213d01a96',
-                'nom' => 'ND 002'
-            ],
-            [
-                'id' => 'a16e85f8-f53e-4a2c-b37f-cb1c6e643ec9',
-                'nom' => 'ND 002'
-            ]
-        ]);
+        $nature_diff_1 = new NatureDiffusion();
+        $nature_diff_1->nom = "ND 001";
+        $nature_diff_1->save();
+
+        $nature_diff_2 = new NatureDiffusion();
+        $nature_diff_2->nom = "ND 002";
+        $nature_diff_2->save();
+
+        $nature_diff_3 = new NatureDiffusion();
+        $nature_diff_3->nom = "ND 003";
+        $nature_diff_3->save();
+
+        $nature_diff_4 = new NatureDiffusion();
+        $nature_diff_4->nom = "ND 004";
+        $nature_diff_4->save();
     }
 }

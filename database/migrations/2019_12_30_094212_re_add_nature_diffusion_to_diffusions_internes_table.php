@@ -41,10 +41,9 @@ class ReAddNatureDiffusionToDiffusionsInternesTable extends Migration
                 ->references('id')
                 ->on('modes_receptions')
                 ->onDelete('cascade');
+
+            $table->dropForeign(['nature_diffusion_id']);
+            $table->dropColumn('nature_diffusion_id');
         });
-
-
-        $table->dropForeign(['nature_diffusion_id']);
-        $table->dropColumn('nature_diffusion_id');
     }
 }
