@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
             // ServicesTableSeeder::class,
             // PersonneMoraleSeeder::class,
             // PersonnePhysiqueSeeder::class,
-            UsersRolesTableSeeder::class,
-            UsersTableSeeder::class,
+            // UsersRolesTableSeeder::class,
+            // UsersTableSeeder::class,
+            TypeOperationSeeder::class,
 
 
 

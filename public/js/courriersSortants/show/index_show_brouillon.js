@@ -205,7 +205,7 @@ $(document).ready(function () {
 
     //a traiter
     $("#valider_courrier_sortant_btn").click(function () {
-        changeStateCourrier(checkedelementsCourrierSortantBrouillon, '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8');
+        changeStateCourrier(checkedelementsCourrierSortantBrouillon, 'en_cours');
     });
 
 

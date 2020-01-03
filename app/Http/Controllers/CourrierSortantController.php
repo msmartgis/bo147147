@@ -6,11 +6,13 @@ use App\Accuse;
 use App\Consigne;
 use App\Courrier;
 use App\Document;
+use App\EtatCourrier;
 use App\Historique;
 use App\ModeReception;
 use App\PersonneMorale;
 use App\PersonnePhysique;
 use App\Service;
+use App\TypeOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -35,6 +37,7 @@ class CourrierSortantController extends Controller
         $personne_morales = PersonneMorale::orderBy('raison_social')->where([['raison_social', '!=', 'null']])->get();
         $services = Service::orderBy('nom')->get();
         $modes_recpetions = ModeReception::orderBy('nom')->get();
+
         return view('courriers.sortants.show_sortant.index_sortant')->with([
             'personne_physiques' => $personne_physiques,
             'personne_morales' => $personne_morales,
@@ -76,11 +79,13 @@ class CourrierSortantController extends Controller
      */
     public function store(Request $request)
     {
+        $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
         $courrier = new Courrier();
         $courrier->type = 'sortant';
         $courrier->ref = $request->ref;
         $courrier->date_envoie = $request->date_envoi;
         $courrier->objet = $request->objet;
+        $courrier->etat_id = $brouillon_etat->id;
 
         if (isset($request->courrier_entrant_id)) {
             //update courrier entrant 
@@ -124,7 +129,6 @@ class CourrierSortantController extends Controller
             if ($request->type_destinataire == "personne_morale") {
 
                 if ($request->raison_social == null) {
-
                     $courrier->personne_morale_id = $request->personne_morale_id_from_db;
                 } else {
                     $personne_morale = new PersonneMorale();
@@ -162,6 +166,7 @@ class CourrierSortantController extends Controller
                 }
             }
         }
+
 
         $courrier->save();
 
@@ -202,7 +207,6 @@ class CourrierSortantController extends Controller
                     $path = $file->storeAs('courriers/sortants/' . $courrier->id, $fileNameToStore);
                 }
             }
-
 
             for ($i = 0; $i < count($document_types_ids); $i++) {
                 $document_courrier = new Document();
@@ -275,10 +279,9 @@ class CourrierSortantController extends Controller
                 $accuse_envoi->save();
             }
         }
-
         if ($courrier->save()) {
             //add to history
-            $this->addToHistory('8a40844d-1bed-41c0-ac6e-7b1516d459a6', $courrier->id, Auth::user()->id);
+            $this->addToHistory('create', $courrier->id, Auth::user()->id);
             return redirect('/courriers-sortants')->with('success', 'Courrier ajouté avec succès');
         } else {
             return "error";
@@ -578,7 +581,7 @@ class CourrierSortantController extends Controller
 
         if ($courrier_to_edit->save()) {
             //add to history
-            $this->addToHistory('2ba53ab3-aba8-421b-b650-46b4fa06e493', $courrier_to_edit->id, Auth::user()->id);
+            $this->addToHistory('update', $courrier_to_edit->id, Auth::user()->id);
             return redirect("/courriers-sortants" . "/" . $courrier_to_edit->id . "/edit")->with('success', 'Courrier modifier avec succès');
         }
     }
@@ -679,22 +682,17 @@ class CourrierSortantController extends Controller
                 })
 
                 ->addColumn('etat', function ($courriers) {
-                    switch ($courriers->etat_id) {
-                        case '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8':
+                    switch ($courriers->etat->first()->nom) {
+                        case 'en_cours':
                             return "<b style='color : #009dc5'>En cours</b>";
                             break;
-                        case 'de4d5fe6-a384-4df0-abeb-6f953f4102f4':
+                        case 'brouillon':
                             return "<b style='color : #7dd8fb'>Brouillon</b>";
                             break;
-                        case '110a3194-9e8e-40b3-953e-256a68cdfcf7':
-                            return "<b style='color : #ff3200'>En retard</b>";
-                            break;
-                        case 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858':
+                        case 'cloturer':
                             return "<b style='color : #9fd037'>Cloturé</b>";
                             break;
-
                         default:
-
                             break;
                     }
                 })
@@ -781,7 +779,8 @@ class CourrierSortantController extends Controller
 
     public function brouillonCourrier(Request $request)
     {
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', 'de4d5fe6-a384-4df0-abeb-6f953f4102f4']])->orderBy('date_reception', 'desc');
+        $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $brouillon_etat->id]])->orderBy('date_reception', 'desc');
 
         // return $courriers;
         if ($request->ajax()) {
@@ -903,7 +902,8 @@ class CourrierSortantController extends Controller
 
     public function enCoursCourrier(Request $request)
     {
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8']])->orderBy('date_reception', 'desc');
+        $en_cours_etat =  EtatCourrier::where('nom', 'en_cours')->first();
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $en_cours_etat->id]])->orderBy('date_reception', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
@@ -1028,9 +1028,10 @@ class CourrierSortantController extends Controller
 
     public function clotureCourrier(Request $request)
     {
+        $cloture_etat =  EtatCourrier::where('nom', 'cloturer')->first();
         $actu_date = Carbon::now()->format('Y-m-d');
 
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858']])->orderBy('date_reception', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $cloture_etat->id]])->orderBy('date_reception', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
@@ -1149,11 +1150,13 @@ class CourrierSortantController extends Controller
     }
 
 
-    public function addToHistory($type_operation_id, $courrier_id, $user_id)
+    public function addToHistory($type_operation, $courrier_id, $user_id)
     {
         $new_history = new Historique();
 
-        $new_history->type_operation_id = $type_operation_id;
+        $operation = TypeOperation::where('nom', $type_operation)->first();
+
+        $new_history->type_operation_id = $operation->id;
         $new_history->courrier_id = $courrier_id;
         $new_history->user_id = $user_id;
 

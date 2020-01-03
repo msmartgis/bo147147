@@ -7,7 +7,7 @@
             {{Form::open(array('url' => 'ficheDemande','target'=>'print_popup', 'method' => 'poste','class' => 'fiche-word','onsubmit'=>'window.open("about:blank","print_popup","width=800,height=640");'))  }}
                 <button type="button" class="btn btn-default pull-right multiple-choice-en-cours" id="fiche_demande_en_cours_btn" style="margin-right : 6px" disabled><i class="fa fa-file" style="margin-right: 6px"></i>Fiche de courrier </button>
             {{Form::close()}}
-            @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+            @if (Auth::user()->role->first()->role_name == "admin" || Auth::user()->role->first()->role_name == "bureau_ordre")
                 <button type="button" class="btn btn-default pull-right unique-choice-cloture" id="create_courrier_sortant_cloture_btn" style="margin-right : 6px" disabled><i class="fa fa-arrow-right" style="margin-right: 6px"></i>Créer un courrier sortant </button>
             @endif
         </div>      

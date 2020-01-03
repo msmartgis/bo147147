@@ -15,9 +15,7 @@ class AddEtatForeignKeyToCourriers extends Migration
     {
         Schema::table('courriers', function (Blueprint $table) {
             $table->dropColumn('etat');
-
-            $table->string('etat_id')->index()->nullable()->default('de4d5fe6-a384-4df0-abeb-6f953f4102f4');
-
+            $table->string('etat_id')->index()->nullable()->default('brouillon');
             $table->foreign('etat_id')
                 ->references('id')
                 ->on('etats_courriers')

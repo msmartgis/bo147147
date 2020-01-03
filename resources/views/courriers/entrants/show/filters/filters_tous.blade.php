@@ -1,4 +1,3 @@
-
 <div class="filters" style="margin-bottom: 4px;margin-top: 6px">
     <div class="row">
         <div class="col-lg-2">

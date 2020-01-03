@@ -218,7 +218,7 @@ $(document).ready(function () {
 
     //a traiter
     $("#cloturer_courrier_entrant_btn").click(function () {
-        changeStateCourrier(checkedelementsCourrierEntrantEnCours, 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858');
+        changeStateCourrier(checkedelementsCourrierEntrantEnCours, 'cloturer');
     });
 
 

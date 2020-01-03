@@ -62,7 +62,7 @@ class Courrier extends Model
 
     public function etat()
     {
-        return $this->belongsTo('App\EtatCourrier');
+        return $this->belongsTo('App\EtatCourrier', 'etat_id');
     }
 
 

@@ -294,7 +294,7 @@
                                                                             Télécharger</button>
                                                                     </a>
                                                                 @endif
-                                                                @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                                                @if (Auth::user()->role->first()->role_name == "bureau_ordre" || Auth::user()->role->first()->role_name == "admin")
                                                                     <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
                                                                 @endif
                                                             </td> 
@@ -303,7 +303,7 @@
                                                    
                                                 </tbody>
                                             </table>
-                                            @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                            @if (Auth::user()->role->first()->role_name == "bureau_ordre" || Auth::user()->role->first()->role_name == "admin")
                                                 <div style="text-align: center">
                                                     <a href="#" id="add_piece_btn" class="m-hidden"> <i class="fa fa-plus"></i>
                                                         <b> Ajouter </b>
@@ -356,16 +356,12 @@
                                                             </td>                                                           
                                                          
                                                             <td>
-                                                                @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                                                @if (Auth::user()->role->first()->role_name == "bureau_ordre" || Auth::user()->role->first()->role_name == "admin")
                                                                     <button type="button" class="btn delete-row btn-danger-table m-hidden" id="delete_service_row_btn"> <i class="fa fa-close"></i> Supprimer</button>
                                                                 @endif
                                                             </td>                                                       
                                                         </tr>
-                                                    @endforeach 
-                                                                                                 
-                                                  
-
-                                                
+                                                    @endforeach   
                                                 </tbody>
                                             </table>
 
@@ -422,7 +418,7 @@
                                                                     </a>
                                                                 @endif
 
-                                                                @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                                                @if (Auth::user()->role->first()->role_name == "bureau_ordre" || Auth::user()->role->first()->role_name == "admin")
                                                                     <button type="button" class="btn delete-row btn-danger-table m-hidden" > <i class="fa fa-close"></i> Supprimer</button>
                                                                 @endif
                                                             </td>                                                           
@@ -579,7 +575,7 @@
                     <h5>Edition : </h5>
                     <hr>
                     <button type="button" id="activate_form_edit_btn" class="btn  btn-success activate-form-btn" style="width:90%;margin:auto auto 4px auto;display: block;" ><i class="fa fa-edit" style="margin-right: 8px;"></i>Activer la modification</button>
-                    @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                    @if (Auth::user()->role->first()->role_name == "bureau_ordre" || Auth::user()->role->first()->role_name == "admin")
                         @if ($courrier->etat_id == "de4d5fe6-a384-4df0-abeb-6f953f4102f4")
                             <button type="button" id="valider_courrier_sortant_btn" class="btn  btn-success disabled" style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-edit" style="margin-right: 8px;"></i>Valider</button>
                         @endif

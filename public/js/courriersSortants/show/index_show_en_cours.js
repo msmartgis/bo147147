@@ -202,7 +202,7 @@ $(document).ready(function () {
 
     //a traiter
     $("#cloturer_courrier_sortant_btn").click(function () {
-        changeStateCourrier(checkedelementsCourrierSortantEnCours, 'bfe54fe8-fc87-4fec-aaf0-1cb5beacf858');
+        changeStateCourrier(checkedelementsCourrierSortantEnCours, 'cloturer');
     });
 
 });
