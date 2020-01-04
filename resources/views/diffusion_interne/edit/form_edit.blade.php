@@ -145,10 +145,6 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                         </div>
                     </div>
 
-
-
-
-
                     <br>
                     <h5>Génération des documents : </h5>
                     <hr>
