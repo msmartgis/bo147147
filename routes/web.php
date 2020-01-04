@@ -90,6 +90,8 @@ Route::group(
         Route::get('/diffusions-internes', 'DiffusionInterneController@index')->name('diffusions-internes');
         Route::get('/diffusions-internes/create', 'DiffusionInterneController@create')->name('diffusions-internes-create');
 
+        Route::post('/diffusions-internes/delete', 'DiffusionInterneController@deleteDiffusionInterne')->name('diffusionInterne-delete');
+
         //parametres
         Route::get('/parametres', 'ParametresController@index')->name('parametres.index');
         Route::get('/settings/users', 'ParametresController@getUsers');

@@ -180,7 +180,7 @@ class DiffusionInterneController extends Controller
      */
     public function update(Request $request, DiffusionInterne $diffusionInterne)
     {
-        //
+        return $request->all();
     }
 
     /**

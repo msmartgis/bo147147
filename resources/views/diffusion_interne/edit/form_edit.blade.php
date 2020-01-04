@@ -162,8 +162,18 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                             style="margin-right: 8px;"></i>Activer la modification</button>
 
 
+                    <button type="submit" id="save_edit_btn" class="btn  btn-success submit-btn-edit disabled"
+                        style="width:90%;margin-top:4x;margin:auto auto 4px auto;display: block;"><i class="fa fa-save"
+                            style="margin-right: 8px;" disabled></i>Enregistrer</button>
+
+                    {!! Form::close() !!}
 
 
+                    {!! Form::open(['route' => ['diffusionInterne-delete'],'id'=>'delete_form','method' => 'POST']) !!}
+                    <input type="hidden" name="diffusionInterne_id" value="{{$diffusionInterne->id}}">
+                    <button type="submit" class="btn  btn-danger disabled"
+                        style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash"
+                            style="margin-right: 8px;"></i>Supprimer</button>
                     {!! Form::close() !!}
 
                 </div>
