@@ -51,7 +51,7 @@
                                     <button type="button" class="btn btn-default pull-right multiple-choice-en-cours" id="fiche_demande_en_cours_btn" style="margin-right : 6px" disabled><i class="fa fa-file" style="margin-right: 6px"></i>Fiche de diffusion interne </button>
                                 {{Form::close()}}
 
-                                @if (Auth::user()->role->id == 2 || Auth::user()->role->id == 1)
+                                @if (Auth::user()->role->first()->role_name == "bureau_ordre" || Auth::user()->role->first()->role_name == "admin")
                                     <a href="{{ route('diffusions-internes-create') }}" class="btn btn-default pull-right " style="margin-right:4px"><i class="fa fa-plus" style="margin-right: 6px"></i>Nouvelle diffusion</a>
                                 @endif                    
                             </div>      
@@ -62,13 +62,11 @@
 
                     <div class="table-responsive">
                         <table class="table table-hover datatables dataTable no-footer" id="diffusion_interne_datatables" style="width:100% ;" >
-                            <thead >
-                                <th ></th>
-                                <th >Réf</th>
-                                <th >Date Réception</th>
-                                <th>Expediteur</th>
+                            <thead>
+                                <th></th>
+                                <th>Réf</th>
                                 <th>Objet</th>
-                                <th>Delai</th>
+                                <th>Date d'envoi</th>                                
                                 <th>P.J</th>
                             </thead>
                         </table>
@@ -85,5 +83,5 @@
 
 @push('added_scripts')
  <script src="{{asset('css/datatable/datatables.min.js')}}"></script>
- <script src="{{asset('js/diffusion_interne/show/index.js')}}"></script>
+ <script src="{{asset('js/diffusion_interne/index.js')}}"></script>
 @endpush

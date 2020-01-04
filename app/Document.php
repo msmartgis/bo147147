@@ -16,6 +16,12 @@ class Document extends Model
         return $this->belongsTo('App\Courrier', 'courrier_id');
     }
 
+    public function diffusionInterne()
+    {
+        return $this->belongsTo('App\DiffusionInterne', 'diffusion_interne_id');
+    }
+
+
 
     public function typeDocument()
     {

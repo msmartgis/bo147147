@@ -7,7 +7,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="services_concernes_brouillon" id="services_concernes_brouillon_select_filter">
+                <select class="form-control select2" style="width: 100%;" name="services_concernes" id="services_concernes_select_filter">
                     <option value="all" selected>Indifferent</option>                   
                     @foreach($services as $service)
                         <option value="{{$service->id}}">{{$service->nom}}</option>
@@ -64,7 +64,7 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type="text" class="form-control pull-left" name="date_reception_brouillon_daterange" id="date_reception_brouillon_input" style="font-size: 0.94rem;" value="01/01/2000 - 01/01/2020">				
+                        <input type="text" class="form-control pull-left" name="date_envoi_daterange" id="date_envoi_input" style="font-size: 0.94rem;" value="01/01/2000 - 01/01/2020">				
 					 
                     </div>
                 </div>

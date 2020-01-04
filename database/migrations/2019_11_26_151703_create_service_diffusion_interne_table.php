@@ -24,6 +24,7 @@ class CreateServiceDiffusionInterneTable extends Migration
 
 
             $table->string('diffusion_interne_id')->index();
+            $table->longText('message')->nullable();
 
             $table->foreign('diffusion_interne_id')
                 ->references('id')

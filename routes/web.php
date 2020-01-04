@@ -55,6 +55,9 @@ Route::group(
         Route::post('/courriers-sortants/valider', 'CourrierController@validateCourrier')->name('courriers-entrants-validateCourrier');
 
 
+        //diffusion interne 
+        Route::get('/diffusions-internes/tous', 'DiffusionInterneController@tousDiffusionInterne')->name('diffusions-internes-tous');
+
         Route::resources([
             'courriers-entrants' => 'CourrierController',
             'courriers-sortants' => 'CourrierSortantController',

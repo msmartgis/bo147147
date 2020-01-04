@@ -11,4 +11,9 @@ class NatureDiffusion extends Model
     protected $table = "natures_diffusions";
 
     public $incrementing = false;
+
+    public function diffusionInterne()
+    {
+        return $this->hasMany('App\DiffusionInterne');
+    }
 }
