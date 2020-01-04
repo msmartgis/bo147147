@@ -157,9 +157,18 @@ class DiffusionInterneController extends Controller
      * @param  \App\DiffusionInterne  $diffusionInterne
      * @return \Illuminate\Http\Response
      */
-    public function edit(DiffusionInterne $diffusionInterne)
+    public function edit($id)
     {
-        //
+        $natures_diffusions = NatureDiffusion::orderBy('nom')->pluck('nom', 'id');
+        $services = Service::orderBy('nom')->pluck('nom', 'id');
+        $diffusionInterne = DiffusionInterne::findOrFail($id);
+
+
+        return  view('diffusion_interne.edit.index')->with([
+            'diffusionInterne' => $diffusionInterne,
+            'services' => $services,
+            'natures_diffusions' => $natures_diffusions,
+        ]);
     }
 
     /**

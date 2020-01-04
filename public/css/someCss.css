@@ -631,6 +631,7 @@ table.dataTable tbody>tr>.selected {
 
 .m-min-hight {
     min-height: 600px !important;
+    padding: 0;
 }
 
 

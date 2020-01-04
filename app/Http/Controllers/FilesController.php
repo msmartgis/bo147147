@@ -21,6 +21,11 @@ class FilesController extends Controller
         }
 
 
+        if ($subdirectory == "diffusion-internes") {
+            $local_path = 'diffusion-internes/';
+        }
+
+
         if ($subdirectory == "sortants") {
             $local_path = 'courriers/sortants/';
         }
@@ -41,7 +46,6 @@ class FilesController extends Controller
 
 
         $id =  $request->id;
-
         if (Storage::exists($local_path . $id . '/' . $file_name)) {
             return Storage::download($local_path . $id . '/' . $file_name);
         } else {
