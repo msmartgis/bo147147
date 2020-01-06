@@ -131,11 +131,11 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group form-group-edit">
-                                {{Form::select('mode_reception_id', $natures_diffusions, $diffusionInterne->nature_diffusion_id,
+                                {{Form::select('nature_diffusion_id', $natures_diffusions, $diffusionInterne->nature_diffusion_id,
                                                         [
                                                         'data-placeholder' => 'Selectionner mode de reception',
                                                         'class'=>'form-control ',
-                                                        'name'=>'mode_reception_id',
+                                                        'name'=>'nature_diffusion_id',
                                                         'style'=>'width:100%',
                                                         'disabled'=> 'disabled'
                                                         ]

@@ -614,7 +614,7 @@ class CourrierController extends Controller
         if ($courrier_to_edit->save()) {
             //add to history
             $this->addToHistory('update', $courrier_to_edit->id, Auth::user()->id);
-            return redirect("/courriers-entrants" . "/" . $courrier_to_edit->id . "/edit")->with('success', 'Courrier modifier avec succès');
+            return redirect("/courriers-entrants" . "/" . $courrier_to_edit->id . "/edit")->with('success', 'Courrier modifié avec succès');
         }
     }
 

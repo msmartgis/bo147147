@@ -1,33 +1,5 @@
 $(document).ready(function () {
-    var delete_btn;
     var item_service_number = 0;
-    $('.delete-row').on('click', function () {
-        delete_btn = $(this);
-        swal({
-            title: "Vous êtes sûr?",
-            text: 'Voulez vous vraiment supprimer cette ligne',
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Confirmer",
-            cancelButtonText: "Non",
-            closeOnConfirm: false,
-            closeOnCancel: false
-        }, function (isConfirm) {
-            if (isConfirm) {
-
-                delete_btn.closest('tr').remove();
-                if (delete_btn.closest('tr').remove()) {
-                    swal("Réussi!", 'L\'opération a été effectuée avec succès', "success");
-                }
-
-            } else {
-                swal("L'operation est annulée", "Aucun changement a été éffectué", "error");
-            }
-        });
-    })
-
-
 
     //add document to list
     $('#add_piece_btn').on('click', function () {

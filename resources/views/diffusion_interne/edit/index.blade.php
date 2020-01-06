@@ -67,8 +67,8 @@
 <script src="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')}}"></script>
 <script src="{{asset('js/toastr.js')}}"></script>
 
-<script src="{{asset('js/courriersEntrants/index_courriers_entrants_edit.js')}}"></script>
-<script src="{{asset('js/courriersEntrants/show/index_show_courrier_entrants.js')}}"></script>
+
+<script src="{{asset('js/diffusion_interne/index_edit_diffusion_interne.js')}}"></script>
 <script src="{{asset('js/services/index_services.js')}}"></script>
 <script src="{{asset('js/users/index_users.js')}}"></script>
 <script src="{{asset('js/modesRecepetion/index_mode_reception.js')}}"></script>

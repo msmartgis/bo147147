@@ -178,9 +178,100 @@ class DiffusionInterneController extends Controller
      * @param  \App\DiffusionInterne  $diffusionInterne
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DiffusionInterne $diffusionInterne)
+    public function update(Request $request, $id)
     {
-        return $request->all();
+        $diffusion_interne_to_edit = DiffusionInterne::findOrFail($request->diffusionInterne_id);
+        $diffusion_interne_to_edit->objet = $request->objet;
+        $diffusion_interne_to_edit->date_envoi = $request->date_envoi;
+        $diffusion_interne_to_edit->observations = $request->observation;
+        $diffusion_interne_to_edit->nature_diffusion_id = $request->nature_diffusion_id;
+
+
+
+        //manage docuemnt fournis
+        $documents_from_database = array();
+        $array_diff = array();
+        $still_in_table = array();
+        if (isset($request->documents_ids)) {
+            $still_in_table = $request->documents_ids;
+        }
+
+
+
+        foreach ($diffusion_interne_to_edit->piece as $item) {
+            array_push($documents_from_database, $item->id);
+        }
+
+
+        if (count($still_in_table)  == 0) {
+            $array_diff = $documents_from_database;
+        } else {
+            $array_diff = (array) array_diff($documents_from_database, $still_in_table);
+        }
+
+
+        if (count($array_diff) > 0) {
+            foreach ($array_diff as $item) {
+                $document_to_delete = Document::find($item);
+                Storage::delete('diffusion-internes/' . $id . '/' . $document_to_delete->path);
+                $document_to_delete->delete();
+            }
+        }
+
+
+        if (isset($request->intitules_documents_fournis)) {
+            $piece_file_names = array();
+            $document_refs =  $request->ref_documents;
+            $document_noms =  $request->intitules_documents_fournis;
+
+            if ($request->hasFile('documents_ulpoad_documents_fournis')) {
+                $files =  $request->documents_ulpoad_documents_fournis;
+                foreach ($files as $file) {
+                    // Get filename with the extension
+                    $filenameWithExt = $file->getClientOriginalName();
+                    // Get just filename
+                    $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                    // Get just ext
+                    $extension = $file->getClientOriginalExtension();
+                    // Filename to store
+                    $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+
+                    array_push($piece_file_names, $fileNameToStore);
+                    // Upload Image
+                    $path = $file->storeAs('diffusion-internes/' . $diffusion_interne_to_edit->id, $fileNameToStore);
+                }
+            }
+
+            for ($i = 0; $i < count($document_refs); $i++) {
+                $document_diffusion = new Document();
+
+                if ($document_noms[$i] == "") {
+                    $document_diffusion->nom_document = "Document sans nom";
+                } else {
+                    $document_diffusion->nom_document = $document_noms[$i];
+                }
+
+
+                if ($document_refs[$i] == "") {
+                    $document_diffusion->ref = "Document sans reference";
+                } else {
+                    $document_diffusion->ref = $document_refs[$i];
+                }
+
+                if (count($piece_file_names) > 0) {
+                    $document_diffusion->path = $piece_file_names[$i];
+                } else {
+                    $document_diffusion->path = '';
+                }
+
+
+                $document_diffusion->diffusion_interne_id = $diffusion_interne_to_edit->id;
+                $document_diffusion->save();
+            }
+        }
+
+        $diffusion_interne_to_edit->save();
+        return redirect("/diffusions-internes" . "/" . $diffusion_interne_to_edit->id . "/edit")->with('success', 'Diffusion modifiée avec succès');
     }
 
     /**
