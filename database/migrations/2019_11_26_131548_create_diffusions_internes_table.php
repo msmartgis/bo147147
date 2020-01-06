@@ -14,11 +14,11 @@ class CreateDiffusionsInternesTable extends Migration
     public function up()
     {
         Schema::create('diffusions_internes', function (Blueprint $table) {
-            $table->uuid('id')->primary(); 
-            $table->string('ref')->nullable();  
-            $table->date('date_envoi')->nullable();  
-            $table->text('objet')->nullable();  
-            $table->longText('observations')->nullable();  
+            $table->uuid('id')->primary();
+            $table->string('ref')->nullable();
+            $table->date('date_envoi')->nullable();
+            $table->text('objet')->nullable();
+            $table->longText('observations')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->index(['id', 'created_at']);
