@@ -641,7 +641,7 @@ class CourrierSortantController extends Controller
 
     public function tousCourrier(Request $request)
     {
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant']])->orderBy('date_reception', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant']])->orderBy('created_at', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
@@ -780,7 +780,7 @@ class CourrierSortantController extends Controller
     public function brouillonCourrier(Request $request)
     {
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $brouillon_etat->id]])->orderBy('date_reception', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $brouillon_etat->id]])->orderBy('created_at', 'desc');
 
         // return $courriers;
         if ($request->ajax()) {
@@ -903,7 +903,7 @@ class CourrierSortantController extends Controller
     public function enCoursCourrier(Request $request)
     {
         $en_cours_etat =  EtatCourrier::where('nom', 'en_cours')->first();
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $en_cours_etat->id]])->orderBy('date_reception', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $en_cours_etat->id]])->orderBy('created_at', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
@@ -1031,7 +1031,7 @@ class CourrierSortantController extends Controller
         $cloture_etat =  EtatCourrier::where('nom', 'cloturer')->first();
         $actu_date = Carbon::now()->format('Y-m-d');
 
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $cloture_etat->id]])->orderBy('date_reception', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'sortant'], ['etat_id', '=', $cloture_etat->id]])->orderBy('created_at', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
