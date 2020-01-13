@@ -1,19 +1,19 @@
- <!-- jQuery 3 -->
+<!-- jQuery 3 -->
 
- <script type="text/javascript">
+<script type="text/javascript">
 	$.ajaxSetup({
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
-  </script>
- 
-	<script src="{{asset('vendor_components/jquery-3.3.1/jquery-3.3.1.js')}}"></script>
+</script>
 
-	<!-- jQuery UI 1.11.4 -->
-	<script src="{{asset('vendor_components/jquery-ui/jquery-ui.js')}}"></script>
-	
-	
+<script src="{{asset('vendor_components/jquery-3.3.1/jquery-3.3.1.js')}}"></script>
+
+<!-- jQuery UI 1.11.4 -->
+<script src="{{asset('vendor_components/jquery-ui/jquery-ui.js')}}"></script>
+
+
 <!-- popper -->
 <script src="{{asset('vendor_components/popper/dist/popper.min.js')}}"></script>
 
@@ -39,28 +39,29 @@
 <!-- iCheck 1.0.1 -->
 <script src="{{asset('vendor_plugins/iCheck/icheck.min.js')}}"></script>
 
-	<!-- Fab Admin for advanced form element -->
+<!-- Fab Admin for advanced form element -->
 <script src="{{asset('js/advanced-form-element.js')}}"></script>
 
 
- <!-- Sweet-Alert  -->
- <script src="{{asset('vendor_components/sweetalert/sweetalert.min.js')}}"></script>
- <script src="{{asset('vendor_components/sweetalert/jquery.sweet-alert.custom.js')}}"></script>
+<!-- Sweet-Alert  -->
+<script src="{{asset('vendor_components/sweetalert/sweetalert.min.js')}}"></script>
+<script src="{{asset('vendor_components/sweetalert/jquery.sweet-alert.custom.js')}}"></script>
 
- <!-- date-range-picker -->
+<!-- date-range-picker -->
 <script src="{{asset('vendor_components/moment/min/moment.min.js')}}"></script>
 <script src="{{asset('vendor_components/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
 <!-- bootstrap datepicker -->
 <script src="{{asset('vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 
-
+<script type="text/javascript" src="{{asset('js/moment.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/daterangepicker.js')}}"></script>
 {{--functions---}}
 <script src="{{asset('js/functions.js')}}"></script>
 
 
 <script>
-	 $(window).on('load', function () {
+	$(window).on('load', function () {
             // Animate loader off screen
             $(".se-pre-con").fadeOut("slow");
 			$(function () {
@@ -69,4 +70,4 @@
         });
 </script>
 
- @stack('added_scripts')
+@stack('added_scripts')

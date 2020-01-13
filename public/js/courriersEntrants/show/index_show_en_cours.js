@@ -64,6 +64,7 @@ $(document).ready(function () {
                 d.expediteur = $("select[name=expediteur_en_cours]").val();
                 d.services = $("select[name=services_concernes_en_cours]").val();
                 d.mode_reception = $("select[name=mode_reception_en_cours]").val();
+                d.priorite = $("select[name=priorite_en_cours]").val();
                 d.date_reception = $("select[name=date_reception_en_cours_daterange]").val();
             }
         },
@@ -85,6 +86,11 @@ $(document).ready(function () {
                 name: "checkbox",
                 searchable: true,
                 width: "10%"
+            },
+            {
+                data: "priorite",
+                name: "priorite",
+                searchable: false
             },
 
             {
@@ -168,7 +174,7 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_en_cours_select_filter,#expediteur_en_cours_select_filter,#services_concernes_en_cours_select_filter,#mode_reception_en_cours_select_filter,#date_reception_en_cours_input').on('change paste keyup', function (e) {
+    $('#nature_expediteur_en_cours_select_filter,#expediteur_en_cours_select_filter,#services_concernes_en_cours_select_filter,#mode_reception_en_cours_select_filter,#priorite_en_cours_select_filter,#date_reception_en_cours_input').on('change paste keyup', function (e) {
         courriersEntrantsEnCoursTable.draw();
         e.preventDefault();
     });

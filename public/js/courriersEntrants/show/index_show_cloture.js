@@ -64,6 +64,7 @@ $(document).ready(function () {
                 d.expediteur = $("select[name=expediteur_cloture]").val();
                 d.services = $("select[name=services_concernes_cloture]").val();
                 d.mode_reception = $("select[name=mode_reception_cloture]").val();
+                d.priorite = $("select[name=priorite_cloture]").val();
                 d.date_reception = $("select[name=date_reception_cloture_daterange]").val();
             }
         },
@@ -85,6 +86,11 @@ $(document).ready(function () {
                 name: "checkbox",
                 searchable: true,
                 width: "10%"
+            },
+            {
+                data: "priorite",
+                name: "priorite",
+                searchable: false
             },
 
             {
@@ -169,7 +175,7 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_cloture_select_filter,#expediteur_cloture_select_filter,#services_concernes_cloture_select_filter,#mode_reception_cloture_select_filter,#date_reception_cloture_input').on('change paste keyup', function (e) {
+    $('#nature_expediteur_cloture_select_filter,#expediteur_cloture_select_filter,#services_concernes_cloture_select_filter,#mode_reception_cloture_select_filter,#priorite_cloture_select_filter,#date_reception_cloture_input').on('change paste keyup', function (e) {
         courriersEntrantsClotureTable.draw();
         e.preventDefault();
     });

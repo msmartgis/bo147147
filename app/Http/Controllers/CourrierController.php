@@ -11,6 +11,7 @@ use App\Historique;
 use App\ModeReception;
 use App\PersonneMorale;
 use App\PersonnePhysique;
+use App\Priorite;
 use App\Service;
 use App\TypeOperation;
 use Carbon\Carbon;
@@ -38,11 +39,13 @@ class CourrierController extends Controller
         $personne_morales = PersonneMorale::orderBy('raison_social')->where([['raison_social', '!=', 'null']])->get();
         $services = Service::orderBy('nom')->get();
         $modes_recpetions = ModeReception::orderBy('nom')->get();
+        $priorites = Priorite::orderBy('nom')->get();
         return view('courriers.entrants.show.index')->with([
             'personne_physiques' => $personne_physiques,
             'personne_morales' => $personne_morales,
             'services' => $services,
-            'modes_recpetions' => $modes_recpetions
+            'modes_recpetions' => $modes_recpetions,
+            'priorites' => $priorites,
         ]);
     }
 
@@ -56,6 +59,7 @@ class CourrierController extends Controller
         $actu_date = Carbon::now()->format('Y-m-d');
 
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
+        $priorites = Priorite::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $personne_physiques = PersonnePhysique::orderBy('nom')->get();
         $personne_morales = PersonneMorale::orderBy('raison_social')->get();
@@ -66,7 +70,8 @@ class CourrierController extends Controller
             'services' => $services,
             'personne_physiques' => $personne_physiques,
             'personne_morales' => $personne_morales,
-            'modes_recpetion' => $modes_recpetion
+            'modes_recpetion' => $modes_recpetion,
+            'priorites' => $priorites
         ]);
     }
 
@@ -78,6 +83,7 @@ class CourrierController extends Controller
      */
     public function store(Request $request)
     {
+
         $courrier = new Courrier();
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
         $courrier->ref = $request->ref;
@@ -86,6 +92,7 @@ class CourrierController extends Controller
         $courrier->objet = $request->objet;
         $courrier->delai = $request->delai;
         $courrier->etat_id = $brouillon_etat->id;
+        $courrier->priorite_id = $request->priorites_id;
 
         //insert expediteur
         //create personne physique
@@ -296,6 +303,7 @@ class CourrierController extends Controller
     public function edit($id)
     {
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
+        $priorites = Priorite::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $courrier = Courrier::with('personnePhysique', 'personneMorale', 'remarqueConsigne')->findOrFail($id);
         $courrier->ref_sortant = '';
@@ -309,6 +317,7 @@ class CourrierController extends Controller
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,
+            'priorites' => $priorites,
             'services' => $services,
             'historique' => $historique,
         ]);
@@ -339,6 +348,7 @@ class CourrierController extends Controller
         $courrier_to_edit->date_reception = $request->date_reception;
         $courrier_to_edit->delai = $request->delai;
         $courrier_to_edit->mode_reception_id = $request->mode_reception_id;
+        $courrier_to_edit->priorite_id = $request->priorite_id;
 
         //update personne physique
         if (isset($request->personne_physique_id)) {
@@ -559,9 +569,6 @@ class CourrierController extends Controller
 
             for ($i = 0; $i < count($date_accuse_receptions); $i++) {
                 $accuse = new Accuse();
-
-
-
                 if (count($accuse_file_names) > 0) {
                     $accuse->path = $accuse_file_names[$i];
                 } else {
@@ -671,7 +678,7 @@ class CourrierController extends Controller
 
     public function tousCourrier(Request $request)
     {
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'entrant']])->orderBy('created_at', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'priorite')->withCount('piece')->where([['type', '=', 'entrant']])->orderBy('created_at', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
@@ -706,6 +713,11 @@ class CourrierController extends Controller
                 ->addColumn('ref', function ($courriers) {
                     return '<a  href="courriers-entrants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="Objet : ' . $courriers->objet . '">' . $courriers->ref . '</a>';
                 })
+                ->addColumn('priorite', function (Courrier $courrier) {
+                    if ($courrier->priorite != null) {
+                        return $courrier->priorite->priorite_icon;
+                    }
+                })
 
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersEntrantTous_' . $courriers->id . '" name="checkbox_tous" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersEntrantTous_' . $courriers->id . '" class="block" ></label>';
@@ -731,7 +743,7 @@ class CourrierController extends Controller
                             break;
                     }
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref', 'etat']);
+                ->rawColumns(['pj', 'checkbox', 'ref', 'etat', 'priorite']);
         }
 
 
@@ -790,6 +802,18 @@ class CourrierController extends Controller
         }
 
 
+        //priorite
+        if ($priorite = $request->get('priorite')) {
+            if ($priorite == "all") {
+            } else {
+
+                $courriers->whereHas('priorite', function ($query) use ($priorite) {
+                    $query->where('id', '=', $priorite);
+                });
+            }
+        }
+
+
         //avis
         if ($avis = $request->get('avis')) {
             if ($avis == "all") {
@@ -806,7 +830,7 @@ class CourrierController extends Controller
     {
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
 
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'entrant'], ['etat_id', '=', $brouillon_etat->id]])->orderBy('created_at', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'priorite', 'etat')->withCount('piece')->where([['type', '=', 'entrant'], ['etat_id', '=', $brouillon_etat->id]])->orderBy('created_at', 'desc');
 
         // return $courriers;
         if ($request->ajax()) {
@@ -839,6 +863,12 @@ class CourrierController extends Controller
                     }
                 })
 
+                ->addColumn('priorite', function (Courrier $courrier) {
+                    if ($courrier->priorite != null) {
+                        return $courrier->priorite->priorite_icon;
+                    }
+                })
+
                 ->addColumn('ref', function ($courriers) {
                     return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
                 })
@@ -846,7 +876,7 @@ class CourrierController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersEntrantBrouillon_' . $courriers->id . '" name="checkbox_brouillon" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersEntrantBrouillon_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref']);
+                ->rawColumns(['pj', 'checkbox', 'ref', 'priorite']);
         }
 
 
@@ -905,6 +935,18 @@ class CourrierController extends Controller
         }
 
 
+        //priorite
+        if ($priorite = $request->get('priorite')) {
+            if ($priorite == "all") {
+            } else {
+
+                $courriers->whereHas('priorite', function ($query) use ($priorite) {
+                    $query->where('id', '=', $priorite);
+                });
+            }
+        }
+
+
         //avis
         if ($avis = $request->get('avis')) {
             if ($avis == "all") {
@@ -921,7 +963,7 @@ class CourrierController extends Controller
     {
         $en_cours_etat =  EtatCourrier::where('nom', 'en_cours')->first();
         $actu_date = Carbon::now()->format('Y-m-d');
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'entrant'], ['etat_id', '=', $en_cours_etat->id]])->orderBy('created_at', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'priorite')->withCount('piece')->where([['type', '=', 'entrant'], ['etat_id', '=', $en_cours_etat->id]])->orderBy('created_at', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
@@ -957,6 +999,12 @@ class CourrierController extends Controller
                     return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
                 })
 
+                ->addColumn('priorite', function (Courrier $courrier) {
+                    if ($courrier->priorite != null) {
+                        return $courrier->priorite->priorite_icon;
+                    }
+                })
+
                 ->addColumn('courrier_sortant', function ($courriers) {
                     if ($courriers->courrier_sortant_id  != null) {
                         $courrier_sortant = Courrier::find($courriers->courrier_sortant_id);
@@ -969,7 +1017,7 @@ class CourrierController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersEntrantEnCours_' . $courriers->id . '" name="checkbox_en_cours" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersEntrantEnCours_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref', 'courrier_sortant']);
+                ->rawColumns(['pj', 'checkbox', 'ref', 'courrier_sortant', 'priorite']);
         }
 
 
@@ -1023,6 +1071,17 @@ class CourrierController extends Controller
 
                 $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
                     $query->where('id', '=', $mode_reception);
+                });
+            }
+        }
+
+        //priorite
+        if ($priorite = $request->get('priorite')) {
+            if ($priorite == "all") {
+            } else {
+
+                $courriers->whereHas('priorite', function ($query) use ($priorite) {
+                    $query->where('id', '=', $priorite);
                 });
             }
         }
@@ -1045,7 +1104,7 @@ class CourrierController extends Controller
         $en_retard_etat =  EtatCourrier::where('nom', 'en_retard')->first();
         $actu_date = Carbon::now()->format('Y-m-d');
 
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['etat_id', '=', $en_retard_etat->id]])->orderBy('created_at', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'priorite')->withCount('piece')->where([['etat_id', '=', $en_retard_etat->id]])->orderBy('created_at', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
@@ -1077,6 +1136,13 @@ class CourrierController extends Controller
                     }
                 })
 
+                ->addColumn('priorite', function (Courrier $courrier) {
+                    if ($courrier->priorite != null) {
+                        return $courrier->priorite->priorite_icon;
+                    }
+                })
+
+
                 ->addColumn('ref', function ($courriers) {
                     return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
                 })
@@ -1084,7 +1150,7 @@ class CourrierController extends Controller
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersEntrantEnRetard_' . $courriers->id . '" name="checkbox_en_retard" class="demande-en-retard-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersEntrantEnRetard_' . $courriers->id . '" class="block" ></label>';
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref']);
+                ->rawColumns(['pj', 'checkbox', 'ref', 'priorite']);
         }
 
 
@@ -1138,6 +1204,17 @@ class CourrierController extends Controller
 
                 $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
                     $query->where('id', '=', $mode_reception);
+                });
+            }
+        }
+
+        //priorite
+        if ($priorite = $request->get('priorite')) {
+            if ($priorite == "all") {
+            } else {
+
+                $courriers->whereHas('priorite', function ($query) use ($priorite) {
+                    $query->where('id', '=', $priorite);
                 });
             }
         }
@@ -1161,7 +1238,7 @@ class CourrierController extends Controller
         $actu_date = Carbon::now()->format('Y-m-d');
         $cloture_etat =  EtatCourrier::where('nom', 'cloturer')->first();
 
-        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services')->withCount('piece')->where([['type', '=', 'entrant'], ['etat_id', '=', $cloture_etat->id]])->orderBy('created_at', 'desc');
+        $courriers = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'priorite')->withCount('piece')->where([['type', '=', 'entrant'], ['etat_id', '=', $cloture_etat->id]])->orderBy('created_at', 'desc');
 
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
@@ -1193,6 +1270,12 @@ class CourrierController extends Controller
                     }
                 })
 
+                ->addColumn('priorite', function (Courrier $courrier) {
+                    if ($courrier->priorite != null) {
+                        return $courrier->priorite->priorite_icon;
+                    }
+                })
+
                 ->addColumn('ref', function ($courriers) {
                     return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
                 })
@@ -1209,7 +1292,7 @@ class CourrierController extends Controller
                         return '';
                     }
                 })
-                ->rawColumns(['pj', 'checkbox', 'ref', 'courrier_sortant']);
+                ->rawColumns(['pj', 'checkbox', 'ref', 'courrier_sortant', 'priorite']);
         }
 
 
@@ -1263,6 +1346,18 @@ class CourrierController extends Controller
 
                 $courriers->whereHas('modeReception', function ($query) use ($mode_reception) {
                     $query->where('id', '=', $mode_reception);
+                });
+            }
+        }
+
+
+        //priorite
+        if ($priorite = $request->get('priorite')) {
+            if ($priorite == "all") {
+            } else {
+
+                $courriers->whereHas('priorite', function ($query) use ($priorite) {
+                    $query->where('id', '=', $priorite);
                 });
             }
         }

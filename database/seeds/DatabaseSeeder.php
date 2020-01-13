@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             // PersonnePhysiqueSeeder::class,
             // UsersRolesTableSeeder::class,
             // UsersTableSeeder::class,
-            TypeOperationSeeder::class,
+            //TypeOperationSeeder::class,
+            PrioriteTableSeeder::class,
 
 
 

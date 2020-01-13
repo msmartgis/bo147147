@@ -23,14 +23,15 @@
 
 <link rel="stylesheet" href="//cdn.materialdesignicons.com/3.2.89/css/materialdesignicons.min.css">
 
-<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
+<link rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" />
 
 <link href="https://fonts.googleapis.com/css?family=Markazi+Text&display=swap" rel="stylesheet">
 
-<!-- daterange picker -->	
+<!-- daterange picker -->
 <link rel="stylesheet" href="{{asset('vendor_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 
 
-
+<link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}" />
 
 @yield('added_css')

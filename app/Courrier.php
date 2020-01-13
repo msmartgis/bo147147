@@ -66,6 +66,12 @@ class Courrier extends Model
     }
 
 
+    public function priorite()
+    {
+        return $this->belongsTo('App\Priorite', 'priorite_id');
+    }
+
+
     public function accuse()
     {
         return $this->hasMany('App\Accuse');

@@ -64,6 +64,7 @@ $(document).ready(function () {
                 d.expediteur = $("select[name=expediteur_en_retard]").val();
                 d.services = $("select[name=services_concernes_en_retard]").val();
                 d.mode_reception = $("select[name=mode_reception_en_retard]").val();
+                d.priorite = $("select[name=priorite_en_retard]").val();
                 d.date_reception = $("select[name=date_reception_en_retard_daterange]").val();
             }
         },
@@ -85,6 +86,11 @@ $(document).ready(function () {
                 name: "checkbox",
                 searchable: true,
                 width: "10%"
+            },
+            {
+                data: "priorite",
+                name: "priorite",
+                searchable: false
             },
 
             {
@@ -163,9 +169,56 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_en_retard_select_filter,#expediteur_en_retard_select_filter,#services_concernes_en_retard_select_filter,#mode_reception_en_retard_select_filter,#date_reception_en_retard_input').on('change paste keyup', function (e) {
+    $('#nature_expediteur_en_retard_select_filter,#expediteur_en_retard_select_filter,#services_concernes_en_retard_select_filter,#mode_reception_en_retard_select_filter,#priorite_en_retard_select_filter,#date_reception_en_retard_input').on('change paste keyup', function (e) {
         courriersEntrantsEnRetardTable.draw();
         e.preventDefault();
+    });
+
+
+    courriersEntrantsEnRetardTable.on('draw', function () {
+        for (i = 0; i < checkedelementsCourrierEntrantEnRetard.length; i++) {
+            $("#courriersEntrantEnRetard_" + checkedelementsCourrierEntrantEnRetard[i]).prop('checked', true);
+        }
+
+        $('#courriers_entrant_en_retard_datatables :input[type="checkbox"]').change(function () {
+
+            boxes = $(":checkbox:checked");
+
+            if (this.checked) {
+                checkedelementsCourrierEntrantEnRetard.push($(this).val());
+            } else {
+                checkedelementsCourrierEntrantEnRetard.splice(checkedelementsCourrierEntrantEnRetard.indexOf($(this).val()), 1);
+            }
+
+
+            //get the right button activated
+            number_checked = checkedelementsCourrierEntrantEnRetard.length;
+
+
+            if (number_checked === 0) {
+                $('.multiple-choice-en-retard').attr('disabled', true);
+            }
+
+            if (number_checked === 0 || number_checked > 1) {
+                $('.unique-choice-en-retard').attr('disabled', true);
+            } else {
+                $('.unique-choice-en-retard').removeAttr("disabled");
+            }
+
+            if (number_checked > 0) {
+                $('.multiple-choice-en-retard').removeAttr("disabled");
+            }
+
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+
+    });
+
+
+
+    //cloturer
+    $("#cloturer_courrier_entrant_en_retard_btn").click(function () {
+        changeStateCourrier(checkedelementsCourrierEntrantEnRetard, 'cloturer');
     });
 
 
