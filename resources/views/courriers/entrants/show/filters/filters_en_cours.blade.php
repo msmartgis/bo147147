@@ -85,11 +85,10 @@
                         <i class="fa fa-calendar"></i>
                     </div>
                     <input type="text" class="form-control pull-left" name="date_reception_en_cours_daterange"
-                        id="date_reception_en_cours_input" style="font-size: 0.94rem;" value="01/01/2000 - 01/01/2020">
-
+                        id="date_reception_en_cours_input" style="font-size: 0.94rem;"
+                        value="01/01/.{{now()->year}}- 30/12/{{now()->year}}">
                 </div>
-            </div>
-            <!-- /.form-group -->
+            </div> <!-- /.form-group -->
         </div>
 
 

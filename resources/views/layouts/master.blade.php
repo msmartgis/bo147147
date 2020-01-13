@@ -148,7 +148,7 @@
                                     <li class="user-header" style=" height: 25px">
                                         <div class="row">
                                             <h5 style="font-size: 15px;width: 100%; text-align: center !important;">
-                                                {{ ucfirst(Auth::user()->nom)   }} {{ ucfirst(Auth::user()->prenom )  }}
+                                                {{ ucfirst(Auth::user()->full_name)   }}
                                             </h5>
                                         </div>
 

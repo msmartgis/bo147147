@@ -85,7 +85,8 @@
                         <i class="fa fa-calendar"></i>
                     </div>
                     <input type="text" class="form-control pull-left " name="date_reception_brouillon_daterange"
-                        id="date_reception_brouillon_input" style="font-size: 0.94rem;">
+                        value="01/01/{{ now()->year }} - 30/12/{{ now()->year }}" id="date_reception_brouillon_input"
+                        style="font-size: 0.94rem;">
 
                 </div>
             </div>
@@ -109,11 +110,6 @@
             </div>
             <!-- /.form-group -->
         </div>
-
-
-
-
-
 
     </div>
 

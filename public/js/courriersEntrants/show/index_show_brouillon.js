@@ -65,7 +65,7 @@ $(document).ready(function () {
                 d.services = $("select[name=services_concernes_brouillon]").val();
                 d.mode_reception = $("select[name=mode_reception_brouillon]").val();
                 d.priorite = $("select[name=priorite_brouillon]").val();
-                d.date_reception = $("select[name=date_reception_brouillon_daterange]").val();
+                d.date_reception = $("input[name=date_reception_brouillon_daterange]").val();
             }
         },
         columnDefs: [{

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\Uuids;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,31 @@ class Courrier extends Model
         'delai',
         'avis'
     ];
+
+
+
+    public function setDateReceptionAttribute($value)
+    {
+        $this->attributes['date_reception'] = Carbon::createFromFormat(config('app.date_format'), $value)->format('Y-m-d');
+    }
+
+
+    public function getDateReceptionAttribute($value)
+    {
+        return Carbon::parse($value)->format(config('app.date_format'));
+    }
+
+
+    public function setDelaiAttribute($value)
+    {
+        $this->attributes['delai'] = Carbon::createFromFormat(config('app.date_format'), $value)->format('Y-m-d');
+    }
+
+
+    public function getDelaiAttribute($value)
+    {
+        return Carbon::parse($value)->format(config('app.date_format'));
+    }
 
 
     public function modeReception()

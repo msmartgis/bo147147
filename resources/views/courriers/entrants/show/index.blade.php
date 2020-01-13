@@ -62,7 +62,11 @@
 @push('added_scripts')
 
 <script>
-    $('#date_reception_brouillon_input').daterangepicker();
+    $('#date_reception_brouillon_input').daterangepicker({
+        locale: {
+        format: '{{ config('app.date_format_javascript') }}'
+        }
+    });
 </script>
 
 

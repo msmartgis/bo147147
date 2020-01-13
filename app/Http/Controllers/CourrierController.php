@@ -56,7 +56,7 @@ class CourrierController extends Controller
      */
     public function create()
     {
-        $actu_date = Carbon::now()->format('Y-m-d');
+        $actu_date = Carbon::now()->format('d/m/Y');
 
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $priorites = Priorite::orderBy('nom')->pluck('nom', 'id');
@@ -83,7 +83,6 @@ class CourrierController extends Controller
      */
     public function store(Request $request)
     {
-
         $courrier = new Courrier();
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
         $courrier->ref = $request->ref;
@@ -119,9 +118,7 @@ class CourrierController extends Controller
         }
 
         if ($request->type_expediteur == "personne_morale") {
-
             if ($request->raison_social == null) {
-
                 $courrier->personne_morale_id = $request->personne_morale_id_from_db;
             } else {
                 $personne_morale = new PersonneMorale();
@@ -625,15 +622,7 @@ class CourrierController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-    }
+
 
     public function deleteCourrier(Request $request)
     {
@@ -939,7 +928,6 @@ class CourrierController extends Controller
         if ($priorite = $request->get('priorite')) {
             if ($priorite == "all") {
             } else {
-
                 $courriers->whereHas('priorite', function ($query) use ($priorite) {
                     $query->where('id', '=', $priorite);
                 });
@@ -947,13 +935,20 @@ class CourrierController extends Controller
         }
 
 
-        //avis
-        if ($avis = $request->get('avis')) {
-            if ($avis == "all") {
-            } else {
-                $courriers->where('avis', '=', $avis);
-            }
+        //filter with daterange
+        if ($daterange = $request->get('date_reception')) {
+            // $daterange_splite = explode('-', $daterange);
+            // $date_start = trim($daterange_splite[0]);
+            // //$date_start_formatted = date("Y-m-d", strtotime($date_start));
+            // // $date_end = str_replace(' ', '', $daterange_splite[1]);
+            // // //$date_end_formatted = Carbon::createFromFormat('d/m/Y', $date_end)->format('Y-m-d');
+            // // $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+            // $courriers->where([
+            //     [Carbon::createFromFormat('Y-m-d', 'date_reception')->format('d/m/Y'), '>=', $date_start]
+            // ]);
         }
+
 
         return $datatables->make(true);
     }
