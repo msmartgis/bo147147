@@ -1,9 +1,12 @@
+{{-- language css --}}
+<link rel="stylesheet" href="{{asset('css/language/ar.css')}}">
 <!-- Bootstrap 4.0-->
 <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 
 
 <!-- theme style -->
 <link rel="stylesheet" href="{{asset('css/master_style.css')}}">
+
 
 <!-- Fab Admin skins -->
 <link rel="stylesheet" href="{{asset('css/skins/_all-skins.css')}}">

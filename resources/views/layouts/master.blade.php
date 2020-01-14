@@ -90,7 +90,7 @@
     </style>
 </head>
 
-<body class="hold-transition skin-blue layout-top-nav has-drawer">
+<body class="hold-transition skin-blue layout-top-nav has-drawer {{__('global.page_direction ')}}">
     <div class="se-pre-con"
         style=" width: 100%;height: 100%;z-index: 99998;position: fixed; left: 0px; top: 0px;background:#efefef ">
         <div style="text-align: center; position: fixed; left: calc(50% - 70px); top: calc(50% - 140px);">
