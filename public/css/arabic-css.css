@@ -1,0 +1,40 @@
+.m-body {
+    direction: rtl !important;
+}
+
+.m-inside-header {}
+
+.m-font {
+    font-family: 'Almarai', 'Amiri';
+}
+
+.m-date-style {
+    direction: ltr;
+}
+
+.m-float-right {
+    text-align: right;
+}
+
+td {
+    text-align: center !important;
+}
+
+.steps {
+    direction: ltr !important;
+}
+
+.m-border-style-ar {
+    border-left-width: 1px;
+    border-left-style: solid;
+    border-left-color: #d4d4d4;
+    padding: 6px;
+}
+
+label {
+    float: right;
+}
+
+/* .select2-selection__rendered {
+    float: right !important;
+} */

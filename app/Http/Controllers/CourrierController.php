@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use DataTables;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\Input;
@@ -38,7 +39,8 @@ class CourrierController extends Controller
         $personne_physiques = PersonnePhysique::orderBy('nom')->where([['nom', '!=', 'null']])->get();
         $personne_morales = PersonneMorale::orderBy('raison_social')->where([['raison_social', '!=', 'null']])->get();
         $services = Service::orderBy('nom')->get();
-        $modes_recpetions = ModeReception::orderBy('nom')->get();
+
+        $modes_recpetions = ModeReception::where('lang', App::getLocale())->orderBy('nom')->get();
         $priorites = Priorite::orderBy('nom')->get();
         return view('courriers.entrants.show.index')->with([
             'personne_physiques' => $personne_physiques,
@@ -59,7 +61,7 @@ class CourrierController extends Controller
         $actu_date = Carbon::now()->format('d/m/Y');
 
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
-        $priorites = Priorite::orderBy('nom')->pluck('nom', 'id');
+        $priorites = Priorite::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $personne_physiques = PersonnePhysique::orderBy('nom')->get();
         $personne_morales = PersonneMorale::orderBy('raison_social')->get();

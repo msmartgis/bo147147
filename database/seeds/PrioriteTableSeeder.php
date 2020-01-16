@@ -28,5 +28,27 @@ class PrioriteTableSeeder extends Seeder
         $tres_urgent->nom = "Très Urgent";
         $tres_urgent->description = "Le traitement de courrier est très urgent";
         $tres_urgent->save();
+
+
+        //ar 
+        $normale_ar = new Priorite();
+        $normale_ar->nom = "عادية";
+        $normale_ar->description = "Le courrier n a pas une priorite speciale";
+        $normale_ar->lang = "ar";
+        $normale_ar->save();
+
+
+        $urgent_ar = new Priorite();
+        $urgent_ar->nom = "عاجلة";
+        $urgent_ar->description = "Le traitement de courrier est urgent";
+        $urgent_ar->lang = "ar";
+        $urgent_ar->save();
+
+
+        $tres_urgent_ar = new Priorite();
+        $tres_urgent_ar->nom = "عاجلة جدا";
+        $tres_urgent_ar->description = "Le traitement de courrier est très urgent";
+        $tres_urgent_ar->lang = "ar";
+        $tres_urgent_ar->save();
     }
 }

@@ -12,6 +12,10 @@
 <link rel="stylesheet" href="{{asset('css/skins/_all-skins.css')}}">
 
 <link rel="stylesheet" href="{{asset('css/someCss.css')}}">
+
+@if ( Config::get('app.locale') == 'ar')
+<link rel="stylesheet" href="{{asset('css/arabic-css.css')}}">
+@endif
 <!-- Select2 -->
 <link rel="stylesheet" href="{{asset('vendor_components/select2/dist/css/select2.min.css')}}" />
 <link rel="stylesheet" href="{{asset('css/font-awesome.css')}}" />

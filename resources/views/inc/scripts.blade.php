@@ -6,6 +6,9 @@
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 		}
 	});
+
+
+
 </script>
 
 <script src="{{asset('vendor_components/jquery-3.3.1/jquery-3.3.1.js')}}"></script>

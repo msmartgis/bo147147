@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="_token" content="{{csrf_token()}}" />
+    <meta name="local" content="{{Config::get('app.locale')}}" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -12,6 +13,8 @@
     <title>{{config('app.name')}}</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     @include('inc.css_links')
+
+    @if ( Config::get('app.locale') == 'en')
     <style>
         @font-face {
             font-family: Lato;
@@ -29,7 +32,6 @@
             font-family: Lato2;
             src: url('{{ asset('fonts/Lato/lato-v11-latin-ext_latin-regular.ttf') }}');
         }
-
 
         body,
         h1,
@@ -64,7 +66,70 @@
 
             font-size: 12px;
         }
+    </style>
+    @else
 
+    <style>
+        @font-face {
+            font-family: Almarai;
+            src: url('{{ asset('fonts/Almarai/Almarai-Bold.ttf') }}');
+        }
+
+
+        @font-face {
+            font-family: Cairo;
+            src: url('{{ asset('fonts/Cairo/Cairo-Regular.ttf') }}');
+        }
+
+        @font-face {
+            font-family: Cairo-Bold;
+            src: url('{{ asset('fonts/Cairo/Cairo-Bold.ttf') }}');
+        }
+
+
+        @font-face {
+            font-family: Lato2;
+            src: url('{{ asset('fonts/Lato/lato-v11-latin-ext_latin-regular.ttf') }}');
+        }
+
+
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: 'Cairo', 'serif';
+
+        }
+
+        label {
+            font-family: 'Cairo', 'serif';
+
+        }
+
+        .nav-tabs {
+            font-family: 'Almarai', 'serif' !important;
+
+        }
+
+
+        .table th,
+        .table thead th {
+            font-family: 'Cairo-Bold' !important;
+            font-size: 13px;
+        }
+
+        .btn {
+            font-family: 'Cairo', 'Almarai';
+
+            font-size: 12px;
+        }
+    </style>
+
+    @endif
+    <style>
         .no-js #loader {
             display: none;
         }
@@ -90,7 +155,7 @@
     </style>
 </head>
 
-<body class="hold-transition skin-blue layout-top-nav has-drawer {{__('global.page_direction ')}}">
+<body class="hold-transition skin-blue layout-top-nav has-drawer ">
     <div class="se-pre-con"
         style=" width: 100%;height: 100%;z-index: 99998;position: fixed; left: 0px; top: 0px;background:#efefef ">
         <div style="text-align: center; position: fixed; left: calc(50% - 70px); top: calc(50% - 140px);">
@@ -101,9 +166,8 @@
     </div>
 
     <div class="wrapper">
-
         <header class="main-header">
-            <div class="inside-header">
+            <div class="inside-header {{__('costum_css.inside-header')}}">
                 <!-- Logo -->
                 <a href="{{ route('home') }}" class="logo">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -160,7 +224,7 @@
                                             <div role="separator" class="divider col-12"></div>
                                             <div class="col-12 text-left">
                                                 <a class="dropdown-item" href="/profile">
-                                                    <i class="fa fa-user"></i> Mon profil
+                                                    <i class="fa fa-user"></i> {{ __('Mon profil')}}
                                                 </a>
 
                                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
@@ -186,7 +250,7 @@
 
 
         <!-- Main Navbar -->
-        <div class="main-nav">
+        <div class="main-nav {{__('costum_css.body')}}">
             <nav class="navbar navbar-expand-lg">
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     @include('inc.navbar')
@@ -195,7 +259,7 @@
         </div>
 
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper {{__('costum_css.body')}}">
 
             <!-- Main content -->
             <section class="content m-content" style="overflow-y: hidden;">
@@ -209,6 +273,8 @@
 
         <!-- Add the sidebar's background. This div must be placed immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>
+
+
 
     </div>
     <!-- ./wrapper -->

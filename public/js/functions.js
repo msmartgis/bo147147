@@ -1,4 +1,14 @@
 var delete_btn;
+var full_language = "";
+var lang = $('meta[name="local"]').attr("content");
+
+if (lang == "ar") {
+    full_language = "Arabic";
+}
+
+if (lang == "en") {
+    full_language = "Frensh";
+}
 
 $('.delete-row').on('click', function () {
     delete_btn = $(this);

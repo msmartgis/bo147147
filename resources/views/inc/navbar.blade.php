@@ -1,4 +1,4 @@
-<ul class="navbar-nav">
+<ul class="navbar-nav {{ __('costum_css.m-font')}}">
     <li class="nav-item {{ Route::is('home') ? 'active' : '' }}">
         <a class="nav-link" href="{{route('home')}}"><span class="active-item-here"></span>
             <img src="{{asset('images/svg/home.svg')}}" style="width: 1.2em;margin-right: 5px;" />

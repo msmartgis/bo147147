@@ -1,15 +1,15 @@
 <div class="filters" style="margin-bottom: 4px;margin-top: 6px">
     <div class="row">
         <div class="col-lg-2">
-            <label>Nature de l'éxpiditeur :</label>
+            <label>{{__('Nature éxpiditeur')}} :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
                 <select class="form-control select2" style="width: 100%;" name="nature_expediteur_tous"
                     id="nature_expediteur_tous_select_filter">
-                    <option value="all" selected>Indifferent</option>
-                    <option value="personne_morale">Personne morale</option>
-                    <option value="personne_physique">Personne physique</option>
+                    <option value="all" selected>{{__('Indifferent')}}</option>
+                    <option value="personne_morale">{{__('Personne morale')}}</option>
+                    <option value="personne_physique">{{__('Personne physique')}}</option>
 
                 </select>
             </div>
@@ -18,13 +18,13 @@
 
 
         <div class="col-lg-2">
-            <label>Expediteur :</label>
+            <label>{{__('Expediteur')}} :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
                 <select class="form-control select2" style="width: 100%;" name="expediteur_tous"
                     id="expediteur_tous_select_filter">
-                    <option value="all" selected>Indifferent</option>
+                    <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($personne_physiques as $p_physique)
                     <option value="personnePhysique_{{$p_physique->id}}">{{$p_physique->full_name}}</option>
                     @endforeach
@@ -39,13 +39,13 @@
 
 
         <div class="col-lg-2">
-            <label>Services concernés :</label>
+            <label>{{__('Services concernés')}} :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
                 <select class="form-control select2" style="width: 100%;" name="services_concernes_tous"
                     id="services_concernes_tous_select_filter">
-                    <option value="all" selected>Indifferent</option>
+                    <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($services as $service)
                     <option value="{{$service->id}}">{{$service->nom}}</option>
                     @endforeach
@@ -60,13 +60,13 @@
     <!--Row-->
     <div class="row" style="margin-top: 6px">
         <div class="col-lg-2">
-            <label>Mode reception :</label>
+            <label>{{__('Mode reception')}} :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
                 <select class="form-control select2" style="width: 100%;" name="mode_reception_tous"
                     id="mode_reception_tous_select_filter">
-                    <option value="all" selected>Indifferent</option>
+                    <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($modes_recpetions as $mode_recpetion)
                     <option value="{{$mode_recpetion->id}}">{{$mode_recpetion->nom}}</option>
                     @endforeach
@@ -76,10 +76,10 @@
         </div>
 
         <div class="col-lg-2">
-            <label>Date de la réception :</label>
+            <label>{{__('Date de la réception')}} :</label>
         </div>
         <div class="col-lg-2">
-            <div class="form-group">
+            <div class="form-group {{__('costum_css.date-style-m')}}">
                 <div class="input-group">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
@@ -94,13 +94,13 @@
 
 
         <div class="col-lg-2">
-            <label>Priorité :</label>
+            <label>{{__('Priorité')}} :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
                 <select class="form-control select2" style="width: 100%;" name="priorite_tous"
                     id="priorite_tous_select_filter">
-                    <option value="all" selected>Indifferent</option>
+                    <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($priorites as $priorite)
                     <option value="{{$priorite->id}}">{{$priorite->nom}}</option>
                     @endforeach

@@ -8,13 +8,13 @@
                 style="width:100% ;">
                 <thead>
                     <th></th>
-                    <th>Priorité</th>
-                    <th>Réf</th>
-                    <th>Date Réception</th>
-                    <th>Expediteur</th>
-                    <th>Objet</th>
-                    <th>Delai</th>
-                    <th>P.J</th>
+                    <th>{{__('Priorité')}}</th>
+                    <th>{{__('Réf')}}</th>
+                    <th>{{__('Date Réception')}}</th>
+                    <th>{{__('Expediteur')}}</th>
+                    <th>{{__('Objet')}}</th>
+                    <th>{{__('Delai')}}</th>
+                    <th>{{__('P.J')}}</th>
                 </thead>
             </table>
         </div>

@@ -7,23 +7,22 @@
 'enctype' => 'multipart/form-data'
 ]) !!}
 <!-- Step 1 -->
-<h6>Information Général</h6>
+<h6>{{__('Information Général')}}</h6>
 <section>
     <div class="row">
         {{-- the left side of step 1 --}}
-        <div class="col-lg-6 col-md-6 col-sm-12"
-            style="border-right-width: 1px;;border-right-style: solid;border-right-color: #d4d4d4;">
+        <div class="col-lg-6 col-md-6 col-sm-12 {{__('costum_css.border-style-m')}}">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                        {{Form::label('','Réf courrier :')}}
+                        {{Form::label('',trans('Réf courrier').' :')}}
                         {{Form::text('ref','',['class'=>'form-control','required'=>'required'])}}
                     </div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
-                        {{Form::label('','Mode de la reception :')}}
+                        {{Form::label('',trans('Mode reception').' :')}}
                         {{Form::select('modes_receptions', $modes_recpetion, null,
                                 [
                                 'data-placeholder' => 'Selectionner mode de reception',
@@ -39,8 +38,8 @@
 
             <div class="row" style="margin-top: 10px">
                 <div class="col-lg-6">
-                    <div class="form-group">
-                        {{Form::label('','Date de récéption:')}}
+                    <div class="form-group {{__('costum_css.date-style-m')}}">
+                        {{Form::label('',trans('Date de la réception').' :')}}
                         <div class="input-group date">
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
@@ -54,7 +53,7 @@
 
                 <div class="col-lg-6">
                     <div class="form-group">
-                        {{Form::label('','Priorité :')}}
+                        {{Form::label('',trans('Priorité'). ' :')}}
                         {{Form::select('priorites', $priorites, null,
                                 [
                                 'data-placeholder' => 'Selectionner mode de reception',
@@ -70,9 +69,9 @@
             <div class="row" style="margin-top: 10px">
                 <div class="col-12">
                     <div class="form-group">
-                        <h6>Objet</h6>
+                        <h6 class="{{__('costum_css.float-right-m')}}">{{__('Objet')}}</h6>
                         <div class="controls">
-                            {{Form::textarea('objet','',['class'=>'form-control m-required-input','placeholder'=>'saisir l\'objet en francais','rows'=>'2','id'=>'objet_fr_input_id','required'=>'required'])}}
+                            {{Form::textarea('objet','',['class'=>'form-control m-required-input','placeholder'=>trans('objet...'),'rows'=>'2','id'=>'objet_fr_input_id','required'=>'required'])}}
                         </div>
                     </div>
                 </div>
@@ -82,14 +81,14 @@
 
         {{-- the right side of step 1 --}}
         <div class="col-lg-6 col-md-6 col-sm-12" style="padding-left : 15px">
-            <h5>Expediteur</h5>
+            <h5 class="{{__('costum_css.float-right-m')}}">{{__('Expediteur')}}</h5>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="form-group">
                         {{Form::select('type_expediteur',
                                 [
-                                    'personne_physique' => 'Personne physique',
-                                    'personne_morale' =>'Personne morale'                                   
+                                    'personne_physique' => trans('Personne physique'),
+                                    'personne_morale' =>trans('Personne morale')                                   
                                     
                                 ],
                                 'personne_physique',
@@ -108,7 +107,7 @@
             <div id="personne_physique" class="expediteur personne_physique">
                 <div class="row" style="margin-top : 8px">
                     <div class="form-group">
-                        {{Form::label('','Recherche dans la base des données')}}
+                        {{Form::label('',trans('Recherche dans la base des données'))}}
                         <select name="personne_physique_id_from_db" class="form-control select2"
                             id="personne_physique_select_id">
                             @foreach ($personne_physiques as $pers_phys)
@@ -120,7 +119,7 @@
 
                 <div class="row">
                     <a href="#" id="ajouter_personne_physique_btn"> <i class="fa fa-plus"></i>
-                        <b> Ajouter un nouveau expediteur</b>
+                        <b> {{__('Ajouter un nouveau expediteur')}}</b>
                     </a>
                 </div>
 
@@ -351,7 +350,7 @@
     </div>
 </section>
 <!-- Step 2 -->
-<h6>Acheminement et traitement</h6>
+<h6>{{__('Acheminement et traitement')}}</h6>
 <section>
 
     <div class="row">

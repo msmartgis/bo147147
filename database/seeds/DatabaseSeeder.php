@@ -23,10 +23,8 @@ class DatabaseSeeder extends Seeder
             // UsersRolesTableSeeder::class,
             // UsersTableSeeder::class,
             //TypeOperationSeeder::class,
-            PrioriteTableSeeder::class,
-
-
-
+            //PrioriteTableSeeder::class,
+            //ArModesReceptionsTableSeeder::class,
 
         ]);
     }
