@@ -16,6 +16,10 @@
     text-align: right;
 }
 
+.m-float-right-btn {
+    float: right !important;
+}
+
 td {
     text-align: center !important;
 }

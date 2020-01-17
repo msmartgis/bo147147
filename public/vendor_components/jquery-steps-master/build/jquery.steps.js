@@ -2159,7 +2159,7 @@
              * @default "Next"
              * @for defaults
              **/
-            next: "Suivant",
+            next: suivant,
 
             /**
              * Label for the previous button.
@@ -2169,7 +2169,7 @@
              * @default "Previous"
              * @for defaults
              **/
-            previous: "Précédent",
+            previous: precedent,
 
             /**
              * Label for the loading animation.

@@ -8,5 +8,6 @@ return [
     'm-font' => "m-font",
     'date-style-m' => "m-date-style",
     'float-right-m' => "m-float-right",
+    'float-right-btn-m' => "m-float-right-btn",
     'border-style-m' => "m-border-style-ar",
 ];

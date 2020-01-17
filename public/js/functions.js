@@ -1,13 +1,22 @@
 var delete_btn;
 var full_language = "";
+var suivant = "";
+var precedent = "";
+var enregistrer = "";
 var lang = $('meta[name="local"]').attr("content");
 
 if (lang == "ar") {
     full_language = "Arabic";
+    suivant = "التالي";
+    precedent = "السابق";
+    enregistrer = "حفظ";
 }
 
 if (lang == "en") {
     full_language = "Frensh";
+    suivant = "Suivant";
+    precedent = "Précédent";
+    enregistrer = "Enregistrer";
 }
 
 $('.delete-row').on('click', function () {

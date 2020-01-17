@@ -4,7 +4,7 @@ $(".tab-wizard").steps({
     transitionEffect: "none",
     titleTemplate: '<span class="step">#index#</span> #title#',
     labels: {
-        finish: "Enregistrer"
+        finish: enregistrer
     },
     onFinished: function (event, currentIndex) {
 

@@ -88,8 +88,7 @@
                         {{Form::select('type_expediteur',
                                 [
                                     'personne_physique' => trans('Personne physique'),
-                                    'personne_morale' =>trans('Personne morale')                                   
-                                    
+                                    'personne_morale' =>trans('Personne morale')
                                 ],
                                 'personne_physique',
                                 [
@@ -128,14 +127,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Nom :')}}
+                                {{Form::label('',trans('Nom') .' :')}}
                                 {{Form::text('nom_personne_physique','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Pernom :')}}
+                                {{Form::label('',trans('Prènom') .' :')}}
                                 {{Form::text('prenom_personne_physique','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -144,14 +143,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','C.I.N.E :')}}
+                                {{Form::label('',trans('C.I.N.E') .' :')}}
                                 {{Form::text('cine_personne_physique','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Adresse :')}}
+                                {{Form::label('',trans('Adresse') .' :')}}
                                 {{Form::text('adresse_personne_physique','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -160,14 +159,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Tel Fixe:')}}
+                                {{Form::label('',trans('Tel Fixe') .' :')}}
                                 {{Form::text('tel_fixe_personne_physique','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Tél Mobile :')}}
+                                {{Form::label('',trans('Tel Mobile') .' :')}}
                                 {{Form::text('tel_mobile_personne_physique','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -177,7 +176,7 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Email :')}}
+                                {{Form::label('',trans('Email') .' :')}}
                                 {{Form::text('email_personne_physique','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -192,7 +191,7 @@
 
                 <div class="row" style="margin-top : 8px">
                     <div class="form-group">
-                        {{Form::label('','Recherche dans la base des données')}}
+                        {{Form::label('',trans('Recherche dans la base des données'))}}
                         <select name="personne_morale_id_from_db" class="form-control select2"
                             id="personne_morale_select_id">
 
@@ -206,7 +205,7 @@
 
                 <div class="row">
                     <a href="#" id="ajouter_personne_morale_btn"> <i class="fa fa-plus"></i>
-                        <b> Ajouter un nouveau expediteur</b>
+                        <b> {{__('Ajouter un nouveau expediteur')}}</b>
                     </a>
                 </div>
 
@@ -214,14 +213,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Raison social :')}}
+                                {{Form::label('',trans('Raison social') .' :')}}
                                 {{Form::text('raison_social','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Adresse :')}}
+                                {{Form::label('',trans('Adresse') .' :')}}
                                 {{Form::text('adresse','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -230,14 +229,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','R.C :')}}
+                                {{Form::label('',trans('RC') .' :')}}
                                 {{Form::text('rc','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Tél Fix :')}}
+                                {{Form::label('',trans('Tel Fixe') .' :')}}
                                 {{Form::text('tel_fix_personne_morale','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -246,14 +245,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Fax :')}}
+                                {{Form::label('',trans('Fax') .' :')}}
                                 {{Form::text('fax_personne_morale','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Tél Mobile :')}}
+                                {{Form::label('',trans('Tel Mobile') .' :')}}
                                 {{Form::text('tel_mobile_personne_morale','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -263,31 +262,31 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Email :')}}
+                                {{Form::label('',trans('Email') .' :')}}
                                 {{Form::text('email_personne_morale','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Representant :')}}
+                                {{Form::label('',trans('Représentant') .' :')}}
                                 {{Form::text('representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
                     </div>
 
-                    <h6 style="margin-top : 10px"><b>Representant</b></h6>
+                    <h6 style="margin-top : 10px"><b>{{__('Representant')}}</b></h6>
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Nom :')}}
+                                {{Form::label('',trans('Nom') .' :')}}
                                 {{Form::text('nom_representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Pernom :')}}
+                                {{Form::label('',trans('Prènom') .' :')}}
                                 {{Form::text('prenom_representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -296,14 +295,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','C.I.N.E :')}}
+                                {{Form::label('',trans('C.I.N.E') .' :')}}
                                 {{Form::text('cine_representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Type :')}}
+                                {{Form::label('',trans('Status') .' :')}}
                                 {{Form::text('role_representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -312,14 +311,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Tel Fixe:')}}
+                                {{Form::label('',trans('Tel Fixe') .' :')}}
                                 {{Form::text('tel_fix_representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Tél Mobile :')}}
+                                {{Form::label('',trans('Tel Mobile') .' :')}}
                                 {{Form::text('tel_mobile_representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -329,14 +328,14 @@
                     <div class="row" style="margin-top : 10px">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Email :')}}
+                                {{Form::label('',trans('Email') .' :')}}
                                 {{Form::text('email_representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="form-group">
-                                {{Form::label('','Adresse :')}}
+                                {{Form::label('',trans('Adresse') .' :')}}
                                 {{Form::text('adresse_representant','',['class'=>'form-control'])}}
                             </div>
                         </div>
@@ -356,8 +355,8 @@
     <div class="row">
         <div class="col-lg-3">
             <div class="form-group">
-                {{Form::label('','Delai:')}}
-                <div class="input-group date">
+                {{Form::label('',trans('Delai') .' :')}}
+                <div class="input-group date {{__('costum_css.date-style-m')}}">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
@@ -369,7 +368,9 @@
     </div>
     <br>
 
-    <h5>ASSIGNER A UN SERVICE/UNE DVISION</h5>
+    <h5 class="{{__('costum_css.float-right-m')}}">
+        {{__('ASSIGNER A UN SERVICE/UNE DIVISION')}}
+    </h5>
     <hr>
     <div class="row" style="margin: 0 !important;">
         <div class="table-responsive" style="margin-top: 12px">
@@ -377,10 +378,10 @@
                 <thead class="create-table">
                     <tr style="text-align: center;">
                         <th></th>
-                        <th>Service</th>
-                        <th>Ref</th>
-                        <th>Responsable</th>
-                        <th>Message</th>
+                        <th>{{__('Service')}}</th>
+                        <th>{{__('Réf')}}</th>
+                        <th>{{__('Responsable')}}</th>
+                        <th>{{__('Message')}}</th>
                     </tr>
                 </thead>
                 <tbody id="service_assigne_tbody">
@@ -390,17 +391,17 @@
 
             <div style="text-align: center">
                 <a href="#" data-toggle="modal" data-target="#assigne_service_modal"> <i class="fa fa-plus"></i>
-                    <b> Ajouter</b>
+                    <b>{{__('Ajouter')}} </b>
                 </a>
             </div>
             <button type="button" class="btn delete-row btn-danger-table" id="delete_service_row_btn"> <i
-                    class="fa fa-close"></i> Supprimer</button>
+                    class="fa fa-close"></i>{{__('Supprimer')}} </button>
         </div>
     </div>
     <br>
 
 
-    <h5>AJOUTER LES DOCUMENTS FOURNIS</h5>
+    <h5 class="{{__('costum_css.float-right-m')}}">{{__('AJOUTER LES DOCUMENTS FOURNIS')}}</h5>
     <hr>
     <div class="row" style="margin: 0 !important;">
         <div class="table-responsive" style="margin-top: 12px">
@@ -408,11 +409,11 @@
                 <thead class="create-table">
                     <tr style="text-align: center;">
                         <th></th>
-                        <th>Type de document</th>
-                        <th>Intitulé</th>
-                        <th>Mode de réception</th>
-                        <th>Date de réception</th>
-                        <th>Charger</th>
+                        <th>{{__('Type de document')}}</th>
+                        <th>{{__('Intitulé')}}</th>
+                        <th>{{__('Mode de réception')}}</th>
+                        <th>{{__('Date de réception')}}</th>
+                        <th>{{__('Charger')}}</th>
                     </tr>
                 </thead>
                 <tbody id="piece_courrier_tbody">
@@ -424,16 +425,16 @@
 
             <div style="text-align: center">
                 <a href="#" id="add_piece_btn"> <i class="fa fa-plus"></i>
-                    <b> Ajouter </b>
+                    <b> {{__('Ajouter')}} </b>
                 </a>
             </div>
             <button type="button" class="btn delete-row btn-danger-table" id="delete_documents_row_btn"> <i
-                    class="fa fa-close"></i> Supprimer</button>
+                    class="fa fa-close"></i> {{__('Supprimer')}}</button>
         </div>
     </div>
     <br>
 
-    <h5>ACCUSE DE RECEPTION</h5>
+    <h5 class="{{__('costum_css.float-right-m')}}">{{__('ACCUSE DE RECEPTION')}}</h5>
     <hr>
 
     <div class="row" style="margin: 0 !important;">
@@ -442,8 +443,8 @@
                 <thead class="create-table">
                     <tr style="text-align: center;">
                         <th></th>
-                        <th>Date</th>
-                        <th>Accusé</th>
+                        <th>{{__('Date')}}</th>
+                        <th>{{__('Accusé')}}</th>
                     </tr>
                 </thead>
 
@@ -456,11 +457,11 @@
 
             <div style="text-align: center">
                 <a href="#" id="add_accuse_reception_btn"> <i class="fa fa-plus"></i>
-                    <b> Ajouter </b>
+                    <b> {{__('Ajouter')}} </b>
                 </a>
             </div>
             <button type="button" class="btn delete-row btn-danger-table" id="delete_accuse_rception_row_btn"> <i
-                    class="fa fa-close"></i> Supprimer</button>
+                    class="fa fa-close"></i> {{__('Supprimer')}}</button>
         </div>
     </div>
 
