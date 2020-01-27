@@ -1,3 +1,7 @@
+.table-responsive {
+    overflow-x: unset;
+}
+
 .m-border-style {
     border-right-width: 1px;
 

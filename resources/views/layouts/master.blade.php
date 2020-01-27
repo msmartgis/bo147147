@@ -260,9 +260,8 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper {{__('costum_css.body')}}">
-
             <!-- Main content -->
-            <section class="content m-content" style="overflow-y: hidden;">
+            <section class="content m-content">
                 @include('inc.messages')
                 @yield('content')
 

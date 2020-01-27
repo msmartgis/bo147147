@@ -50,7 +50,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-lg-6">
                     <div class="form-group">
                         {{Form::label('',trans('Priorité'). ' :')}}
@@ -105,8 +104,11 @@
             {{-- personne physique --}}
             <div id="personne_physique" class="expediteur personne_physique">
                 <div class="row" style="margin-top : 8px">
-                    <div class="form-group">
-                        {{Form::label('',trans('Recherche dans la base des données'))}}
+                    <div class="row col-12">
+                        <h6>{{__('Recherche dans la base des données')}}</h6>
+                    </div>
+                    {{-- {{Form::label('',trans('Recherche dans la base des données'))}} --}}
+                    <div class="form-group col-6">
                         <select name="personne_physique_id_from_db" class="form-control select2"
                             id="personne_physique_select_id">
                             @foreach ($personne_physiques as $pers_phys)
@@ -117,7 +119,7 @@
                 </div>
 
                 <div class="row">
-                    <a href="#" id="ajouter_personne_physique_btn"> <i class="fa fa-plus"></i>
+                    <a href="#" id="ajouter_personne_physique_btn" style="padding: 10px;"> <i class="fa fa-plus"></i>
                         <b> {{__('Ajouter un nouveau expediteur')}}</b>
                     </a>
                 </div>
@@ -188,13 +190,14 @@
 
             {{-- personne morale --}}
             <div id="personne_morale" class="expediteur personne_morale" style="display:none">
-
                 <div class="row" style="margin-top : 8px">
-                    <div class="form-group">
-                        {{Form::label('',trans('Recherche dans la base des données'))}}
+                    <div class="row col-12">
+                        <h6>{{__('Recherche dans la base des données')}}</h6>
+                    </div>
+                    <div class="form-group col-6">
+                        {{-- {{Form::label('',trans('Recherche dans la base des données'))}} --}}
                         <select name="personne_morale_id_from_db" class="form-control select2"
                             id="personne_morale_select_id">
-
                             @foreach ($personne_morales as $pers_moral)
                             <option value="{{$pers_moral->id}}">{{$pers_moral->raison_social}} </option>
                             @endforeach
@@ -204,7 +207,7 @@
 
 
                 <div class="row">
-                    <a href="#" id="ajouter_personne_morale_btn"> <i class="fa fa-plus"></i>
+                    <a href="#" id="ajouter_personne_morale_btn" style="padding: 10px;"> <i class="fa fa-plus"></i>
                         <b> {{__('Ajouter un nouveau expediteur')}}</b>
                     </a>
                 </div>
