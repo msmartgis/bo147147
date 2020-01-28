@@ -2,7 +2,7 @@ var courriersEntrantsBrouillonTable;
 var checkedelementsCourrierEntrantBrouillon = [];
 var boxes;
 
-$(document).ready(function () {
+$(document).ready(function() {
     courriersEntrantsBrouillonTable = $(
         "#courriers_entrant_brouillon_datatables"
     ).DataTable({
@@ -17,7 +17,8 @@ $(document).ready(function () {
         order: [],
 
         dom: "lBfrtip",
-        buttons: [{
+        buttons: [
+            {
                 extend: "pdfHtml5",
                 exportOptions: {
                     modifer: {
@@ -26,8 +27,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -41,8 +43,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -52,23 +55,32 @@ $(document).ready(function () {
         language: {
             search: "",
             searchPlaceholder: "Recherche...",
-            url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/" + full_language + ".json ",
+            url: "/js/datatables_languages/" + full_language + ".json ",
             processing: '<img src="/images/loader/loader4.gif">'
         },
 
         ajax: {
             url: "courriers-entrants/brouillon",
             type: "GET",
-            data: function (d) {
-                d.nature_expediteur = $("select[name=nature_expediteur_brouillon]").val();
+            data: function(d) {
+                d.nature_expediteur = $(
+                    "select[name=nature_expediteur_brouillon]"
+                ).val();
                 d.expediteur = $("select[name=expediteur_brouillon]").val();
-                d.services = $("select[name=services_concernes_brouillon]").val();
-                d.mode_reception = $("select[name=mode_reception_brouillon]").val();
+                d.services = $(
+                    "select[name=services_concernes_brouillon]"
+                ).val();
+                d.mode_reception = $(
+                    "select[name=mode_reception_brouillon]"
+                ).val();
                 d.priorite = $("select[name=priorite_brouillon]").val();
-                d.date_reception = $("input[name=date_reception_brouillon_daterange]").val();
+                d.date_reception = $(
+                    "input[name=date_reception_brouillon_daterange]"
+                ).val();
             }
         },
-        columnDefs: [{
+        columnDefs: [
+            {
                 width: 20,
                 targets: 1
             },
@@ -81,7 +93,8 @@ $(document).ready(function () {
                 targets: 3
             }
         ],
-        columns: [{
+        columns: [
+            {
                 data: "checkbox",
                 name: "checkbox",
                 searchable: true,
@@ -98,6 +111,12 @@ $(document).ready(function () {
                 data: "ref",
                 name: "ref",
                 searchable: true
+            },
+
+            {
+                data: "categorie",
+                name: "categorie",
+                searchable: false
             },
             {
                 data: "date_reception",
@@ -127,24 +146,22 @@ $(document).ready(function () {
                 width: "10%"
             },
 
-
             {
                 data: "pj",
                 name: "pj",
                 searchable: true,
                 width: "10%"
             }
-
         ],
-        initComplete: function () {
+        initComplete: function() {
             this.api()
                 .columns()
-                .every(function () {
+                .every(function() {
                     var column = this;
                     var input = document.createElement("input");
                     $(input)
                         .appendTo($(column.footer()).empty())
-                        .on("change", function () {
+                        .on("change", function() {
                             column
                                 .search($(this).val(), false, false, true)
                                 .draw();
@@ -159,7 +176,6 @@ $(document).ready(function () {
         //         // get position of the selected row
         //         var position = courriersEntrantsTousTable.fnGetPosition(this);
 
-
         //         // value of the first column (can be hidden)
         //         var id = courriersEntrantsTousTable.fnGetData(position).id
 
@@ -170,52 +186,56 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_brouillon_select_filter,#expediteur_brouillon_select_filter,#services_concernes_brouillon_select_filter,#mode_reception_brouillon_select_filter,#priorite_brouillon_select_filter,#date_reception_brouillon_input').on('change paste keyup', function (e) {
+    $(
+        "#nature_expediteur_brouillon_select_filter,#expediteur_brouillon_select_filter,#services_concernes_brouillon_select_filter,#mode_reception_brouillon_select_filter,#priorite_brouillon_select_filter,#date_reception_brouillon_input"
+    ).on("change paste keyup", function(e) {
         courriersEntrantsBrouillonTable.draw();
         e.preventDefault();
     });
 
-
-    courriersEntrantsBrouillonTable.on('draw', function () {
+    courriersEntrantsBrouillonTable.on("draw", function() {
         for (i = 0; i < checkedelementsCourrierEntrantBrouillon.length; i++) {
-            $("#courriersEntrantBrouillon_" + checkedelementsCourrierEntrantBrouillon[i]).prop('checked', true);
+            $(
+                "#courriersEntrantBrouillon_" +
+                    checkedelementsCourrierEntrantBrouillon[i]
+            ).prop("checked", true);
         }
 
-        $('#courriers_entrant_brouillon_datatables :input[type="checkbox"]').change(function () {
-
+        $(
+            '#courriers_entrant_brouillon_datatables :input[type="checkbox"]'
+        ).change(function() {
             boxes = $(":checkbox:checked");
 
             if (this.checked) {
                 checkedelementsCourrierEntrantBrouillon.push($(this).val());
             } else {
-                checkedelementsCourrierEntrantBrouillon.splice(checkedelementsCourrierEntrantBrouillon.indexOf($(this).val()), 1);
+                checkedelementsCourrierEntrantBrouillon.splice(
+                    checkedelementsCourrierEntrantBrouillon.indexOf(
+                        $(this).val()
+                    ),
+                    1
+                );
             }
-
 
             //get the right button activated
             number_checked = checkedelementsCourrierEntrantBrouillon.length;
 
-
             if (number_checked === 0) {
-                $('.multiple-choice-brouillon').attr('disabled', true);
+                $(".multiple-choice-brouillon").attr("disabled", true);
             }
 
             if (number_checked > 0) {
-                $('.multiple-choice-brouillon').removeAttr("disabled");
+                $(".multiple-choice-brouillon").removeAttr("disabled");
             }
-
         });
         $('[data-toggle="tooltip"]').tooltip();
-
-
     });
-
-
 
     //a traiter
-    $("#valider_courrier_entrant_btn").click(function () {
-        changeStateCourrier(checkedelementsCourrierEntrantBrouillon, 'en_cours');
+    $("#valider_courrier_entrant_btn").click(function() {
+        changeStateCourrier(
+            checkedelementsCourrierEntrantBrouillon,
+            "en_cours"
+        );
     });
-
-
 });

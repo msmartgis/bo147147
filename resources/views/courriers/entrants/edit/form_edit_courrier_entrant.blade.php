@@ -767,6 +767,27 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                     </div>
 
 
+                    <div class="row row-edit">
+                        <div class="col-lg-4">
+                            {{Form::label('',trans('Catégorie') .' : ',['style'=> 'font-size : 11px,'])}}
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="form-group form-group-edit">
+                                {{Form::select('categorie_courrier', $categorie_courrier, $courrier->categorie_courrier_id,
+                                        [
+                                        'data-placeholder' => 'Selectionner mode de reception',
+                                        'class'=>'form-control ',
+                                        'name'=>'categorie_courrier_id',
+                                        'style'=>'width:100%',
+                                        'disabled'=> 'disabled'
+                                        ]
+                                    )}}
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                    </div>
+
+
                     @if ($courrier->courrier_sortant_id != null)
                     <div class="row row-edit">
                         <div class="col-lg-4">

@@ -39,7 +39,7 @@
             <div class="row" style="margin-top: 10px">
                 <div class="col-lg-6">
                     <div class="form-group {{__('costum_css.date-style-m')}}">
-                        {{Form::label('',trans('Date de la réception').' :')}}
+                        {{Form::label('',trans('Date de la réception'))}}
                         <div class="input-group date">
                             <div class="input-group-addon">
                                 <i class="fa fa-calendar"></i>
@@ -58,6 +58,22 @@
                                 'data-placeholder' => 'Selectionner mode de reception',
                                 'class'=>'form-control ',
                                 'name'=>'priorites_id',
+                                'style'=>'width:100%'
+                                ]
+                                )}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        {{Form::label('',trans('Catégorie'). ' :')}}
+                        {{Form::select('categorie_courrier', $categorie_courrier, null,
+                                [
+                                'data-placeholder' => 'Selectionner mode de reception',
+                                'class'=>'form-control ',
+                                'name'=>'categorie_courrier_id',
                                 'style'=>'width:100%'
                                 ]
                                 )}}

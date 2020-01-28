@@ -52,7 +52,7 @@ $(document).ready(function () {
         language: {
             search: "",
             searchPlaceholder: "Recherche...",
-            url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json",
+            url: "/js/datatables_languages/" + full_language + ".json ",
             processing: '<img src="/images/loader/loader4.gif">'
         },
 

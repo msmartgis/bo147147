@@ -9,7 +9,7 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                 <div class="box" style="border-top: 0;border-bottom: 0">
                     <!-- /.box-header -->
                     <div class="box-body">
-                        <h5>INFORMATIONS GENERALES</h5>
+                    <h5 class="{{__('costum_css.float-right-m')}}">{{__('INFORMATIONS GENERALES')}}</h5>
                         <hr style="color:#2d353c;margin:0">
                         <div class="row" style="margin-top: 8px">
                             <div class="col-lg-6 col-xl-6 col-md-6 col-12">
@@ -26,7 +26,7 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                         </div>
 
                         <br>
-                        <h5>OBSERVATIONS ET REMARQUES</h5>
+                    <h5 class="{{__('costum_css.float-right-m')}}">{{__('OBSERVATIONS ET REMARQUES')}}</h5>
                         <hr style="color:#2d353c;margin:0">
 
                         <div class="col-12" style="margin-top : 8px">
@@ -37,7 +37,7 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
 
 
                         <br>
-                        <h5>PIECE ATTACHEES</h5>
+                        <h5 class="{{__('costum_css.float-right-m')}}">{{__('PIECE ATTACHEES')}}</h5>
                         <hr style="color:#2d353c;margin:0">
 
                         <div class="row" style="margin: 0 !important;">
@@ -45,9 +45,9 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                                 <table class="table table-piece">
                                     <thead class="create-table">
                                         <tr style="text-align: center;">
-                                            <th>Ref</th>
-                                            <th>Intitulé</th>
-                                            <th>Action</th>
+                                            <th>{{__('Réf')}}</th>                                            
+                                            <th>{{__('Intitulé')}}</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody id="piece_diffusionInterne_tbody">
@@ -69,14 +69,14 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                                                     href="/files/download/diffusion-internes/diffusion-internes/{{$diffusionInterne->id}}/{{$item->path}}">
                                                     <button type="button" class="btn btn-success-table ">
                                                         <i class="fa fa-download"></i>
-                                                        Télécharger</button>
+                                                       {{__('Télécharger')}} </button>
                                                 </a>
                                                 @endif
 
                                                 @if (Auth::user()->role->first()->role_name == "bureau_ordre" ||
                                                 Auth::user()->role->first()->role_name == "admin")
                                                 <button type="button" class="btn delete-row btn-danger-table m-hidden">
-                                                    <i class="fa fa-close"></i> Supprimer</button>
+                                                    <i class="fa fa-close"></i> {{__('Supprimer')}} </button>
                                                 @endif
                                             </td>
                                         </tr>
@@ -87,7 +87,7 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
 
                                 <div style="text-align: center">
                                     <a href="#" id="add_piece_btn" class="m-hidden"> <i class="fa fa-plus"></i>
-                                        <b> Ajouter </b>
+                                        <b>{{__('Ajouter')}}  </b>
                                     </a>
                                 </div>
 
@@ -109,7 +109,7 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
 
                     <div class="row row-edit">
                         <div class="col-lg-4">
-                            {{Form::label('','Envoyée le : ',['style'=> 'font-size : 11px'])}}
+                            {{Form::label('',trans('Envoyée le').' : ',['style'=> 'font-size : 11px'])}}
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group form-group-edit">
@@ -127,7 +127,7 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
 
                     <div class="row row-edit">
                         <div class="col-lg-4">
-                            {{Form::label('','Nature diffusion : ',['style'=> 'font-size : 11px,'])}}
+                            {{Form::label('',trans('Nature diffusion') . ' : ',['style'=> 'font-size : 11px,'])}}
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group form-group-edit">
@@ -146,25 +146,25 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                     </div>
 
                     <br>
-                    <h5>Génération des documents : </h5>
+                <h5 class="{{__('costum_css.float-right-m')}}">{{__('Génération des documents')}} : </h5>
                     <hr>
 
 
                     <button type="button" class="btn delete-row btn-danger-table" style="color : #f99830"> <i
-                            class="fa fa-file" style="margin-right : 4px"></i> <b>Fiche de diffusion</b> </button>
+                    class="fa fa-file" style="margin-right : 4px"></i> <b>{{__('Fiche de diffusion interne')}}</b> </button>
 
                     <br>
                     <br>
-                    <h5>Edition : </h5>
+                    <h5 class="{{__('costum_css.float-right-m')}}">{{__('Edition')}} : </h5>
                     <hr>
                     <button type="button" id="activate_form_edit_btn" class="btn  btn-success activate-form-btn"
                         style="width:90%;margin:auto auto 4px auto;display: block;"><i class="fa fa-edit"
-                            style="margin-right: 8px;"></i>Activer la modification</button>
+                    style="margin-right: 8px;margin-left : 6px"></i>{{__('Activer la modification')}}</button>
 
 
                     <button type="submit" id="save_edit_btn" class="btn  btn-success submit-btn-edit disabled"
                         style="width:90%;margin-top:4x;margin:auto auto 4px auto;display: block;"><i class="fa fa-save"
-                            style="margin-right: 8px;" disabled></i>Enregistrer</button>
+                            style="margin-right: 8px;margin-left : 6px" disabled></i>{{__('Enregistrer')}}</button>
 
                     {!! Form::close() !!}
 
@@ -173,7 +173,7 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                     <input type="hidden" name="diffusionInterne_id" value="{{$diffusionInterne->id}}">
                     <button type="submit" class="btn  btn-danger disabled"
                         style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash"
-                            style="margin-right: 8px;"></i>Supprimer</button>
+                            style="margin-right: 8px;margin-left : 6px"></i>{{__('Supprimer')}}</button>
                     {!! Form::close() !!}
 
                 </div>

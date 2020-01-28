@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             //TypeOperationSeeder::class,
             //PrioriteTableSeeder::class,
             //ArModesReceptionsTableSeeder::class,
+            CategorieCourrierTableSeeder::class,
 
         ]);
     }

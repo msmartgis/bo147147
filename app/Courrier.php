@@ -97,6 +97,11 @@ class Courrier extends Model
         return $this->belongsTo('App\Priorite', 'priorite_id');
     }
 
+    public function categorie()
+    {
+        return $this->belongsTo('App\CategorieCourrier', 'categorie_courrier_id');
+    }
+
 
     public function accuse()
     {

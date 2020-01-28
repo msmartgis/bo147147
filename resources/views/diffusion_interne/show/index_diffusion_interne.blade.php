@@ -48,26 +48,24 @@
 
                             <div class="col-lg-6 col-xl-6 col-md-6 col-12">            
                                 {{Form::open(array('url' => 'ficheDemande','target'=>'print_popup', 'method' => 'poste','class' => 'fiche-word','onsubmit'=>'window.open("about:blank","print_popup","width=800,height=640");'))  }}
-                                    <button type="button" class="btn btn-default pull-right multiple-choice-en-cours" id="fiche_demande_en_cours_btn" style="margin-right : 6px" disabled><i class="fa fa-file" style="margin-right: 6px"></i>Fiche de diffusion interne </button>
+                                    <button type="button" class="btn btn-default {{__('costum_css.pull-right')}} multiple-choice-en-cours" id="fiche_demande_en_cours_btn" style="margin-right : 6px" disabled><i class="fa fa-file" style="margin-right: 6px;margin-left: 6px"></i>{{__('Fiche de diffusion interne')}} </button>
                                 {{Form::close()}}
 
                                 @if (Auth::user()->role->first()->role_name == "bureau_ordre" || Auth::user()->role->first()->role_name == "admin")
-                                    <a href="{{ route('diffusions-internes-create') }}" class="btn btn-default pull-right " style="margin-right:4px"><i class="fa fa-plus" style="margin-right: 6px"></i>Nouvelle diffusion</a>
+                                    <a href="{{ route('diffusions-internes-create') }}" class="btn btn-default {{__('costum_css.pull-right')}} " style="margin-right:4px"><i class="fa fa-plus" style="margin-right: 6px;margin-left: 6px"></i>{{__('Nouvelle diffusion')}}</a>
                                 @endif                    
                             </div>      
                     </div>
 
                     <hr style="margin:4px">
-
-
                     <div class="table-responsive">
                         <table class="table table-hover datatables dataTable no-footer" id="diffusion_interne_datatables" style="width:100% ;" >
                             <thead>
                                 <th></th>
-                                <th>Réf</th>
-                                <th>Objet</th>
-                                <th>Date d'envoi</th>                                
-                                <th>P.J</th>
+                                <th>{{__('Réf')}}</th>
+                                <th>{{__('Objet')}}</th>
+                                <th>{{__('Date envoi')}}</th>                                
+                                <th>{{__('P.J')}}</th>
                             </thead>
                         </table>
                     </div>             

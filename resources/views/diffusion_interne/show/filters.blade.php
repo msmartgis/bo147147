@@ -3,12 +3,12 @@
     <div class="row">
    
         <div class="col-lg-2">
-            <label >Services concernés :</label>
+            <label >{{__('Services concernés')}} :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
                 <select class="form-control select2" style="width: 100%;" name="services_concernes" id="services_concernes_select_filter">
-                    <option value="all" selected>Indifferent</option>                   
+                    <option value="all" selected>{{__('Indifferent')}}</option>                   
                     @foreach($services as $service)
                         <option value="{{$service->id}}">{{$service->nom}}</option>
                     @endforeach                
@@ -19,7 +19,7 @@
 
 
         <div class="col-lg-2">
-            <label >Responsables :</label>
+            <label >{{__('Responsable')}}  :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
@@ -36,7 +36,7 @@
 
 
         <div class="col-lg-2">
-            <label >Nature diffusion :</label>
+            <label >{{__('Nature diffusion')}}  :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
@@ -56,10 +56,10 @@
     <!--Row-->
     <div class="row" style="margin-top: 6px">
         <div class="col-lg-2">
-            <label>Date d'envoi :</label>
+            <label>{{__('Date envoi')}}  :</label>
         </div>
         <div class="col-lg-2">
-             <div class="form-group">
+             <div class="form-group {{__('costum_css.date-style-m')}}">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>

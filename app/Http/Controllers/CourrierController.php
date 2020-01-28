@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Accuse;
+use App\CategorieCourrier;
 use App\Consigne;
 use App\Courrier;
 use App\Document;
@@ -28,6 +29,8 @@ use Symfony\Component\Console\Input\Input;
 
 class CourrierController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -61,6 +64,7 @@ class CourrierController extends Controller
 
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $priorites = Priorite::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
+        $categorie_courrier = CategorieCourrier::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $personne_physiques = PersonnePhysique::orderBy('nom')->get();
         $personne_morales = PersonneMorale::orderBy('raison_social')->get();
@@ -72,6 +76,7 @@ class CourrierController extends Controller
             'personne_physiques' => $personne_physiques,
             'personne_morales' => $personne_morales,
             'modes_recpetion' => $modes_recpetion,
+            'categorie_courrier' => $categorie_courrier,
             'priorites' => $priorites
         ]);
     }
@@ -93,6 +98,7 @@ class CourrierController extends Controller
         $courrier->delai = $request->delai;
         $courrier->etat_id = $brouillon_etat->id;
         $courrier->priorite_id = $request->priorites_id;
+        $courrier->categorie_courrier_id = $request->categorie_courrier_id;
 
         //insert expediteur
         //create personne physique
@@ -302,6 +308,7 @@ class CourrierController extends Controller
     {
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $priorites = Priorite::orderBy('nom')->pluck('nom', 'id');
+        $categorie_courrier = CategorieCourrier::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $courrier = Courrier::with('personnePhysique', 'personneMorale', 'remarqueConsigne')->findOrFail($id);
         $courrier->ref_sortant = '';
@@ -316,6 +323,7 @@ class CourrierController extends Controller
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,
             'priorites' => $priorites,
+            'categorie_courrier' => $categorie_courrier,
             'services' => $services,
             'historique' => $historique,
         ]);
@@ -347,6 +355,7 @@ class CourrierController extends Controller
         $courrier_to_edit->delai = $request->delai;
         $courrier_to_edit->mode_reception_id = $request->mode_reception_id;
         $courrier_to_edit->priorite_id = $request->priorite_id;
+        $courrier_to_edit->categorie_courrier_id = $request->categorie_courrier_id;
 
         //update personne physique
         if (isset($request->personne_physique_id)) {
@@ -708,6 +717,11 @@ class CourrierController extends Controller
                         return $courrier->priorite->priorite_icon;
                     }
                 })
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
+                    }
+                })
 
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersEntrantTous_' . $courriers->id . '" name="checkbox_tous" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersEntrantTous_' . $courriers->id . '" class="block" ></label>';
@@ -859,6 +873,12 @@ class CourrierController extends Controller
                     }
                 })
 
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
+                    }
+                })
+
                 ->addColumn('ref', function ($courriers) {
                     return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
                 })
@@ -1001,6 +1021,12 @@ class CourrierController extends Controller
                     }
                 })
 
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
+                    }
+                })
+
                 ->addColumn('courrier_sortant', function ($courriers) {
                     if ($courriers->courrier_sortant_id  != null) {
                         $courrier_sortant = Courrier::find($courriers->courrier_sortant_id);
@@ -1138,6 +1164,12 @@ class CourrierController extends Controller
                     }
                 })
 
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
+                    }
+                })
+
 
                 ->addColumn('ref', function ($courriers) {
                     return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
@@ -1269,6 +1301,12 @@ class CourrierController extends Controller
                 ->addColumn('priorite', function (Courrier $courrier) {
                     if ($courrier->priorite != null) {
                         return $courrier->priorite->priorite_icon;
+                    }
+                })
+
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
                     }
                 })
 
