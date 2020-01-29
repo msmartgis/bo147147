@@ -71,7 +71,12 @@
 			$(function () {
 			  $('[data-toggle="tooltip"]').tooltip()
 			})
-        });
+		});
+		
+
+		$(".datepicker").datepicker({
+		format: "dd/mm/yyyy"
+		});
 </script>
 
 @stack('added_scripts')

@@ -74,6 +74,9 @@ $(document).ready(function() {
                     "select[name=mode_reception_brouillon]"
                 ).val();
                 d.priorite = $("select[name=priorite_brouillon]").val();
+                d.categorie_courrier = $(
+                    "select[name=categorie_courrier_brouillon]"
+                ).val();
                 d.date_reception = $(
                     "input[name=date_reception_brouillon_daterange]"
                 ).val();
@@ -186,9 +189,7 @@ $(document).ready(function() {
         // }
     });
 
-    $(
-        "#nature_expediteur_brouillon_select_filter,#expediteur_brouillon_select_filter,#services_concernes_brouillon_select_filter,#mode_reception_brouillon_select_filter,#priorite_brouillon_select_filter,#date_reception_brouillon_input"
-    ).on("change paste keyup", function(e) {
+    $(".brouillon-select").on("change paste keyup", function(e) {
         courriersEntrantsBrouillonTable.draw();
         e.preventDefault();
     });

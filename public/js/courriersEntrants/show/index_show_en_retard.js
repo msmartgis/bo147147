@@ -74,6 +74,9 @@ $(document).ready(function() {
                     "select[name=mode_reception_en_retard]"
                 ).val();
                 d.priorite = $("select[name=priorite_en_retard]").val();
+                d.categorie_courrier = $(
+                    "select[name=categorie_courrier_en_retard]"
+                ).val();
                 d.date_reception = $(
                     "select[name=date_reception_en_retard_daterange]"
                 ).val();
@@ -185,9 +188,7 @@ $(document).ready(function() {
         // }
     });
 
-    $(
-        "#nature_expediteur_en_retard_select_filter,#expediteur_en_retard_select_filter,#services_concernes_en_retard_select_filter,#mode_reception_en_retard_select_filter,#priorite_en_retard_select_filter,#date_reception_en_retard_input"
-    ).on("change paste keyup", function(e) {
+    $(".en-retard-select").on("change paste keyup", function(e) {
         courriersEntrantsEnRetardTable.draw();
         e.preventDefault();
     });

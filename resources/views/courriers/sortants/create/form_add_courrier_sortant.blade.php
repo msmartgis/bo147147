@@ -12,8 +12,7 @@
 <section>
     <div class="row">
         {{-- the left side of step 1 --}}
-        <div class="col-lg-6 col-md-6 col-sm-12 {{__('costum_css.border-style-m')}}"
-            style="border-right-width: 1px;;border-right-style: solid;border-right-color: #d4d4d4;">
+        <div class="col-lg-6 col-md-6 col-sm-12 {{__('costum_css.border-style-m')}}">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12">
                     <div class="form-group">
@@ -23,7 +22,7 @@
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="form-group">
+                    <div class="form-group {{__('costum_css.date-style-m')}}">
                         {{Form::label('',trans('Date envoie').' :')}}
                         <div class="input-group date">
                             <div class="input-group-addon">
@@ -34,6 +33,22 @@
                         <!-- /.input group -->
                     </div>
 
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 10px">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        {{Form::label('',trans('Catégorie'). ' :')}}
+                        {{Form::select('categorie_courrier', $categorie_courrier, null,
+                                [
+                                'data-placeholder' => 'Selectionner mode de reception',
+                                'class'=>'form-control ',
+                                'name'=>'categorie_courrier_id',
+                                'style'=>'width:100%'
+                                ]
+                                )}}
+                    </div>
                 </div>
             </div>
 
@@ -53,9 +68,7 @@
 
         {{-- the right side of step 1 --}}
         <div class="col-lg-6 col-md-6 col-sm-12" style="padding-left : 15px">
-
             <div class="row">
-
                 <div class="col-lg-6">
                     <h5 class="{{__('costum_css.float-right-m')}}">{{__('Destinataire')}}</h5>
                     <div class="form-group">
@@ -92,8 +105,11 @@
 
             {{-- personne physique --}}
             <div id="personne_physique" class="expediteur personne_physique">
-                {{Form::label('',trans('Recherche dans la base des données'),['style'=>'margin-top : 12px'])}}
-                <div class="row">
+                <div class="row" style="margin-top : 8px">
+                    <div class="row col-12">
+                        {{Form::label('',trans('Recherche dans la base des données'),['style'=>'margin-top : 12px'])}}
+                    </div>
+
                     <div class="col-lg-6">
                         <div class="form-group">
                             <select name="personne_physique_id_from_db" class="form-control select2"
@@ -104,18 +120,13 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-lg-2" style="text-align:center">
-                        <b>OU</b>
-                    </div>
-                    <div class="col-lg-4">
-                        <a href="#" id="ajouter_personne_physique_btn"> <i class="fa fa-plus"></i>
-                            <b>{{__('Ajouter un nouveau destinataire')}} </b>
-                        </a>
-
-                    </div>
                 </div>
 
+                <div class="row">
+                    <a href="#" id="ajouter_personne_physique_btn"> <i class="fa fa-plus"></i>
+                        <b>{{__('Ajouter un nouveau destinataire')}} </b>
+                    </a>
+                </div>
 
 
                 <div id="ajouter_nouveau_personne_phisique_div" style="display:none">

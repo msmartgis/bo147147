@@ -2,7 +2,7 @@ var courriersSortantsClotureTable;
 var checkedelementsCourrierSortantCloture = [];
 var boxes;
 
-$(document).ready(function () {
+$(document).ready(function() {
     courriersSortantsClotureTable = $(
         "#courriers_sortant_cloture_datatables"
     ).DataTable({
@@ -17,7 +17,8 @@ $(document).ready(function () {
         order: [],
 
         dom: "lBfrtip",
-        buttons: [{
+        buttons: [
+            {
                 extend: "pdfHtml5",
                 exportOptions: {
                     modifer: {
@@ -26,8 +27,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -41,8 +43,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -59,15 +62,26 @@ $(document).ready(function () {
         ajax: {
             url: "courriers-sortants/cloture",
             type: "GET",
-            data: function (d) {
-                d.nature_expediteur = $("select[name=nature_expediteur_cloture]").val();
+            data: function(d) {
+                d.nature_expediteur = $(
+                    "select[name=nature_expediteur_cloture]"
+                ).val();
                 d.expediteur = $("select[name=expediteur_cloture]").val();
                 d.services = $("select[name=services_concernes_cloture]").val();
-                d.mode_reception = $("select[name=mode_reception_cloture]").val();
-                d.date_reception = $("select[name=date_reception_cloture_daterange]").val();
+                d.mode_reception = $(
+                    "select[name=mode_reception_cloture]"
+                ).val();
+
+                d.categorie_courrier = $(
+                    "select[name=categorie_courrier_cloture]"
+                ).val();
+                d.date_reception = $(
+                    "select[name=date_reception_cloture_daterange]"
+                ).val();
             }
         },
-        columnDefs: [{
+        columnDefs: [
+            {
                 width: 20,
                 targets: 1
             },
@@ -80,7 +94,8 @@ $(document).ready(function () {
                 targets: 3
             }
         ],
-        columns: [{
+        columns: [
+            {
                 data: "checkbox",
                 name: "checkbox",
                 searchable: true,
@@ -91,6 +106,11 @@ $(document).ready(function () {
                 data: "ref",
                 name: "ref",
                 searchable: true
+            },
+            {
+                data: "categorie",
+                name: "categorie",
+                searchable: false
             },
             {
                 data: "date_envoie",
@@ -125,17 +145,16 @@ $(document).ready(function () {
                 searchable: true,
                 width: "8%"
             }
-
         ],
-        initComplete: function () {
+        initComplete: function() {
             this.api()
                 .columns()
-                .every(function () {
+                .every(function() {
                     var column = this;
                     var input = document.createElement("input");
                     $(input)
                         .appendTo($(column.footer()).empty())
-                        .on("change", function () {
+                        .on("change", function() {
                             column
                                 .search($(this).val(), false, false, true)
                                 .draw();
@@ -150,7 +169,6 @@ $(document).ready(function () {
         //         // get position of the selected row
         //         var position = courrierssortantsTousTable.fnGetPosition(this);
 
-
         //         // value of the first column (can be hidden)
         //         var id = courrierssortantsTousTable.fnGetData(position).id
 
@@ -161,17 +179,12 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_cloture_select_filter,#expediteur_cloture_select_filter,#services_concernes_cloture_select_filter,#mode_reception_cloture_select_filter,#date_reception_cloture_input').on('change paste keyup', function (e) {
+    $(".cloture-select").on("change paste keyup", function(e) {
         courriersSortantsClotureTable.draw();
         e.preventDefault();
     });
 
-
-
-    courriersSortantsClotureTable.on('draw', function () {
+    courriersSortantsClotureTable.on("draw", function() {
         $('[data-toggle="tooltip"]').tooltip();
     });
-
-
-
 });

@@ -1,6 +1,6 @@
 var courriersSortantsTousTable;
 
-$(document).ready(function () {
+$(document).ready(function() {
     courriersSortantsTousTable = $(
         "#courriers_sortant_tous_datatables"
     ).DataTable({
@@ -15,7 +15,8 @@ $(document).ready(function () {
         order: [],
 
         dom: "lBfrtip",
-        buttons: [{
+        buttons: [
+            {
                 extend: "pdfHtml5",
                 exportOptions: {
                     modifer: {
@@ -24,8 +25,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -39,8 +41,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -57,15 +60,23 @@ $(document).ready(function () {
         ajax: {
             url: "courriers-sortants/tous",
             type: "GET",
-            data: function (d) {
-                d.nature_expediteur = $("select[name=nature_expediteur_tous]").val();
+            data: function(d) {
+                d.nature_expediteur = $(
+                    "select[name=nature_expediteur_tous]"
+                ).val();
                 d.expediteur = $("select[name=expediteur_tous]").val();
                 d.services = $("select[name=services_concernes_tous]").val();
                 d.mode_reception = $("select[name=mode_reception_tous]").val();
-                d.date_reception = $("select[name=date_reception_tous_daterange]").val();
+                d.categorie_courrier = $(
+                    "select[name=categorie_courrier_tous]"
+                ).val();
+                d.date_reception = $(
+                    "select[name=date_reception_tous_daterange]"
+                ).val();
             }
         },
-        columnDefs: [{
+        columnDefs: [
+            {
                 width: 20,
                 targets: 1
             },
@@ -78,7 +89,8 @@ $(document).ready(function () {
                 targets: 3
             }
         ],
-        columns: [{
+        columns: [
+            {
                 data: "checkbox",
                 name: "checkbox",
                 searchable: true,
@@ -89,6 +101,11 @@ $(document).ready(function () {
                 data: "ref",
                 name: "ref",
                 searchable: true
+            },
+            {
+                data: "categorie",
+                name: "categorie",
+                searchable: false
             },
             {
                 data: "date_envoie",
@@ -111,8 +128,6 @@ $(document).ready(function () {
                 width: "30%"
             },
 
-
-
             {
                 data: "pj",
                 name: "pj",
@@ -131,17 +146,16 @@ $(document).ready(function () {
                 searchable: true,
                 width: "8%"
             }
-
         ],
-        initComplete: function () {
+        initComplete: function() {
             this.api()
                 .columns()
-                .every(function () {
+                .every(function() {
                     var column = this;
                     var input = document.createElement("input");
                     $(input)
                         .appendTo($(column.footer()).empty())
-                        .on("change", function () {
+                        .on("change", function() {
                             column
                                 .search($(this).val(), false, false, true)
                                 .draw();
@@ -156,7 +170,6 @@ $(document).ready(function () {
         //         // get position of the selected row
         //         var position = courrierssortantsTousTable.fnGetPosition(this);
 
-
         //         // value of the first column (can be hidden)
         //         var id = courrierssortantsTousTable.fnGetData(position).id
 
@@ -167,7 +180,7 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_tous_select_filter,#expediteur_tous_select_filter,#services_concernes_tous_select_filter,#mode_reception_tous_select_filter,#date_reception_tous_input').on('change paste keyup', function (e) {
+    $(".tous-select").on("change paste keyup", function(e) {
         courriersSortantsTousTable.draw();
         e.preventDefault();
     });

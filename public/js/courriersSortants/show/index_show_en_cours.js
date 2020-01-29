@@ -2,7 +2,7 @@ var courriersSortantsEnCoursTable;
 var checkedelementsCourrierSortantEnCours = [];
 var boxes;
 
-$(document).ready(function () {
+$(document).ready(function() {
     courriersSortantsEnCoursTable = $(
         "#courriers_sortant_en_cours_datatables"
     ).DataTable({
@@ -17,7 +17,8 @@ $(document).ready(function () {
         order: [],
 
         dom: "lBfrtip",
-        buttons: [{
+        buttons: [
+            {
                 extend: "pdfHtml5",
                 exportOptions: {
                     modifer: {
@@ -26,8 +27,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -41,8 +43,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -59,15 +62,28 @@ $(document).ready(function () {
         ajax: {
             url: "courriers-sortants/en-cours",
             type: "GET",
-            data: function (d) {
-                d.nature_expediteur = $("select[name=nature_expediteur_en_cours]").val();
+            data: function(d) {
+                d.nature_expediteur = $(
+                    "select[name=nature_expediteur_en_cours]"
+                ).val();
                 d.expediteur = $("select[name=expediteur_en_cours]").val();
-                d.services = $("select[name=services_concernes_en_cours]").val();
-                d.mode_reception = $("select[name=mode_reception_en_cours]").val();
-                d.date_reception = $("select[name=date_reception_en_cours_daterange]").val();
+                d.services = $(
+                    "select[name=services_concernes_en_cours]"
+                ).val();
+                d.mode_reception = $(
+                    "select[name=mode_reception_en_cours]"
+                ).val();
+
+                d.categorie_courrier = $(
+                    "select[name=categorie_courrier_en_cours]"
+                ).val();
+                d.date_reception = $(
+                    "select[name=date_reception_en_cours_daterange]"
+                ).val();
             }
         },
-        columnDefs: [{
+        columnDefs: [
+            {
                 width: 20,
                 targets: 1
             },
@@ -80,7 +96,8 @@ $(document).ready(function () {
                 targets: 3
             }
         ],
-        columns: [{
+        columns: [
+            {
                 data: "checkbox",
                 name: "checkbox",
                 searchable: true,
@@ -91,6 +108,11 @@ $(document).ready(function () {
                 data: "ref",
                 name: "ref",
                 searchable: true
+            },
+            {
+                data: "categorie",
+                name: "categorie",
+                searchable: false
             },
             {
                 data: "date_envoie",
@@ -125,17 +147,16 @@ $(document).ready(function () {
                 searchable: true,
                 width: "8%"
             }
-
         ],
-        initComplete: function () {
+        initComplete: function() {
             this.api()
                 .columns()
-                .every(function () {
+                .every(function() {
                     var column = this;
                     var input = document.createElement("input");
                     $(input)
                         .appendTo($(column.footer()).empty())
-                        .on("change", function () {
+                        .on("change", function() {
                             column
                                 .search($(this).val(), false, false, true)
                                 .draw();
@@ -150,7 +171,6 @@ $(document).ready(function () {
         //         // get position of the selected row
         //         var position = courrierssortantsTousTable.fnGetPosition(this);
 
-
         //         // value of the first column (can be hidden)
         //         var id = courrierssortantsTousTable.fnGetData(position).id
 
@@ -161,48 +181,51 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_en_cours_select_filter,#expediteur_en_cours_select_filter,#services_concernes_en_cours_select_filter,#mode_reception_en_cours_select_filter,#date_reception_en_cours_input').on('change paste keyup', function (e) {
+    $(".en-cours-select").on("change paste keyup", function(e) {
         courriersSortantsEnCoursTable.draw();
         e.preventDefault();
     });
 
-
-    courriersSortantsEnCoursTable.on('draw', function () {
+    courriersSortantsEnCoursTable.on("draw", function() {
         for (i = 0; i < checkedelementsCourrierSortantEnCours.length; i++) {
-            $("#courriersSortantEnCours_" + checkedelementsCourrierSortantEnCours[i]).prop('checked', true);
+            $(
+                "#courriersSortantEnCours_" +
+                    checkedelementsCourrierSortantEnCours[i]
+            ).prop("checked", true);
         }
 
-        $('#courriers_sortant_en_cours_datatables :input[type="checkbox"]').change(function () {
-
+        $(
+            '#courriers_sortant_en_cours_datatables :input[type="checkbox"]'
+        ).change(function() {
             boxes = $(":checkbox:checked");
 
             if (this.checked) {
                 checkedelementsCourrierSortantEnCours.push($(this).val());
             } else {
-                checkedelementsCourrierSortantEnCours.splice(checkedelementsCourrierSortantEnCours.indexOf($(this).val()), 1);
+                checkedelementsCourrierSortantEnCours.splice(
+                    checkedelementsCourrierSortantEnCours.indexOf(
+                        $(this).val()
+                    ),
+                    1
+                );
             }
-
 
             //get the right button activated
             number_checked = checkedelementsCourrierSortantEnCours.length;
 
-
             if (number_checked === 0) {
-                $('.multiple-choice-en-cours').attr('disabled', true);
+                $(".multiple-choice-en-cours").attr("disabled", true);
             }
 
             if (number_checked > 0) {
-                $('.multiple-choice-en-cours').removeAttr("disabled");
+                $(".multiple-choice-en-cours").removeAttr("disabled");
             }
-
         });
         $('[data-toggle="tooltip"]').tooltip();
-
     });
 
     //a traiter
-    $("#cloturer_courrier_sortant_btn").click(function () {
-        changeStateCourrier(checkedelementsCourrierSortantEnCours, 'cloturer');
+    $("#cloturer_courrier_sortant_btn").click(function() {
+        changeStateCourrier(checkedelementsCourrierSortantEnCours, "cloturer");
     });
-
 });

@@ -33,7 +33,8 @@
 <div class="row">
     <div class="col-12">
         <div class="box">
-            <h3 style="text-align : center; margin-top : 12px">{{__('Fiche détaillée')}} : Courrier {{$courrier->ref}}
+            <h3 style="text-align : center; margin-top : 12px">{{__('Fiche détaillée')}} : {{__('Courrier')}}
+                {{$courrier->ref}}
             </h3>
             <!-- /.box-header -->
             <div id="tabs_courrier_edit" style="margin-left: 12px;">
@@ -76,9 +77,5 @@
 <script src="{{asset('js/modesRecepetion/index_mode_reception.js')}}"></script>
 <script src="{{asset('js/documentsTypes/index_documents_types.js')}}"></script>
 
-<script>
-    $(".datepicker").datepicker({
-            format: 'yyyy-mm-dd'
-        });
-</script>
+
 @endpush

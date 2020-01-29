@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Accuse;
+use App\CategorieCourrier;
 use App\Consigne;
 use App\Courrier;
 use App\Document;
@@ -37,11 +38,12 @@ class CourrierSortantController extends Controller
         $personne_morales = PersonneMorale::orderBy('raison_social')->where([['raison_social', '!=', 'null']])->get();
         $services = Service::orderBy('nom')->get();
         $modes_recpetions = ModeReception::orderBy('nom')->get();
-
+        $categorie_courrier = CategorieCourrier::orderBy('nom')->get();
         return view('courriers.sortants.show_sortant.index_sortant')->with([
             'personne_physiques' => $personne_physiques,
             'personne_morales' => $personne_morales,
             'services' => $services,
+            'categorie_courrier' => $categorie_courrier,
             'modes_recpetions' => $modes_recpetions
         ]);
     }
@@ -55,7 +57,7 @@ class CourrierSortantController extends Controller
     {
 
         $actu_date = Carbon::now()->format('Y-m-d');
-
+        $categorie_courrier = CategorieCourrier::orderBy('nom')->pluck('nom', 'id');
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $personne_physiques = PersonnePhysique::orderBy('nom')->get();
@@ -67,6 +69,7 @@ class CourrierSortantController extends Controller
             'services' => $services,
             'personne_physiques' => $personne_physiques,
             'personne_morales' => $personne_morales,
+            'categorie_courrier' => $categorie_courrier,
             'modes_recpetion' => $modes_recpetion
         ]);
     }
@@ -79,6 +82,10 @@ class CourrierSortantController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'objet' => 'required',
+            'ref' => 'required',
+        ]);
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
         $courrier = new Courrier();
         $courrier->type = 'sortant';
@@ -86,6 +93,7 @@ class CourrierSortantController extends Controller
         $courrier->date_envoie = $request->date_envoi;
         $courrier->objet = $request->objet;
         $courrier->etat_id = $brouillon_etat->id;
+        $courrier->categorie_courrier_id = $request->categorie_courrier_id;
 
         if (isset($request->courrier_entrant_id)) {
             //update courrier entrant 
@@ -310,7 +318,7 @@ class CourrierSortantController extends Controller
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $courrier = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'remarqueConsigne')->findOrFail($id);
-
+        $categorie_courrier = CategorieCourrier::orderBy('nom')->pluck('nom', 'id');
         $historique = Historique::where('courrier_id', '=', $id)->orderBy('created_at', 'desc')->get();
 
         $courrier->ref_entrant = '';
@@ -325,6 +333,7 @@ class CourrierSortantController extends Controller
             'modes_recpetion' => $modes_recpetion,
             'services' => $services,
             'historique' => $historique,
+            'categorie_courrier' => $categorie_courrier,
         ]);
     }
 
@@ -349,9 +358,9 @@ class CourrierSortantController extends Controller
         $courrier_to_edit = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'services', 'remarqueConsigne')->findorfail($id);
 
         $courrier_to_edit->objet = $request->objet;
-        $courrier_to_edit->date_reception = $request->date_reception;
         $courrier_to_edit->date_envoie = $request->date_envoi;
         $courrier_to_edit->mode_reception_id = $request->mode_reception_id;
+        $courrier_to_edit->categorie_courrier_id = $request->categorie_courrier_id;
 
         //update personne physique
         if (isset($request->personne_physique_id)) {
@@ -677,6 +686,12 @@ class CourrierSortantController extends Controller
                     return '<a  href="courriers-sortants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="Objet : ' . $courriers->objet . '">' . $courriers->ref . '</a>';
                 })
 
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
+                    }
+                })
+
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersSortantTous_' . $courriers->id . '" name="checkbox_tous" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantTous_' . $courriers->id . '" class="block" ></label>';
                 })
@@ -752,6 +767,16 @@ class CourrierSortantController extends Controller
             }
         }
 
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
+                });
+            }
+        }
+
 
         //mode reception
         if ($mode_reception = $request->get('mode_reception')) {
@@ -813,6 +838,12 @@ class CourrierSortantController extends Controller
                     }
                 })
 
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
+                    }
+                })
+
                 ->addColumn('ref', function ($courriers) {
                     return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
                 })
@@ -871,6 +902,17 @@ class CourrierSortantController extends Controller
 
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
+                });
+            }
+        }
+
+
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
                 });
             }
         }
@@ -939,6 +981,12 @@ class CourrierSortantController extends Controller
                     return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
                 })
 
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
+                    }
+                })
+
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersSortantEnCours_' . $courriers->id . '" name="checkbox_en_cours" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantEnCours_' . $courriers->id . '" class="block" ></label>';
                 })
@@ -996,6 +1044,17 @@ class CourrierSortantController extends Controller
 
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
+                });
+            }
+        }
+
+
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
                 });
             }
         }
@@ -1067,6 +1126,12 @@ class CourrierSortantController extends Controller
                     return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
                 })
 
+                ->addColumn('categorie', function (Courrier $courrier) {
+                    if ($courrier->categorie != null) {
+                        return $courrier->categorie->nom;
+                    }
+                })
+
                 ->addColumn('checkbox', function ($courriers) {
                     return '<input style="text-align: center;" type="checkbox" id="courriersSortantCloture_' . $courriers->id . '" name="checkbox_cloture" class="demande-cloture-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantCloture_' . $courriers->id . '" class="block" ></label>';
                 })
@@ -1121,6 +1186,16 @@ class CourrierSortantController extends Controller
 
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
+                });
+            }
+        }
+
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
                 });
             }
         }

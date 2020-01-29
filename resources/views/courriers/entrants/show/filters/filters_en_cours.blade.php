@@ -5,8 +5,8 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="nature_expediteur_en_cours"
-                    id="nature_expediteur_en_cours_select_filter">
+                <select class="form-control select2 en-cours-select" style="width: 100%;"
+                    name="nature_expediteur_en_cours">
                     <option value="all" selected> {{__('Indifferent')}} </option>
                     <option value="personne_morale">{{__('Personne morale')}}</option>
                     <option value="personne_physique">{{__('Personne physique')}}</option>
@@ -22,8 +22,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="expediteur_en_cours"
-                    id="expediteur_en_cours_select_filter">
+                <select class="form-control select2 en-cours-select" style="width: 100%;" name="expediteur_en_cours">
                     <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($personne_physiques as $p_physique)
                     <option value="personnePhysique_{{$p_physique->id}}">{{$p_physique->full_name}}</option>
@@ -43,8 +42,8 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="services_concernes_en_cours"
-                    id="services_concernes_en_cours_select_filter">
+                <select class="form-control select2 en-cours-select" style="width: 100%;"
+                    name="services_concernes_en_cours">
                     <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($services as $service)
                     <option value="{{$service->id}}">{{$service->nom}}</option>
@@ -64,8 +63,8 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="mode_reception_en_cours"
-                    id="mode_reception_en_cours_select_filter">
+                <select class="form-control select2 en-cours-select" style="width: 100%;"
+                    name="mode_reception_en_cours">
                     <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($modes_recpetions as $mode_recpetion)
                     <option value="{{$mode_recpetion->id}}">{{$mode_recpetion->nom}}</option>
@@ -97,8 +96,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="priorite_en_cours"
-                    id="priorite_en_cours_select_filter">
+                <select class="form-control select2 en-cours-select" style="width: 100%;" name="priorite_en_cours">
                     <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($priorites as $priorite)
                     <option value="{{$priorite->id}}">{{$priorite->nom}}</option>
@@ -108,6 +106,24 @@
             <!-- /.form-group -->
         </div>
 
+    </div>
+
+    <div class="row" style="margin-top: 6px">
+        <div class="col-lg-2">
+            <label>{{__('Catégorie')}} :</label>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <select class="form-control select2 en-cours-select" style="width: 100%;"
+                    name="categorie_courrier_en_cours">
+                    <option value="all" selected>{{__('Indifferent')}}</option>
+                    @foreach($categorie_courrier as $categorie)
+                    <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <!-- /.form-group -->
+        </div>
     </div>
 
     <div class="row" style="margin-top: 4px">

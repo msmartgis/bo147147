@@ -124,5 +124,10 @@
     "Diffusion interne": "المذكرة الداخلية",
     "Envoyée le": "تاريخ الارسال",
     "Catégorie": "الفئة",
+    "Courrier": "الارسالية",
+    "DESTINATAIRE": "المرسل اليه",
+    "SERVICE/UNE DIVISION EMMETTEUR": "المصلحة أو القسم المرسل",
+    "Basculer vers courrier entrant": "التوجه لمعلومات الارسالية الواردة",
+    "Accusé envoi": "وصل الارسال",
     "": ""
 }

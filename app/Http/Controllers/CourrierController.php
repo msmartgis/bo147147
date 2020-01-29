@@ -44,12 +44,14 @@ class CourrierController extends Controller
 
         $modes_recpetions = ModeReception::where('lang', App::getLocale())->orderBy('nom')->get();
         $priorites = Priorite::orderBy('nom')->get();
+        $categorie_courrier = CategorieCourrier::orderBy('nom')->get();
         return view('courriers.entrants.show.index')->with([
             'personne_physiques' => $personne_physiques,
             'personne_morales' => $personne_morales,
             'services' => $services,
             'modes_recpetions' => $modes_recpetions,
             'priorites' => $priorites,
+            'categorie_courrier' => $categorie_courrier,
         ]);
     }
 
@@ -89,6 +91,10 @@ class CourrierController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'objet' => 'required',
+            'ref' => 'required',
+        ]);
         $courrier = new Courrier();
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
         $courrier->ref = $request->ref;
@@ -818,6 +824,17 @@ class CourrierController extends Controller
         }
 
 
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
+                });
+            }
+        }
+
+
         //avis
         if ($avis = $request->get('avis')) {
             if ($avis == "all") {
@@ -951,6 +968,17 @@ class CourrierController extends Controller
             } else {
                 $courriers->whereHas('priorite', function ($query) use ($priorite) {
                     $query->where('id', '=', $priorite);
+                });
+            }
+        }
+
+
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
                 });
             }
         }
@@ -1108,6 +1136,16 @@ class CourrierController extends Controller
             }
         }
 
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
+                });
+            }
+        }
+
 
         //avis
         if ($avis = $request->get('avis')) {
@@ -1243,6 +1281,17 @@ class CourrierController extends Controller
 
                 $courriers->whereHas('priorite', function ($query) use ($priorite) {
                     $query->where('id', '=', $priorite);
+                });
+            }
+        }
+
+
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
                 });
             }
         }
@@ -1392,6 +1441,17 @@ class CourrierController extends Controller
 
                 $courriers->whereHas('priorite', function ($query) use ($priorite) {
                     $query->where('id', '=', $priorite);
+                });
+            }
+        }
+
+
+        //categorie courrier
+        if ($categorie_courrier = $request->get('categorie_courrier')) {
+            if ($categorie_courrier == "all") {
+            } else {
+                $courriers->whereHas('categorie', function ($query) use ($categorie_courrier) {
+                    $query->where('id', '=', $categorie_courrier);
                 });
             }
         }

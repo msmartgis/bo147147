@@ -9,6 +9,7 @@
                 <thead>
                     <th></th>
                     <th>{{__('Réf')}}</th>
+                    <th>{{__('Catégorie')}}</th>
                     <th>{{__('Date envoi')}}</th>
                     <th>{{__('Destinataire')}}</th>
                     <th>{{__('Objet')}}</th>

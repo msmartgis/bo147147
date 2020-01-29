@@ -68,6 +68,9 @@ $(document).ready(function() {
                 d.services = $("select[name=services_concernes_tous]").val();
                 d.mode_reception = $("select[name=mode_reception_tous]").val();
                 d.priorite = $("select[name=priorite_tous]").val();
+                d.categorie_courrier = $(
+                    "select[name=categorie_courrier_tous]"
+                ).val();
                 d.date_reception = $(
                     "select[name=date_reception_tous_daterange]"
                 ).val();
@@ -185,9 +188,7 @@ $(document).ready(function() {
         // }
     });
 
-    $(
-        "#nature_expediteur_tous_select_filter,#expediteur_tous_select_filter,#services_concernes_tous_select_filter,#mode_reception_tous_select_filter,#priorite_tous_select_filter,#date_reception_tous_input"
-    ).on("change paste keyup", function(e) {
+    $(".tous-select").on("change paste keyup", function(e) {
         courriersEntrantsTousTable.draw();
         e.preventDefault();
     });

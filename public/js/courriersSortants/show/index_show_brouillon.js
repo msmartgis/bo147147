@@ -2,7 +2,7 @@ var courriersSortantsBrouillonTable;
 var checkedelementsCourrierSortantBrouillon = [];
 var boxes;
 
-$(document).ready(function () {
+$(document).ready(function() {
     courriersSortantsBrouillonTable = $(
         "#courriers_sortant_brouillon_datatables"
     ).DataTable({
@@ -17,7 +17,8 @@ $(document).ready(function () {
         order: [],
 
         dom: "lBfrtip",
-        buttons: [{
+        buttons: [
+            {
                 extend: "pdfHtml5",
                 exportOptions: {
                     modifer: {
@@ -26,8 +27,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -41,8 +43,9 @@ $(document).ready(function () {
                 },
                 orientation: "landscape",
                 title: "",
-                text: '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
-                init: function (api, node, config) {
+                text:
+                    '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
+                init: function(api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -59,15 +62,29 @@ $(document).ready(function () {
         ajax: {
             url: "courriers-sortants/brouillon",
             type: "GET",
-            data: function (d) {
-                d.nature_expediteur = $("select[name=nature_expediteur_brouillon]").val();
+            data: function(d) {
+                d.nature_expediteur = $(
+                    "select[name=nature_expediteur_brouillon]"
+                ).val();
                 d.expediteur = $("select[name=expediteur_brouillon]").val();
-                d.services = $("select[name=services_concernes_brouillon]").val();
-                d.mode_reception = $("select[name=mode_reception_brouillon]").val();
-                d.date_reception = $("select[name=date_reception_brouillon_daterange]").val();
+                d.services = $(
+                    "select[name=services_concernes_brouillon]"
+                ).val();
+                d.mode_reception = $(
+                    "select[name=mode_reception_brouillon]"
+                ).val();
+
+                d.categorie_courrier = $(
+                    "select[name=categorie_courrier_brouillon]"
+                ).val();
+
+                d.date_reception = $(
+                    "select[name=date_reception_brouillon_daterange]"
+                ).val();
             }
         },
-        columnDefs: [{
+        columnDefs: [
+            {
                 width: 20,
                 targets: 1
             },
@@ -80,7 +97,8 @@ $(document).ready(function () {
                 targets: 3
             }
         ],
-        columns: [{
+        columns: [
+            {
                 data: "checkbox",
                 name: "checkbox",
                 searchable: true,
@@ -91,6 +109,11 @@ $(document).ready(function () {
                 data: "ref",
                 name: "ref",
                 searchable: true
+            },
+            {
+                data: "categorie",
+                name: "categorie",
+                searchable: false
             },
             {
                 data: "date_envoie",
@@ -125,17 +148,16 @@ $(document).ready(function () {
                 searchable: true,
                 width: "8%"
             }
-
         ],
-        initComplete: function () {
+        initComplete: function() {
             this.api()
                 .columns()
-                .every(function () {
+                .every(function() {
                     var column = this;
                     var input = document.createElement("input");
                     $(input)
                         .appendTo($(column.footer()).empty())
-                        .on("change", function () {
+                        .on("change", function() {
                             column
                                 .search($(this).val(), false, false, true)
                                 .draw();
@@ -150,7 +172,6 @@ $(document).ready(function () {
         //         // get position of the selected row
         //         var position = courriersEntrantsTousTable.fnGetPosition(this);
 
-
         //         // value of the first column (can be hidden)
         //         var id = courriersEntrantsTousTable.fnGetData(position).id
 
@@ -161,52 +182,54 @@ $(document).ready(function () {
         // }
     });
 
-    $('#nature_expediteur_brouillon_select_filter,#expediteur_brouillon_select_filter,#services_concernes_brouillon_select_filter,#mode_reception_brouillon_select_filter,#date_reception_brouillon_input').on('change paste keyup', function (e) {
+    $(".brouillon-select").on("change paste keyup", function(e) {
         courriersSortantsBrouillonTable.draw();
         e.preventDefault();
     });
 
-
-    courriersSortantsBrouillonTable.on('draw', function () {
+    courriersSortantsBrouillonTable.on("draw", function() {
         for (i = 0; i < checkedelementsCourrierSortantBrouillon.length; i++) {
-            $("#courriersSortantBrouillon_" + checkedelementsCourrierSortantBrouillon[i]).prop('checked', true);
+            $(
+                "#courriersSortantBrouillon_" +
+                    checkedelementsCourrierSortantBrouillon[i]
+            ).prop("checked", true);
         }
 
-        $('#courriers_sortant_brouillon_datatables :input[type="checkbox"]').change(function () {
-
+        $(
+            '#courriers_sortant_brouillon_datatables :input[type="checkbox"]'
+        ).change(function() {
             boxes = $(":checkbox:checked");
 
             if (this.checked) {
                 checkedelementsCourrierSortantBrouillon.push($(this).val());
             } else {
-                checkedelementsCourrierSortantBrouillon.splice(checkedelementsCourrierSortantBrouillon.indexOf($(this).val()), 1);
+                checkedelementsCourrierSortantBrouillon.splice(
+                    checkedelementsCourrierSortantBrouillon.indexOf(
+                        $(this).val()
+                    ),
+                    1
+                );
             }
-
 
             //get the right button activated
             number_checked = checkedelementsCourrierSortantBrouillon.length;
 
-
             if (number_checked === 0) {
-                $('.multiple-choice-brouillon').attr('disabled', true);
+                $(".multiple-choice-brouillon").attr("disabled", true);
             }
 
             if (number_checked > 0) {
-                $('.multiple-choice-brouillon').removeAttr("disabled");
+                $(".multiple-choice-brouillon").removeAttr("disabled");
             }
-
         });
         $('[data-toggle="tooltip"]').tooltip();
-
-
     });
-
-
 
     //a traiter
-    $("#valider_courrier_sortant_btn").click(function () {
-        changeStateCourrier(checkedelementsCourrierSortantBrouillon, 'en_cours');
+    $("#valider_courrier_sortant_btn").click(function() {
+        changeStateCourrier(
+            checkedelementsCourrierSortantBrouillon,
+            "en_cours"
+        );
     });
-
-
 });

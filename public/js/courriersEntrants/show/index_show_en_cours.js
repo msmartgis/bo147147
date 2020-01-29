@@ -74,6 +74,9 @@ $(document).ready(function() {
                     "select[name=mode_reception_en_cours]"
                 ).val();
                 d.priorite = $("select[name=priorite_en_cours]").val();
+                d.categorie_courrier = $(
+                    "select[name=categorie_courrier_en_cours]"
+                ).val();
                 d.date_reception = $(
                     "select[name=date_reception_en_cours_daterange]"
                 ).val();
@@ -191,9 +194,7 @@ $(document).ready(function() {
         // }
     });
 
-    $(
-        "#nature_expediteur_en_cours_select_filter,#expediteur_en_cours_select_filter,#services_concernes_en_cours_select_filter,#mode_reception_en_cours_select_filter,#priorite_en_cours_select_filter,#date_reception_en_cours_input"
-    ).on("change paste keyup", function(e) {
+    $(".en-cours-select").on("change paste keyup", function(e) {
         courriersEntrantsEnCoursTable.draw();
         e.preventDefault();
     });

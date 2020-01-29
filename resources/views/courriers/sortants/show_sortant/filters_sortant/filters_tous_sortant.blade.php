@@ -5,8 +5,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="nature_expediteur_tous"
-                    id="nature_expediteur_tous_select_filter">
+                <select class="form-control select2 tous-select" style="width: 100%;" name="nature_expediteur_tous">
                     <option value="all" selected>{{__('Indifferent')}}</option>
                     <option value="personne_morale">{{__('Personne morale')}}</option>
                     <option value="personne_physique">{{__('Personne physique')}}</option>
@@ -22,8 +21,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="expediteur_tous"
-                    id="expediteur_tous_select_filter">
+                <select class="form-control select2 tous-select" style="width: 100%;" name="expediteur_tous">
                     <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($personne_physiques as $p_physique)
                     <option value="personnePhysique_{{$p_physique->id}}">{{$p_physique->full_name}}</option>
@@ -43,8 +41,7 @@
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="services_concernes_tous"
-                    id="services_concernes_tous_select_filter">
+                <select class="form-control select2 tous-select" style="width: 100%;" name="services_concernes_tous">
                     <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($services as $service)
                     <option value="{{$service->id}}">{{$service->nom}}</option>
@@ -59,13 +56,29 @@
 
     <!--Row-->
     <div class="row" style="margin-top: 6px">
+
+        <div class="col-lg-2">
+            <label>{{__('Catégorie')}} :</label>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <select class="form-control select2 tous-select" style="width: 100%;" name="categorie_courrier_tous">
+                    <option value="all" selected>{{__('Indifferent')}}</option>
+                    @foreach($categorie_courrier as $categorie)
+                    <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <!-- /.form-group -->
+        </div>
+
+
         <div class="col-lg-2">
             <label>{{__('Mode envoi')}} :</label>
         </div>
         <div class="col-lg-2">
             <div class="form-group">
-                <select class="form-control select2" style="width: 100%;" name="mode_reception_tous"
-                    id="mode_reception_tous_select_filter">
+                <select class="form-control select2 tous-select" style="width: 100%;" name="mode_reception_tous">
                     <option value="all" selected>{{__('Indifferent')}}</option>
                     @foreach($modes_recpetions as $mode_recpetion)
                     <option value="{{$mode_recpetion->id}}">{{$mode_recpetion->nom}}</option>
