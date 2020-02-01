@@ -30,7 +30,7 @@ Route::group(
         Route::get('/type-documents/get-all-documents-types', 'DocumentTypeController@getAllDocumentType')->name('document-type.getDocumentType');
 
         //files
-        Route::get('/files/download/{directory}/{subdirectory}/{id}/{file_name}', 'FilesController@fileDownload')->name('files.download');
+        Route::get('/files/download/{directory}/{subdirectory}/{id}/{file_name}', 'FilesController@fileDownload')->name('files.download');        
 
 
 

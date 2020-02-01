@@ -64,10 +64,11 @@ class CourrierController extends Controller
     {
         $actu_date = Carbon::now()->format('d/m/Y');
 
-        $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
+        $modes_recpetion = ModeReception::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
         $priorites = Priorite::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
         $categorie_courrier = CategorieCourrier::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
+        $presidential_services = Service::where('ref', 'President')->orWhere('ref', 'DG')->orderBy('nom')->pluck('nom', 'id');
         $personne_physiques = PersonnePhysique::orderBy('nom')->get();
         $personne_morales = PersonneMorale::orderBy('raison_social')->get();
         $courrier = new Courrier();
@@ -79,6 +80,7 @@ class CourrierController extends Controller
             'personne_morales' => $personne_morales,
             'modes_recpetion' => $modes_recpetion,
             'categorie_courrier' => $categorie_courrier,
+            'presidential_services' => $presidential_services,
             'priorites' => $priorites
         ]);
     }
@@ -91,10 +93,11 @@ class CourrierController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'objet' => 'required',
-            'ref' => 'required',
-        ]);
+        // $validatedData = $request->validate([
+        //     'objet' => 'required',
+        //     'ref' => 'required',
+        // ]);
+
         $courrier = new Courrier();
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
         $courrier->ref = $request->ref;
@@ -174,9 +177,8 @@ class CourrierController extends Controller
         //services
         if ($request->has('services_ids')) {
             $services_ids =  $request->services_ids;
-            $messages = $request->messages;
             for ($i = 0; $i < count($services_ids); $i++) {
-                $courrier->services()->attach($services_ids[$i], ['message' => $messages[$i]]);
+                $courrier->services()->attach($services_ids[$i]);
             }
         }
 
@@ -324,6 +326,9 @@ class CourrierController extends Controller
         }
 
         $historique = Historique::where('courrier_id', '=', $id)->orderBy('created_at', 'desc')->get();
+
+     
+        
 
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,

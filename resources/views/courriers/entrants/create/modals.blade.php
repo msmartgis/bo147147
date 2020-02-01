@@ -20,7 +20,8 @@
                                 {{Form::select('service_select', $services, null,
                                     [
                                     'data-placeholder' => 'Selectionner un service',
-                                    'class'=>'form-control ',
+                                    'class'=>'form-control select2',
+                                    'multiple'=>'multiple',
                                     'name'=>'service',
                                     'id'=>'service_modal_input_id',
                                     'style'=>'width:100%'

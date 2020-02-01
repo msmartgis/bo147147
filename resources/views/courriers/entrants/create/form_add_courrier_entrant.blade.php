@@ -391,32 +391,54 @@
         {{__('ASSIGNER A UN SERVICE/UNE DIVISION')}}
     </h5>
     <hr>
-    <div class="row" style="margin: 0 !important;">
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="form-group">
+                {{Form::select('presidential_service', $presidential_services, null,
+                        [
+                        'data-placeholder' => 'Selectionner mode de reception',
+                        'class'=>'form-control select2',
+                        'multiple'=>'multiple',
+                        'name'=>'services_ids[]',
+                        'style'=>'width:100%'
+                        ]
+                        )}}
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+    {{-- <div class="row" style="margin: 0 !important;">
         <div class="table-responsive" style="margin-top: 12px">
             <table class="table table-service-assigne">
                 <thead class="create-table">
                     <tr style="text-align: center;">
                         <th></th>
                         <th>{{__('Service')}}</th>
-                        <th>{{__('Réf')}}</th>
-                        <th>{{__('Responsable')}}</th>
-                        <th>{{__('Message')}}</th>
-                    </tr>
-                </thead>
-                <tbody id="service_assigne_tbody">
-                    <tr></tr>
-                </tbody>
-            </table>
+    <th>{{__('Réf')}}</th>
+    <th>{{__('Responsable')}}</th>
+    <th>{{__('Message')}}</th>
+    </tr>
+    </thead>
+    <tbody id="service_assigne_tbody">
+        <tr></tr>
+    </tbody>
+    </table>
 
-            <div style="text-align: center">
-                <a href="#" data-toggle="modal" data-target="#assigne_service_modal"> <i class="fa fa-plus"></i>
-                    <b>{{__('Ajouter')}} </b>
-                </a>
-            </div>
-            <button type="button" class="btn delete-row btn-danger-table" id="delete_service_row_btn"> <i
-                    class="fa fa-close"></i>{{__('Supprimer')}} </button>
-        </div>
+    <div style="text-align: center">
+        <a href="#" data-toggle="modal" data-target="#assigne_service_modal"> <i class="fa fa-plus"></i>
+            <b>{{__('Ajouter')}} </b>
+        </a>
     </div>
+    <button type="button" class="btn delete-row btn-danger-table" id="delete_service_row_btn"> <i
+            class="fa fa-close"></i>{{__('Supprimer')}} </button>
+    </div>
+    </div> --}}
+
     <br>
 
 

@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 use App\User;
 use App\UserRole;
+use App\Service;
 use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
@@ -19,42 +20,60 @@ class UsersTableSeeder extends Seeder
         $bureau_ordre = UserRole::where('role_name', 'bureau_ordre')->first();
         $president = UserRole::where('role_name', 'president')->first();
 
-        //admin med
-        $admin = new User();
-        $admin->username = "med";
-        $admin->nom = "El hanine";
-        $admin->prenom = "Mohamed";
-        $admin->email = "emailuser@gmail.com";
-        $admin->password = Hash::make('147147');
-        $admin->remember_token = str_random(60);
-        $admin->save();
+        // //admin med
+        // $admin = new User();
+        // $admin->username = "med";
+        // $admin->nom = "El hanine";
+        // $admin->prenom = "Mohamed";
+        // $admin->email = "emailuser@gmail.com";
+        // $admin->password = Hash::make('147147');
+        // $admin->remember_token = str_random(60);
+        // $admin->save();
 
-        $admin->role()->attach($admin_tole);
+        // $admin->role()->attach($admin_tole);
 
-        //bureau ordre user
-        $bureau_ordre_user = new User();
-        $bureau_ordre_user->username = "bureau ordre";
-        $bureau_ordre_user->nom = "Chawki";
-        $bureau_ordre_user->prenom = "Mohamed";
-        $bureau_ordre_user->email = "emailuser@gmail.com";
-        $bureau_ordre_user->password = Hash::make('147147');
-        $bureau_ordre_user->remember_token = str_random(60);
-        $bureau_ordre_user->save();
+        // //bureau ordre user
+        // $bureau_ordre_user = new User();
+        // $bureau_ordre_user->username = "bureau ordre";
+        // $bureau_ordre_user->nom = "Chawki";
+        // $bureau_ordre_user->prenom = "Mohamed";
+        // $bureau_ordre_user->email = "emailuser@gmail.com";
+        // $bureau_ordre_user->password = Hash::make('147147');
+        // $bureau_ordre_user->remember_token = str_random(60);
+        // $bureau_ordre_user->save();
 
-        $bureau_ordre_user->role()->attach($bureau_ordre);
+        // $bureau_ordre_user->role()->attach($bureau_ordre);
 
 
-        //president user
-        $president_user = new User();
-        $president_user->username = "president";
-        $president_user->nom = "presdent nom";
-        $president_user->prenom = "president prenom";
-        $president_user->email = "emailuser@gmail.com";
-        $president_user->password = Hash::make('147147');
-        $president_user->remember_token = str_random(60);
-        $president_user->save();
+        // //president user
+        // $president_user = new User();
+        // $president_user->username = "president";
+        // $president_user->nom = "presdent nom";
+        // $president_user->prenom = "president prenom";
+        // $president_user->email = "emailuser@gmail.com";
+        // $president_user->password = Hash::make('147147');
+        // $president_user->remember_token = str_random(60);
+        // $president_user->save();
 
-        $president_user->role()->attach($president);
+        // $president_user->role()->attach($president);
+
+
+
+        
+        //directeur gereral user
+        $dg_service = Service::where('ref','DG')->first();
+
+        $dg_user = new User();
+        $dg_user->username = "jamaa";
+        $dg_user->nom = "Lagutit";
+        $dg_user->prenom = "Jamaa";
+        $dg_user->email = "jamaa@gmail.com";
+        $dg_user->password = Hash::make('147147');
+        $dg_user->remember_token = str_random(60);
+        $dg_user->service_id = $dg_service->id;
+        $dg_user->save();
+
+        $dg_user->role()->attach($president);
 
 
         // User::insert([

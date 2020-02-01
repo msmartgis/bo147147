@@ -17,15 +17,15 @@ class DatabaseSeeder extends Seeder
 
             // NatureDiffusionTableSeeder::class,
             // DocumentTypeTableSeeder::class,
-            // ServicesTableSeeder::class,
+            //ServicesTableSeeder::class,
             // PersonneMoraleSeeder::class,
             // PersonnePhysiqueSeeder::class,
             // UsersRolesTableSeeder::class,
-            // UsersTableSeeder::class,
+             UsersTableSeeder::class,
             //TypeOperationSeeder::class,
             //PrioriteTableSeeder::class,
             //ArModesReceptionsTableSeeder::class,
-            CategorieCourrierTableSeeder::class,
+            //CategorieCourrierTableSeeder::class,
 
         ]);
     }

@@ -34,19 +34,15 @@ class ServicesTableSeeder extends Seeder
         $service4->save();
 
 
+        $presdent_service = new Service();
+        $presdent_service->ref = "President";
+        $presdent_service->nom = "السيد الرئيس";
+        $presdent_service->save();
 
-        // Service::insert(
-        //     [
-        //         'id' => 'd6f4ca3d-d0c4-4770-b540-8406696a2db0',
-        //         'ref' => 'S0002',
-        //         'nom' => 'service2'
-        //     ],
-        //     [
-        //         'id' => '3492ffaf-4b2c-44e9-8ccc-6b74ca765c0e',
-        //         'ref' => 'S0003',
-        //         'nom' => 'service3'
 
-        //     ]
-        // );
+        $dg_service = new Service();
+        $dg_service->ref = "President";
+        $dg_service->nom = "المدير العام";
+        $dg_service->save();
     }
 }

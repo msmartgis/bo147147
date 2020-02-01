@@ -20,7 +20,7 @@ class Service extends Model
 
     public function responsables()
     {
-        return $this->hasMany('App\PersonnePhysique');
+        return $this->hasMany('App\User');
     }
 
 

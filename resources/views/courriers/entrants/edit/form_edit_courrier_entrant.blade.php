@@ -317,6 +317,17 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                                     <i class="fa fa-download"></i>
                                                                     {{__('Télécharger')}}</button>
                                                             </a>
+
+
+                                                            <button type="button" data-folder="courriers"
+                                                                data-subfolder="entrants"
+                                                                data-courrierid="{{$courrier->id}}"
+                                                                data-path="{{$item->path}}"
+                                                                class="btn btn-success-table visualize-file-btn"
+                                                                style="color : #1d2f59">
+                                                                <i class="fa fa-eye"></i>
+                                                                {{__('Visualiser')}}</button>
+
                                                             @endif
 
                                                             @if (Auth::user()->role->first()->role_name ==
@@ -397,6 +408,15 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                                     {{__('Télécharger')}} </button>
                                                             </a>
                                                             @endif
+
+                                                            <button type="button" data-folder="courriers"
+                                                                data-subfolder="entrants/accuses_receptions"
+                                                                data-courrierid="{{$courrier->id}}"
+                                                                data-path="{{$item->path}}"
+                                                                class="btn btn-success-table visualize-file-btn"
+                                                                style="color : #1d2f59">
+                                                                <i class="fa fa-eye"></i>
+                                                                {{__('Visualiser')}}</button>
                                                             @if (Auth::user()->role->first()->role_name ==
                                                             "bureau_ordre" || Auth::user()->role->first()->role_name ==
                                                             "admin")
@@ -439,10 +459,9 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                 <thead class="create-table">
                                                     <tr style="text-align: center;">
                                                         <th>{{__('Service')}}</th>
-                                                        <th>{{__('Réf')}}</th>
                                                         <th>{{__('Responsable')}}</th>
                                                         <th>{{__('Message')}}</th>
-                                                        <th>{{__('Date envoi')}}</th>
+                                                        {{-- <th>{{__('Date envoi')}}</th> --}}
                                                         <th></th>
                                                         <th></th>
                                                     </tr>
@@ -464,10 +483,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                         <td style="text-align: center">
                                                             {{$item->nom}}
                                                         </td>
-                                                        <td style="text-align: center">
-                                                            {{$item->ref}}
 
-                                                        </td>
                                                         <td style="text-align: center">
                                                             @foreach ($item->responsables as $item_repsonsable)
                                                             {{$item_repsonsable->full_name}}
@@ -478,9 +494,9 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                             {{$item->pivot->message}}
                                                         </td>
 
-                                                        <td style="text-align: center">
+                                                        {{-- <td style="text-align: center">
                                                             {{$item->pivot->created_at}}
-                                                        </td>
+                                                        </td> --}}
                                                         <td>
                                                             @if ($item->pivot->vu == 1)
                                                             <img src="{{asset('images/svg/double-tick-indicator.svg')}}"
@@ -491,9 +507,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            @if (Auth::user()->role->first()->role_name ==
-                                                            "bureau_ordre" || Auth::user()->role->first()->role_name ==
-                                                            "admin")
+                                                            @if (Auth::user()->role->first()->role_name == "admin")
                                                             <button type="button"
                                                                 class="btn delete-row btn-danger-table m-hidden"
                                                                 id="delete_service_row_btn"> <i class="fa fa-close"></i>
@@ -506,7 +520,8 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                 </tbody>
                                             </table>
 
-                                            @if (Auth::user()->role->first()->role_name == "bureau_ordre" ||
+
+                                            @if (Auth::user()->role->first()->role_name == "president" ||
                                             Auth::user()->role->first()->role_name == "admin")
                                             <div style="text-align: center">
                                                 <a href="#" data-toggle="modal" data-target="#assigne_service_modal"
