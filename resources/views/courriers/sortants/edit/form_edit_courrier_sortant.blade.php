@@ -305,6 +305,15 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                                     <i class="fa fa-download"></i>
                                                                     {{__('Télécharger')}}</button>
                                                             </a>
+
+                                                            <button type="button" data-folder="courriers"
+                                                                data-subfolder="sortants"
+                                                                data-courrierid="{{$courrier->id}}"
+                                                                data-path="{{$item->path}}"
+                                                                class="btn btn-success-table visualize-file-btn"
+                                                                style="color : #1d2f59">
+                                                                <i class="fa fa-eye"></i>
+                                                                {{__('Visualiser')}}</button>
                                                             @endif
                                                             @if (Auth::user()->role->first()->role_name ==
                                                             "bureau_ordre" || Auth::user()->role->first()->role_name ==

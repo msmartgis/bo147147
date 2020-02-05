@@ -4,9 +4,8 @@ $(document).ready(function() {
     let item_number_accuse_receptions = 0;
 
     var markup_select_option = "";
-
     $(".datepicker").datepicker({
-        format: "yyyy-mm-dd"
+        format: "dd/mm/yyyy"
     });
 
     $(function() {

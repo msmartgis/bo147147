@@ -56,7 +56,7 @@ class CourrierSortantController extends Controller
     public function create()
     {
 
-        $actu_date = Carbon::now()->format('Y-m-d');
+        $actu_date = Carbon::now()->format('d/m/Y');
         $categorie_courrier = CategorieCourrier::orderBy('nom')->pluck('nom', 'id');
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');

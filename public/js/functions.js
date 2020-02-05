@@ -108,3 +108,46 @@ if ($(".alert-success").length > 0) {
         });
     }, 1000);
 }
+
+
+
+$(".visualize-file-btn").click(function() {
+    var path = $(this).data("path");
+    var courrierID = $(this).data("courrierid");
+    var folder = $(this).data("folder");
+    var subfolder = $(this).data("subfolder");
+
+    visualizeFile(folder, subfolder, courrierID, path);
+});
+
+
+function visualizeFile(folder, subfolder, courrierID, path) {
+    var ext = path.split(".").pop();
+    console.log(ext);
+
+    var url =
+        "/storage/" +
+        folder +
+        "/" +
+        subfolder +
+        "/" +
+        courrierID +
+        "/" +
+        path +
+        "";
+
+    $("#fileView").empty();
+    if (ext === "pdf") {
+        $("#fileView").prepend(
+            "<object data='" +
+                url +
+                "' type = 'application/pdf' width ='100%' height = '100%'>"
+        );
+    } else {
+        $("#fileView").prepend(
+            "<img src='" + url + "'  width ='100%' >"
+        );
+    }
+
+    $("#visualize_modal").modal("show");
+}

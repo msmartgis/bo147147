@@ -49,3 +49,28 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal fade modal-right" id="visualize_modal" tabindex="-1">
+        <div class="modal-dialog modal-lg" style="width : 500px ">
+            <div class="modal-content" style="border-radius: 6px">
+    
+    
+                <div class="modal-body">
+                    <div id="fileView" style="height: 100%;">
+                    </div>
+    
+                </div>
+    
+                <div class="modal-footer modal-footer-uniform" style="padding : 0 !important">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                        style="margin-left: 4px;margin-bottom: 6px;"><i class="fa fa-close"
+                            style="margin-right: 8px"></i>Fermer</button>
+    
+    
+                </div>
+    
+            </div>
+        </div>
+    </div>
