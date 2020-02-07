@@ -10,14 +10,14 @@
 		 
 	</div>
 	<div class="box-body" style="padding: 8px;">
-		 {!! Form::open(['action' => 'UsersController@store','method'=>'POST','class'=>'form-create']) !!}
+		 {!! Form::open(['action' => 'UsersController@store','method'=>'POST','class'=>'form-create','id' => 'users_form']) !!}
 	<div class="row" style="padding: 12px;margin: 12px;border:1px solid rgba(216,216,216,0.45);">
 		<div class="row col-12">
 			<div class="col-lg-2 col-md-2">
 				{{Form::label('','Nom :')}}
 			</div>
 			<div class="col-lg-3 col-md-3">
-				{{Form::text('last_name','',['class'=>'form-control','required'=>'required'])}}
+				{{Form::text('nom','',['class'=>'form-control','required'=>'required'])}}
 			</div>
 
 
@@ -25,7 +25,7 @@
 				{{Form::label('','Prénom :')}}
 			</div>
 			<div class="col-lg-3 col-md-3">
-				{{Form::text('first_name','',['class'=>'form-control','required'=>'required'])}}
+				{{Form::text('prenom','',['class'=>'form-control','required'=>'required'])}}
 			</div>
 		</div>
 
@@ -39,15 +39,6 @@
 			</div>
 
 			<div class="col-lg-2 col-md-2">
-				{{Form::label('','Mot de passe provisoire :')}}
-			</div>
-			<div class="col-lg-3 col-md-3">
-				<input type="password" name="password" class="form-control" >
-			</div>
-		</div>
-
-		<div class="row col-12" style="margin-top: 8px">
-			<div class="col-lg-2 col-md-2">
 				{{Form::label('','Service :')}}
 			</div>
 
@@ -60,11 +51,29 @@
 					</select>
 				</div>				
 			</div>
+		</div>
+
+		<div class="row col-12" style="margin-top: 8px">
+			<div class="col-lg-2 col-md-2">
+				{{Form::label('','Mot de passe provisoire')}}
+			</div>
+			<div class="col-lg-3 col-md-3">
+				<input type="password" name="password" id="pasword_inpt" class="form-control" required>
+			</div>
+			
+			
+			<div class="col-lg-2 col-md-2">
+				{{Form::label('','Confimer le mot de passe ')}}
+			</div>
+			<div class="col-lg-3 col-md-3">
+				<input type="password" name="confirm-password" id="confirm_pasword_inpt" class="form-control" required>
+				<span id='message_password_confirmation'></span>
+			</div>	
 
 		</div>
-    <div class="row col-12" style="margin-top: 18px;display: flex;align-items: center;justify-content: center;">
-        <button type="submit"  class="btn btn-success"  ><i class="fa fa-plus" style="margin-right: 6px"></i>Ajouter </button>
-    </div>
+		<div class="row col-12" style="margin-top: 18px;display: flex;align-items: center;justify-content: center;">
+			<button type="button"  class="btn btn-success"  id="add_user_btn"><i class="fa fa-plus" style="margin-right: 6px"></i>Ajouter</button>
+		</div>
 </div>
 {!! Form::close() !!}
 	</div>								 
@@ -82,6 +91,7 @@
 					<th>Nom</th>
 					<th>Prénom</th>
 					<th>Identification</th>
+					<th>Service</th>
 					<th></th>
 				</thead>
 			</table>

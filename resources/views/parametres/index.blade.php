@@ -9,6 +9,9 @@
 
     <!--alerts CSS -->
     <link href="{{asset('vendor_components/sweetalert/sweetalert.css')}}" rel="stylesheet" type="text/css">
+
+    <!-- toast CSS -->
+    <link href="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.css')}}" rel="stylesheet">
 <style>
 
 
@@ -35,6 +38,8 @@
 												<ul class="nav nav-tabs tabs-vertical  tabs-warning" role="tablist" style="width:300px;" >
 													<li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#users" role="tab" aria-expanded="true" style="display: flex;" > <span><i style="font-size:18px;" class="mdi mdi-account-settings"></i></span><span style="margin: auto; margin-left: 8px;" class="hidden-xs-down">&nbspUtilisateurs</span> </a> </li>
 													<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#services" role="tab" aria-expanded="false" style="display: flex;"> <span><i style="font-size:18px;" class="mdi mdi-contact-mail"></i></span><span style="margin: auto; margin-left: 8px;"  class="hidden-xs-down">&nbspServices</span> </a> </li>
+													<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#modes_receptions" role="tab" aria-expanded="false" style="display: flex;"> <span><i style="font-size:18px;" class="mdi mdi-mailbox"></i></span><span style="margin: auto; margin-left: 8px;"  class="hidden-xs-down">&nbspModes Réceptions/Envoi</span> </a> </li>
+													<li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#categories" role="tab" aria-expanded="false" style="display: flex;"> <span><i style="font-size:18px;" class="mdi mdi-group"></i></span><span style="margin: auto; margin-left: 8px;"  class="hidden-xs-down">&nbspCatégories</span> </a> </li>
 											
 												</ul>
 												<div class="tab-content" style="margin : 0 !important;margin-top: 0 !important;">
@@ -43,7 +48,15 @@
 													</div>
 													<div class="tab-pane pad" id="services" role="tabpanel" aria-expanded="false" >
 														   @include('parametres.services')
-													</div>	
+                                                    </div>	
+                                                    
+                                                    <div class="tab-pane pad" id="modes_receptions" role="tabpanel" aria-expanded="false" >
+                                                        @include('parametres.modes_receptions')
+                                                    </div>	
+
+                                                    <div class="tab-pane pad" id="categories" role="tabpanel" aria-expanded="false" >
+                                                        @include('parametres.categories')
+                                                    </div>	
 													 
 												</div>
 													 
@@ -62,6 +75,8 @@
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
+
+                    @include('parametres.modal_setting')
                 </div>
                 <!-- /.box-body -->
             </div>
@@ -90,12 +105,25 @@
 <script src="{{asset('vendor_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 <!-- Form validator JavaScript -->
 <script src="{{asset('js/validation.js')}}"></script>
+
+<!-- toast -->
+<script src="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')}}"></script>
+<script src="{{asset('js/toastr.js')}}"></script>
 <!-- Formatter -->
 <script src="{{asset('vendor_components/formatter/formatter.js')}}"></script>
 <script src="{{asset('vendor_components/formatter/jquery.formatter.js')}}"></script>
 <script src="{{asset('js/formatter.js')}}"></script>
 
 
-<script src="{{asset('js/parametres/settings.js')}}"></script>
+<script src="{{asset('js/parametres/settings_users.js')}}"></script>
+<script src="{{asset('js/parametres/settings_modes_receptions.js')}}"></script>
+<script src="{{asset('js/parametres/settings_categories.js')}}"></script>
+<script src="{{asset('js/parametres/settings_services.js')}}"></script>
+<script src="{{asset('js/parametres/settings_index.js')}}"></script>
 
+<script>
+ $("#user_6").on("click",function() {
+      alert('fe');
+  })
+</script>
 @endpush

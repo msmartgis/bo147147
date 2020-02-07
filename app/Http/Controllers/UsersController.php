@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
+Use Redirect;
 
 class UsersController extends Controller
 {
@@ -35,7 +38,16 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $new_user = new User();
+        $new_user->nom = $request->nom;
+        $new_user->prenom = $request->prenom;
+        $new_user->username = $request->username;
+        $new_user->service_id = $request->service_id;
+        $new_user->password = Hash::make($request->password);
+        
+        $new_user->save();
+        return Redirect::back()->with('success', 'Utilisateur ajouté avec succès');
+        
     }
 
     /**
@@ -47,7 +59,6 @@ class UsersController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-
         return $user;
     }
 

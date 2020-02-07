@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Service;
+use App\User;
 use Illuminate\Http\Request;
+
+Use Redirect;
 
 class ServiceController extends Controller
 {
@@ -35,7 +38,22 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       
+        $service = new Service();
+        $service->nom = $request->nom;
+        $service->ref = '';
+
+        if(isset($request->responsable_id) && $request->responsable_id != null)
+        {
+            $responsable = User::where('id',$request->responsable_id)
+            ->update(['is_responsable' =>1]);
+        }       
+
+        $service->save();
+        if($service->save())
+        {
+            return Redirect::back()->with('success', 'Service ajouté avec succès');
+        }
     }
 
     /**

@@ -95,5 +95,8 @@ Route::group(
         //parametres
         Route::get('/parametres', 'ParametresController@index')->name('parametres.index');
         Route::get('/settings/users', 'ParametresController@getUsers');
+        Route::get('/settings/categories', 'ParametresController@getCategories');
+        Route::get('/settings/modes-receptions', 'ParametresController@getModesReceptions');
+        Route::get('/settings/services', 'ParametresController@getServices');
     }
 );

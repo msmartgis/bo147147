@@ -1,7 +1,7 @@
-var usersTable;
-$(document).ready(function () {
-    // USERS
-    usersTable = $('#users_datatables').DataTable({
+var servicesTable;
+$(document).ready(function () {    
+    // Services
+    servicesTable = $('#services_datatables').DataTable({
         processing: true,
         serverSide: true,
         pageLength: 10,
@@ -15,7 +15,7 @@ $(document).ready(function () {
         },
 
         ajax: {
-            url: 'settings/users',
+            url: 'settings/services',
             type: 'GET',
 
         },
@@ -32,34 +32,33 @@ $(document).ready(function () {
                 targets: 3
             }
         ],
-        columns: [{
+        columns: [
+            {
                 data: 'nom',
-                name: 'users.nom',
+                name: 'services.nom',
                 orderable: false,
                 searchable: false,
                 width: '2%'
             },
             {
-                data: 'prenom',
-                name: 'users.prenom',
+                data: 'created_at',
+                name: 'services.created_at',
                 orderable: false,
                 searchable: false,
+                "visible": false,
                 width: '2%'
             },
+
             {
-                data: 'username',
-                name: 'users.username',
+                data: 'updated_at',
+                name: 'services.updated_at',
                 orderable: false,
                 searchable: false,
+                "visible": false,
                 width: '2%'
             },
-            // {
-            //     data: 'service',
-            //     name: 'service',
-            //     orderable: false,
-            //     searchable: false,
-            //     width: '2%'
-            // },
+           
+         
             {
                 data: 'actions',
                 name: 'actions',
@@ -81,30 +80,8 @@ $(document).ready(function () {
 
     });
 
-
-    usersTable.on('draw', function () {
-        $(".delete-user-btn").click(function () {
-            var btn_id = this.id;
-            var id = btn_id.split('_')[1];
-            var route = '/user/delete';
-            deleteElement(route, id);
-        });
-
-
-        $(".edit-user-btn").click(function () {
-            var btn_id = this.id;
-            var id = btn_id.split('_')[1];
-            var route = '/settings/elementData/' + id;
-            var model = 'user';
-            var modalTitle = 'Modifier L\'utilisateur';
-            getElementData(route, model, modalTitle);
-        });
-
-
-        $("#modal_submit_user").click(function () {
-            $('.user-form').submit();
-        });
+    servicesTable.on('draw', function () {
+  
     });
-
 
 });

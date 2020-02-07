@@ -797,7 +797,6 @@ class CourrierController extends Controller
         if ($services = $request->get('services')) {
             if ($services == "all") {
             } else {
-
                 $courriers->whereHas('services', function ($query) use ($services) {
                     $query->where('services.id', '=', $services);
                 });
