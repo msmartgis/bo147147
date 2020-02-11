@@ -151,3 +151,22 @@ function visualizeFile(folder, subfolder, courrierID, path) {
 
     $("#visualize_modal").modal("show");
 }
+
+
+//SETTING DATA
+function getElementData(route, model,id)
+{    
+    $.ajax({
+        url: route,
+        type: 'GET',
+        data: {
+            _token: $('meta[name="_token"]').attr('content'),        
+            model: model,
+            id: id
+        },
+        dataType: 'JSON',
+        success: function (data) {
+           console.log(data);
+        }
+    });
+}

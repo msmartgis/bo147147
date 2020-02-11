@@ -81,7 +81,17 @@ $(document).ready(function () {
     });
 
     servicesTable.on('draw', function () {
-  
+        $(".edit-setting-btn").click(function () {
+            var id = ($(this).data('id')).split('_')[1];  
+            var route = '/settings/elementData/' + id;
+            var model = 'service';
+            getElementData(route, model,id);
+        });        
+
+
+        $("#modal_submit_user").click(function () {
+            $('.user-form').submit();
+        });  
     });
 
 });

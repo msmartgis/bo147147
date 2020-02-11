@@ -87,15 +87,15 @@ $(document).ready(function () {
         // });
 
 
-        $(".edit-setting-btn").click(function () {
-            alert($(this).data('id'));
-            // var btn_id = this.id;
-            // var id = btn_id.split('_')[1];
-            // var route = '/settings/elementData/' + id;
-            // var model = 'user';
-            // var modalTitle = 'Modifier L\'utilisateur';
-            // getElementData(route, model, modalTitle);
-        });
+        // $(".edit-setting-btn").click(function () {
+            
+        //     // var btn_id = this.id;
+        //     // var id = btn_id.split('_')[1];
+        //     // var route = '/settings/elementData/' + id;
+        //     // var model = 'user';
+        //     // var modalTitle = 'Modifier L\'utilisateur';
+        //     // getElementData(route, model, modalTitle);
+        // });
 
 
         $("#modal_submit_user").click(function () {

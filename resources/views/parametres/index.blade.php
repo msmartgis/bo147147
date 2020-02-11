@@ -115,15 +115,10 @@
 <script src="{{asset('js/formatter.js')}}"></script>
 
 
-<script src="{{asset('js/parametres/settings_users.js')}}"></script>
 <script src="{{asset('js/parametres/settings_modes_receptions.js')}}"></script>
 <script src="{{asset('js/parametres/settings_categories.js')}}"></script>
 <script src="{{asset('js/parametres/settings_services.js')}}"></script>
-<script src="{{asset('js/parametres/settings_index.js')}}"></script>
+<script src="{{asset('js/parametres/settings_users.js')}}"></script>
 
-<script>
- $("#user_6").on("click",function() {
-      alert('fe');
-  })
-</script>
+
 @endpush

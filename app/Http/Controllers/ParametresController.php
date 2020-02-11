@@ -11,6 +11,21 @@ use DataTables;
 
 class ParametresController extends Controller
 {
+
+    public function getModelData(Request $request)
+    {
+        if($request->model == "service")
+        {            
+            $service = Service::find($request->id);
+            $service_responsable = Service::find($request->id)->responsables;
+            return response()->json(collect([
+                'service'=> $service,
+                'responsable'=>$service_responsable
+            ])->toJson()
+        );
+        }        
+    }
+
     public function index()
     {
         $services = Service::all();
@@ -37,7 +52,7 @@ class ParametresController extends Controller
 
 
                 ->addColumn('actions', function ($users) {
-                    return '<button class="edit-setting-btn" style="background: none;border: none;" id="user_'.$users->id.'" data-id="' . $users->id . '"><i class="fa fa-edit "  style="margin-right: 5px;color: #219009"></i></button><button class="delete-setting-btn" style="background: none;border: none;" data-id="' . $users->id . '"><i class="fa fa-trash "  style="color: #ff1308"></i>';
+                    return '<button class="edit-setting-btn" style="background: none;border: none;" data-id="user_' . $users->id . '"><i class="fa fa-edit "  style="margin-right: 5px;color: #219009"></i></button><button class="delete-setting-btn" style="background: none;border: none;" data-id="user_' . $users->id . '"><i class="fa fa-trash "  style="color: #ff1308"></i>';
                 })
 
                 ->addColumn('service', function (User $user) {
@@ -86,7 +101,7 @@ class ParametresController extends Controller
 
 
                 ->addColumn('actions', function ($services) {
-                    return '<button class="edit-user-btn" style="background: none;border: none;" id="userEditBtn_' . $services->id . '"><i class="fa fa-edit "  style="margin-right: 5px;color: #219009"></i></button><button class="delete-user-btn" style="background: none;border: none;" id="userDeleteBtn_' . $services->id . '"><i class="fa fa-trash "  style="color: #ff1308"></i>';
+                    return '<button class="edit-setting-btn" style="background: none;border: none;" data-id="service_' . $services->id . '"> <i class="fa fa-edit "  style="margin-right: 5px;color: #219009"></i></button><button class="delete-user-btn" style="background: none;border: none;" id="userDeleteBtn_' . $services->id . '"><i class="fa fa-trash "  style="color: #ff1308"></i>';
                 })
 
              

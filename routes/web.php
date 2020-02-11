@@ -98,5 +98,6 @@ Route::group(
         Route::get('/settings/categories', 'ParametresController@getCategories');
         Route::get('/settings/modes-receptions', 'ParametresController@getModesReceptions');
         Route::get('/settings/services', 'ParametresController@getServices');
+        Route::get('/settings/elementData/{id}', 'ParametresController@getModelData');
     }
 );
