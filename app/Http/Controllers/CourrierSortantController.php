@@ -14,6 +14,7 @@ use App\PersonneMorale;
 use App\PersonnePhysique;
 use App\Service;
 use App\TypeOperation;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -24,6 +25,8 @@ use DataTables;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\Input;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CourrierAdded;
 
 class CourrierSortantController extends Controller
 {
@@ -288,6 +291,12 @@ class CourrierSortantController extends Controller
             }
         }
         if ($courrier->save()) {
+
+            $users_to_notify = User::whereHas('role', function($query){
+                $query->where('role_name','president');
+            })->get();      
+           
+            Notification::send($users_to_notify, new CourrierAdded($courrier));
             //add to history
             $this->addToHistory('create', $courrier->id, Auth::user()->id);
             return redirect('/courriers-sortants')->with('success', 'Courrier ajouté avec succès');

@@ -99,5 +99,12 @@ Route::group(
         Route::get('/settings/modes-receptions', 'ParametresController@getModesReceptions');
         Route::get('/settings/services', 'ParametresController@getServices');
         Route::get('/settings/elementData/{id}', 'ParametresController@getModelData');
+
+
+        //notifications
+        Route::get('maskAsRead', function(){
+            Auth()->user()->unreadNotifications->markAsRead();
+            return redirect()->back();
+        })->name('markNotificationsAsRead');
     }
 );

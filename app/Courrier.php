@@ -6,9 +6,11 @@ use App\Traits\Uuids;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Courrier extends Model
 {
+    use Notifiable;
     use SoftDeletes;
     use Uuids;
     public $incrementing = false;

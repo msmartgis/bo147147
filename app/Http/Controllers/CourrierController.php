@@ -14,6 +14,7 @@ use App\PersonneMorale;
 use App\PersonnePhysique;
 use App\Priorite;
 use App\Service;
+use App\User;
 use App\TypeOperation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\Input;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CourrierAdded;
 
 class CourrierController extends Controller
 {
@@ -37,7 +40,8 @@ class CourrierController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {       
+
         $personne_physiques = PersonnePhysique::orderBy('nom')->where([['nom', '!=', 'null']])->get();
         $personne_morales = PersonneMorale::orderBy('raison_social')->where([['raison_social', '!=', 'null']])->get();
         $services = Service::orderBy('nom')->get();
@@ -101,6 +105,7 @@ class CourrierController extends Controller
         $courrier = new Courrier();
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
         $courrier->ref = $request->ref;
+        $courrier->type = "entrant";
         $courrier->mode_reception_id = $request->mode_reception_id;
         $courrier->date_reception = $request->date_reception;
         $courrier->objet = $request->objet;
@@ -286,6 +291,12 @@ class CourrierController extends Controller
         }
 
         if ($courrier->save()) {
+            $users_to_notify = User::whereHas('role', function($query){
+                $query->where('role_name','president');
+            })->get();      
+           
+            Notification::send($users_to_notify, new CourrierAdded($courrier));
+            //$users_to_notify->notify(new CourrierAdded($courrier));
 
             //add to history
             $this->addToHistory('create', $courrier->id, Auth::user()->id);
@@ -327,9 +338,8 @@ class CourrierController extends Controller
 
         $historique = Historique::where('courrier_id', '=', $id)->orderBy('created_at', 'desc')->get();
 
+  
      
-        
-
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,

@@ -152,6 +152,12 @@
         .mobile-nav>li {
             border-bottom: 1px solid !important;
         }
+
+        .main-header .notifications-menu .dropdown-toggle i::after {
+            @if (Auth()->user()->unreadNotifications->count() == 0)
+                background-color: unset !important;
+            @endif
+        }
     </style>
 </head>
 
@@ -197,6 +203,53 @@
 
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
+                            <!-- Notifications -->
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="mdi mdi-bell" style="font-size: 1.75rem;"></i>
+                                </a>
+                                <ul class="dropdown-menu scale-up">
+                                <li class="header" style="text-align: center;font-weight: 600;">Vous avez {{Auth()->user()->unreadNotifications->count()}} notifications</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu inner-content-div">
+                                        @foreach(Auth()->user()->unreadNotifications as $notification)
+                                            <li>                                                                                              
+                                                <a
+                                                    @if ($notification->data['type_courrier'] == "entrant")
+                                                        href="{{ route('courriers-entrants.edit', ['courriers_entrant' => $notification->data['id'] ]) }}"
+                                                    @endif
+
+                                                    @if ($notification->data['type_courrier'] == "sortant")
+                                                        href="{{ route('courriers-sortants.edit', ['courriers_sortant' => $notification->data['id'] ]) }}"
+                                                    @endif                                            
+                                                    target="_blank">
+                                                <i 
+                                                @if ($notification->data['type_courrier'] == "entrant" )
+                                                class="fa fa-arrow-left text-green" 
+                                                @else
+                                                class="fa fa-arrow-right text-yellow" 
+                                                @endif
+                                                ></i>                                                     
+                                                     {{ Str::limit($notification->data['objet'] , 30)   }}
+
+                                                    
+                                                     <div class="row">
+                                                        <span style="color: darkgrey;">{{$notification->created_at}}</span>  
+                                                    </div>
+                                                    
+                                                </a>
+                                            </li>                                        
+                                        @endforeach                              
+                                
+                                    </ul>
+                                </li>
+                                @if (Auth()->user()->unreadNotifications->count() > 0)
+                            <li class="footer"><a href="{{ route('markNotificationsAsRead')}}"><i class="fa fa-check text-orange"></i> Marquer tous comme lus</a></li> 
+                                @endif
+                                
+                                </ul>
+                            </li>
 
                             <!-- User Account -->
                             <li class="dropdown user user-menu">
