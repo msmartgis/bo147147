@@ -337,6 +337,9 @@ class CourrierSortantController extends Controller
         }
 
 
+        //mark as read notification
+        Auth::user()->unreadNotifications->where('data.id', $courrier->id)->markAsRead();
+
         return  view('courriers.sortants.edit.index_edit_cs')->with([
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,
