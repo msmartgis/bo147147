@@ -8,7 +8,10 @@ use App\Consigne;
 use App\Courrier;
 use App\Document;
 use App\EtatCourrier;
+use App\Events\NewCourrierAddedEvent as EventsNewCourrierAddedEvent;
+use App\Events\ValidateCourrierEvent;
 use App\Historique;
+use App\Mail\CourrierAddedMail;
 use App\ModeReception;
 use App\PersonneMorale;
 use App\PersonnePhysique;
@@ -29,6 +32,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\Input;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CourrierAdded;
+use Illuminate\Support\Facades\Mail;
 
 class CourrierController extends Controller
 {
@@ -290,16 +294,19 @@ class CourrierController extends Controller
             }
         }
 
-        if ($courrier->save()) {
-            $users_to_notify = User::whereHas('role', function($query){
-                $query->where('role_name','president');
-            })->get();      
-           
-            Notification::send($users_to_notify, new CourrierAdded($courrier));
-            //$users_to_notify->notify(new CourrierAdded($courrier));
+        if ($courrier->save()) { 
 
-            //add to history
-            $this->addToHistory('create', $courrier->id, Auth::user()->id);
+            // $users_to_notify = User::whereHas('role', function($query){
+            //     $query->where('role_name','president');
+            // })->first();
+
+            //Mail::to($users_to_notify->email)->send(new CourrierAddedMail());
+
+           
+            //call event for adding new courrier
+            event(new EventsNewCourrierAddedEvent($courrier,"create"));
+                
+           
             return redirect('/courriers-entrants')->with('success', 'Courrier ajouté avec succès');
         } else {
             return "error";
@@ -675,7 +682,7 @@ class CourrierController extends Controller
 
     //validate courrier
     public function validateCourrier(Request $request)
-    {
+    { 
         $courriers_ids = $request->courriers_ids;
         $state = EtatCourrier::where('nom', $request->state)->first();
         $state_id = $state->id;
@@ -683,16 +690,18 @@ class CourrierController extends Controller
         if ($values) {
             for ($i = 0; $i < count($courriers_ids); $i++) {
                 $etat_courrier = EtatCourrier::find($state_id)->first();
-
                 if ($etat_courrier->nom == "en_cours") { //validate
                     $this->addToHistory('validate', $courriers_ids[$i], Auth::user()->id);
                 }
 
                 if ($etat_courrier->nom == "cloturer") { //cloturer
                     $this->addToHistory('cloture', $courriers_ids[$i], Auth::user()->id);
-                }
+                }               
             }
+            
         }
+        
+        event(new ValidateCourrierEvent($courriers_ids,"president"));
         return response()->json();
     }
 
@@ -1487,7 +1496,6 @@ class CourrierController extends Controller
     public function addToHistory($type_operation, $courrier_id, $user_id)
     {
         $new_history = new Historique();
-
         $operation = TypeOperation::where('nom', $type_operation)->first();
 
         $new_history->type_operation_id = $operation->id;
