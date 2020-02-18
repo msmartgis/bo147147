@@ -158,6 +158,60 @@
                 background-color: unset !important;
             @endif
         }
+
+
+
+        /* Notifications */
+
+.notification {
+    display: inline-block;
+    position: relative;
+    border-radius: 0.2em;
+    font-size: 1.3em;
+}
+
+.notification::before, 
+.notification::after {
+    color: #0b2942;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.notification::before {
+    display: block;
+    content: "\f0f3";
+    font-family: "FontAwesome";
+    transform-origin: top center;
+}
+
+.notification::after {
+    font-family: Arial;
+    font-size: 0.7em;
+    font-weight: 700;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    padding: 5px 8px;
+    line-height: 100%;
+    border: 2px #fff solid;
+    border-radius: 60px;
+    background: #3498db;
+    opacity: 0;
+    content: attr(data-count);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: transform, opacity;
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out;
+}
+
+.notification.notify::before {
+    animation: ring 1.5s ease;
+}
+
+.notification.show-count::after {
+    transform: scale(1);
+    opacity: 1;
+}
     </style>
 </head>
 
@@ -183,9 +237,9 @@
                     </b>
                     <!-- logo for regular state and mobile devices -->
                     <!--
-            <span class="logo-lg">
-			  <img src="{{asset('images/logo/logo_lg_.png')}}" alt="logo" class="light-logo">
-		  </span>-->
+                    <span class="logo-lg">
+                        <img src="{{asset('images/logo/logo_lg_.png')}}" alt="logo" class="light-logo">
+                    </span>-->
                 </a>
 
 
@@ -206,7 +260,7 @@
                             <!-- Notifications -->
                             <li class="dropdown notifications-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="mdi mdi-bell" style="font-size: 1.75rem;"></i>
+                                    <div class="notification"></div>
                                 </a>
                                 <ul class="dropdown-menu scale-up">
                                 <li class="header" style="text-align: center;font-weight: 600;">Vous avez {{Auth()->user()->unreadNotifications->count()}} notifications</li>
@@ -335,5 +389,32 @@
     </script>
     @include('inc.scripts')
 </body>
+
+<script>
+
+    var el = document.querySelector('.notification');
+
+    $.ajax({
+        url: "/services/get_service",
+        type: "GET",
+        dataType: 'JSON',
+        data: {
+            service_id: service_id
+        },
+        success: function (res) {       
+
+        }
+    });
+
+        var count = Number(el.getAttribute('data-count')) || 0;
+        el.setAttribute('data-count', count + 1);
+        el.classList.remove('notify');
+        el.offsetWidth = el.offsetWidth;
+        el.classList.add('notify');
+        if(count === 0){
+            el.classList.add('show-count');
+        }
+ 
+</script>
 
 </html>

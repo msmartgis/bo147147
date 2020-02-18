@@ -44,8 +44,7 @@ class CourrierController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {       
-
+    {
         $personne_physiques = PersonnePhysique::orderBy('nom')->where([['nom', '!=', 'null']])->get();
         $personne_morales = PersonneMorale::orderBy('raison_social')->where([['raison_social', '!=', 'null']])->get();
         $services = Service::orderBy('nom')->get();
