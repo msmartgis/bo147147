@@ -304,11 +304,8 @@
                             <!-- User Account -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
                                     <img src="{{asset('images/svg/manager.svg')}}" class="user-image rounded-circle"
                                         style="border: #FD8946 solid 2px;" alt="User Image">
-
-
                                 </a>
                                 <ul class="dropdown-menu scale-up" style="width: 200px;">
                                     <!-- User image -->
