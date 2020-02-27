@@ -30,16 +30,13 @@ class SendNotificationListener
      */
     public function handle(ValidateCourrierEvent $event)
     {
-        $courriers_ids = array();
         
-        $courriers_ids = $event->courriers_ids;
         $users_to_notify = User::whereHas('role', function($query) use ($event){
                 $query->where('role_name',$event->role_name);
             })->get();
 
-            for ($i=0; $i < count($courriers_ids); $i++) {
-                $courrier_to_add = Courrier::find($courriers_ids[$i]);
-                Notification::send($users_to_notify, new CourrierAdded($courrier_to_add));
-            }
+            
+        Notification::send($users_to_notify, new CourrierAdded($event->user,$event->action,$event->element_type,$event->element_id,$event->message));
+         
     }
 }

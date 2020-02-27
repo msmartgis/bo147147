@@ -19,9 +19,14 @@ class CourrierAdded extends Notification
      *
      * @return void
      */
-    public function __construct(Courrier $courrier_added)
+    public function __construct($user,$action,$element_type,$element_id,$message)
     {
-        $this->courrier_added = $courrier_added;
+        $this->user = $user;
+        $this->action = $action;
+        $this->element_type = $element_type;
+        $this->element_id = $element_id;
+        $this->message = $message;
+        
     }
 
     /**
@@ -31,8 +36,7 @@ class CourrierAdded extends Notification
      * @return array
      */
     public function via($notifiable)
-    {
-        
+    {        
         return ['database'];
     }
 
@@ -53,9 +57,11 @@ class CourrierAdded extends Notification
     public function toDatabase()
     {
         return [
-            'type_courrier' => $this->courrier_added->type,
-            'id' => $this->courrier_added->id,
-            'objet' => $this->courrier_added->objet,
+
+            'user' => $this->user,
+            'action' => $this->action,
+            'element_type' => $this->element_type,
+            'element_id' => $this->element_id,
         ]; 
     }
 

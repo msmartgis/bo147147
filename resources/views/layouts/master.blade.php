@@ -256,46 +256,71 @@
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             <!-- Notifications -->
+                            <input type="hidden" name="notification_count_input" id="notification_count_input_id" value="{{Auth()->user()->unreadNotifications->count()}}">
                             <li class="dropdown notifications-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <div class="notification"></div>
                                 </a>
                                 <ul class="dropdown-menu scale-up"  >
-                                <li class="header" style="text-align: center;font-weight: 600;">Vous avez {{Auth()->user()->unreadNotifications->count()}} notifications</li>
+                                {{-- <li class="header" style="text-align: center;font-weight: 600;">Vous avez {{Auth()->user()->unreadNotifications->count()}} notifications</li> --}}
                                 <li id="notification_list">
                                     <!-- inner menu: contains the actual data -->                                   
-                                        <ul class="menu inner-content-div">                                           
-                                            {{-- <li><a><i class="fa fa-arrow-right text-yellow"></i></a></li> --}}
-                                            {{-- @foreach(Auth()->user()->unreadNotifications as $notification)
-                                                <li>                                                                                              
-                                                    <a
-                                                        @if ($notification->data['type_courrier'] == "entrant")
-                                                            href="{{ route('courriers-entrants.edit', ['courriers_entrant' => $notification->data['id'] ]) }}"
-                                                        @endif
-
-                                                        @if ($notification->data['type_courrier'] == "sortant")
-                                                            href="{{ route('courriers-sortants.edit', ['courriers_sortant' => $notification->data['id'] ]) }}"
-                                                        @endif                                            
+                                        <ul class="menu inner-content-div">                               
+                                            @foreach(Auth()->user()->unreadNotifications as $notification)
+                                                <li>
+                                                    <div class="media">
+                                                        <div class="media-left">
+                                                            <div class="media-object">
+                                                                @php
+                                                                    $icon = '';
+                                                                    switch ($notification->data['element_type']) {
+                                                                        case 'Courrier Entrant':
+                                                                            $icon = "/arrow-right.svg";
+                                                                            break;
+                                                                        case 'Courrier Sortant':
+                                                                            $icon = "/arrow-left.svg";
+                                                                            break; 
+                                                                        default : 
+                                                                            $icon = "/arrow-right.svg";
+        
+                                                                    }
+                                                                @endphp
+                                                                <img src="{{asset('images/svg').$icon}}" style="width: 50px; height: 50px;">
+                                                            </div>
+                                                        </div>
+                                                        <a href="#"
+                                                            {{-- href="{{ route('courriers-sortants.edit', ['courriers_sortant' => $notification->data['id'] ]) }}" --}}
+                                                                                                  
                                                         target="_blank">
-                                                    <i 
-                                                    @if ($notification->data['type_courrier'] == "entrant" )
-                                                    class="fa fa-arrow-left text-green" 
-                                                    @else
-                                                    class="fa fa-arrow-right text-yellow" 
-                                                    @endif
-                                                    ></i>                                                     
-                                                        {{ Str::limit($notification->data['objet'] , 30)   }}                                                    
+                                                        @php
+                                                            $action = '';
+                                                            switch ($notification->data['action']) {
+                                                            case 'ajouter':
+                                                                 $action = 'ajouté';
+                                                                break;
+                                                            case 'cloturer':
+                                                                 $action = "cloturé";
+                                                                break; 
+                                                            default : 
+                                                                 $action = $notification->data['action'];
+
+                                                        }
+                                                        @endphp
+                                                                                                            
+                                                        {{ $notification->data['user'] }} a {{ $action }} un {{ $notification->data['element_type'] }}                                                   
                                                         <div class="row">
                                                             <span style="color: darkgrey;">{{$notification->created_at}}</span>  
                                                         </div>
-                                                        
-                                                    </a>
+                                                            
+                                                        </a>
+                                                    </div>                                                                                       
+                                                    
                                                 </li>                                        
-                                            @endforeach --}}
+                                            @endforeach
                                         </ul>  
                                 </li>
                                 @if (Auth()->user()->unreadNotifications->count() > 0)
-                            <li class="footer"><a href="{{ route('markNotificationsAsRead')}}"><i class="fa fa-check text-orange"></i> Marquer tous comme lus</a></li> 
+                                    <li class="footer"><a href="{{ route('markNotificationsAsRead')}}"><i class="fa fa-check text-orange"></i> Marquer tous comme lus</a></li> 
                                 @endif
                                 
                                 </ul>
@@ -361,32 +386,8 @@
         <div class="content-wrapper {{__('costum_css.body')}}">
             <!-- Main content -->
             <section class="content m-content">
-
-                <!-- The core Firebase JS SDK is always required and must be listed first -->
-                <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-app.js"></script>
-                <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-firestore.js"></script>
-                <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-auth.js"></script>
-                <script src="https://www.gstatic.com/firebasejs/7.8.2/firebase-database.js"></script>
-                <!-- TODO: Add SDKs for Firebase products that you want to use
-                    https://firebase.google.com/docs/web/setup#available-libraries -->
-
-                <script>
-                // Your web app's Firebase configuration
-                var firebaseConfig = {
-                    apiKey: "AIzaSyD_vc9pYsaE5fPrAf_XCsk_RAALvTVaNSI",
-                    authDomain: "bureau-ordre-firebase.firebaseapp.com",
-                    databaseURL: "https://bureau-ordre-firebase.firebaseio.com",
-                    projectId: "bureau-ordre-firebase",
-                    storageBucket: "bureau-ordre-firebase.appspot.com",
-                    messagingSenderId: "927104865964",
-                    appId: "1:927104865964:web:a68c2b369fe75a26a87109"
-                };
-                // Initialize Firebase
-                firebase.initializeApp(firebaseConfig);
-                </script>
-
-
-            
+                <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
+               
                 @include('inc.messages')
                 @yield('content')
 
@@ -403,86 +404,88 @@
         $.widget.bridge('uibutton', $.ui.button);
     </script>
     @include('inc.scripts')
+    
 </body>
 
 <script>
- 
-    //notification firebase
-    var submitBtn = document.getElementById('firebase_btn'); 
 
-    var firebaseNotificationRef = firebase.database().ref("/Notifications");
-    var logged_user = $('meta[name=user-role]').attr("content");
-    
-  
+    var current_user_role = $('meta[name=user-role]').attr("content");
    
+    var el = document.querySelector('.notification');    
+    var count = Number($('#notification_count_input_id').val()) ; 
+    var count_pusher;
 
-    //console.log(firebaseElementsRef);
-    firebaseNotificationRef.on('value', function(datasnapshot){       
-        var notification_number = 0;
-        var list_to_append = "";
-        
-        datasnapshot.forEach(function(childSnapshot) {            
-            var childDataNotification = childSnapshot.val();
-            var arrow_icon;
-            if(logged_user === childDataNotification.user_to_notify)
-            {                
-                notification_number++;           
-
-                switch(childDataNotification.type) {
-                case "courrier_entrant":
-                    arrow_icon = "fa fa-arrow-left text-green";
-                    break;
-                case "courrier_sortant":
-                    arrow_icon = "fa fa-arrow-right text-yellow";
-                    break;
-                default:
-                    arrow_icon = "fa fa-info text-yellow";
-                }
-
-                list_to_append += '<li>'+
-                '<a>'+
-                '<i  class="'+arrow_icon+'" ></i>'
-                +childDataNotification.objet+
-                '</a>'+
-                '</li>';
-            }       
-            
-        });
-
-        $('#notification_list').html(list_to_append)
-
-        
-        var el = document.querySelector('.notification');
-        var count = Number(el.getAttribute('data-count')) || 0;
-        el.setAttribute('data-count', notification_number);
-       
-        el.classList.remove('notify');
-        el.offsetWidth = el.offsetWidth;
-        el.classList.add('notify');
-
-        if(count === 0){
-            el.classList.add('show-count');
-        }
-
+  
+    
+    // Enable pusher logging - don't include this in production
+    //Pusher.logToConsole = true;
+                
+    var pusher = new Pusher('9656e3b943b191d7be22', {
+        cluster: 'eu',
+        forceTLS: true
     });
 
-  
-    
-    // function submitToFirebase()
-    // {
-    //   var firebaseRef = firebase.database().ref("/Notifications");
-    //   firebaseRef.push({
-    //       type : "CourrierAdded",
-    //       user_id : 7,
-    //       data : {
-    //         type_courrier : "Sortant",
-    //         id : "c831e2e0-4daa-11ea-b5fd-b909c4f7f2f6",
-    //         objet : "objet sortant",
-    //       },
-    //   });
-    // }
+    var channel = pusher.subscribe('courrier-validated-channel');
+    var data;
+    channel.bind('courrier-validated-event', function(data) {   
+        if(current_user_role === data.role_name)
+        {
+            count_from_bind = Number($('#notification_count_input_id').val());
+            count_from_bind++;
+            $('#notification_count_input_id').val(count_from_bind)        
+            el.setAttribute('data-count', count_from_bind);
 
-    // end notification firebase
+              $('#notification_list ul').prepend(`
+                    <li>
+                        <div class="media">
+                            <div class="media-left">
+                                <div class="media-object">
+                                    <img src="/images/svg/arrow-left.svg" style="width: 50px; height: 50px;">
+                                </div>
+                            </div>
+                            <a href="">                                
+                                `+data.user+` a `+data.action+` un `+data.element_type+` 
+                                <div class="row">
+                                    <span style="color: darkgrey;">Il y a une minute</span>  
+                                </div>       
+                            </a>
+                            
+                        </div>
+                                  
+                    </li>
+                `);
+
+        }        
+    });
+
+   
+
+
+       
+    el.setAttribute('data-count', count);
+    el.classList.remove('notify');
+    el.offsetWidth = el.offsetWidth;
+    el.classList.add('notify');
+    el.classList.add('show-count');
+ 
+
+
+
+    
+    
+
+    // $('#notification_list').append(`
+    //     <li>
+    //         <a>
+    //             <i class="fa fa-arrow-right text-yellow"></i>
+    //             dejdjej            
+    //         </a>            
+    //     </li>
+    // `);
+
+    // if(count > 0){
+    //     el.classList.add('show-count');
+    // }
 </script>
 
 </html>

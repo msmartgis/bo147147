@@ -32,6 +32,7 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\Console\Input\Input;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CourrierAdded;
+use App\UserRole;
 use Illuminate\Support\Facades\Mail;
 
 class CourrierController extends Controller
@@ -682,25 +683,30 @@ class CourrierController extends Controller
     //validate courrier
     public function validateCourrier(Request $request)
     { 
+        $action = "ajouter";
         $courriers_ids = $request->courriers_ids;
         $state = EtatCourrier::where('nom', $request->state)->first();
         $state_id = $state->id;
         $values = Courrier::whereIn('id', $courriers_ids)->update(['etat_id' => $state_id]);
-        if ($values) {
-            for ($i = 0; $i < count($courriers_ids); $i++) {
-                $etat_courrier = EtatCourrier::find($state_id)->first();
+        $president_role = UserRole::where('role_name','president')->first();
+        $etat_courrier = EtatCourrier::find($state_id)->first();
+
+       
+            for ($i = 0; $i < count($courriers_ids); $i++) {                
                 if ($etat_courrier->nom == "en_cours") { //validate
-                    $this->addToHistory('validate', $courriers_ids[$i], Auth::user()->id);
+                    $action = "valider";
+                   
+                    //$this->addToHistory('validate', $courriers_ids[$i], Auth::user()->id);                    
                 }
 
                 if ($etat_courrier->nom == "cloturer") { //cloturer
-                    $this->addToHistory('cloture', $courriers_ids[$i], Auth::user()->id);
-                }               
-            }
-            
-        }
-        
-        event(new ValidateCourrierEvent($courriers_ids,"president"));
+                    $action = "cloturer";
+                    //$this->addToHistory('cloture', $courriers_ids[$i], Auth::user()->id);                   
+                }
+                event(new ValidateCourrierEvent(Auth::user()->username,$action,"Courrier Entrant",$courriers_ids[$i],$president_role->role_name));
+            }            
+             
+    
         return response()->json();
     }
 

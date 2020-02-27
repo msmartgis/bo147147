@@ -102,12 +102,16 @@ Route::group(
 
 
         //notifications
-            //firebase notifications
-        
-        Route::get('/firebase','FirebaseController@index')->name('firebase');
+           
         Route::get('maskAsRead', function(){
             Auth()->user()->unreadNotifications->markAsRead();
             return redirect()->back();
         })->name('markNotificationsAsRead');
+
+
+        Route::get('test', function () {
+            event(new App\Events\MyEvent('Welcome motherfucker'));
+            return "Event has been sent!";
+        });
     }
 );

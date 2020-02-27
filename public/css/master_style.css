@@ -1482,7 +1482,7 @@ body .main-header .navbar .nav>li.search-box>a:focus {
 .navbar-nav>.messages-menu>.dropdown-menu,
 .navbar-nav>.notifications-menu>.dropdown-menu,
 .navbar-nav>.tasks-menu>.dropdown-menu {
-    width: 280px;
+    width: 330px;
     padding: 0;
     margin: 0;
     top: 100%
