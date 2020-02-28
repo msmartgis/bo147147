@@ -412,8 +412,7 @@
 <script>
 
     function pushDesktopNotification()
-    {
-        
+    {        
         Push.create('Hello world from Pusher res');
     }
 
