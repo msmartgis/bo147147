@@ -387,7 +387,9 @@
             <!-- Main content -->
             <section class="content m-content">
                 <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
+                <script src="{{asset('js/pushjs/push.js')}}"></script>
                
+                <button type="button" id="notify_desktop_btn">test notify desktop</button>
                 @include('inc.messages')
                 @yield('content')
 
@@ -408,6 +410,12 @@
 </body>
 
 <script>
+
+    function pushDesktopNotification()
+    {
+        
+        Push.create('Hello world from Pusher res');
+    }
 
     var current_user_role = $('meta[name=user-role]').attr("content");
    
@@ -430,6 +438,8 @@
     channel.bind('courrier-validated-event', function(data) {   
         if(current_user_role === data.role_name)
         {
+            pushDesktopNotification();
+            //Push.create('Hello world');
             count_from_bind = Number($('#notification_count_input_id').val());
             count_from_bind++;
             $('#notification_count_input_id').val(count_from_bind)        
@@ -465,9 +475,12 @@
     el.offsetWidth = el.offsetWidth;
     el.classList.add('notify');
     el.classList.add('show-count');
- 
+    
+    
 
-
+    $('#notify_desktop_btn').on('click',function(){
+        Push.create('Hello world from Pusher res');
+    })
 
     
     
