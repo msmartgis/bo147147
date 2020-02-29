@@ -346,7 +346,7 @@ class CourrierController extends Controller
         $historique = Historique::where('courrier_id', '=', $id)->orderBy('created_at', 'desc')->get();
 
         //mark as read notification
-        Auth::user()->unreadNotifications->where('data.id', $courrier->id)->markAsRead();
+        Auth::user()->unreadNotifications->where('data.element_id', $courrier->id)->markAsRead();
      
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,

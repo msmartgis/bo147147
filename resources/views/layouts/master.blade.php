@@ -261,8 +261,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <div class="notification"></div>
                                 </a>
-                                <ul class="dropdown-menu scale-up"  >
-                                {{-- <li class="header" style="text-align: center;font-weight: 600;">Vous avez {{Auth()->user()->unreadNotifications->count()}} notifications</li> --}}
+                                <ul class="dropdown-menu scale-up"  >                                
                                 <li id="notification_list">
                                     <!-- inner menu: contains the actual data -->                                   
                                         <ul class="menu inner-content-div">                               
@@ -288,10 +287,7 @@
                                                                 <img src="{{asset('images/svg').$icon}}" style="width: 50px; height: 50px;">
                                                             </div>
                                                         </div>
-                                                        <a href="#"
-                                                            {{-- href="{{ route('courriers-sortants.edit', ['courriers_sortant' => $notification->data['id'] ]) }}" --}}
-                                                                                                  
-                                                        target="_blank">
+                                                        <a href="{{ route('courriers-entrants.edit', ['courriers_entrant' => $notification->data['element_id'] ]) }}">
                                                         @php
                                                             $action = '';
                                                             switch ($notification->data['action']) {
@@ -388,8 +384,7 @@
             <section class="content m-content">
                 <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
                 <script src="{{asset('js/pushjs/push.js')}}"></script>
-               
-                <button type="button" id="notify_desktop_btn">test notify desktop</button>
+              
                 @include('inc.messages')
                 @yield('content')
 
@@ -409,11 +404,20 @@
     
 </body>
 
-<script>
+<script src="{{asset('js/master/master.js')}}"></script>
 
+<script>
     function pushDesktopNotification()
     {        
-        Push.create('Hello world from Pusher res');
+        Push.create("E.B.O", {
+            body: "Vous avez une nouvelle notification!",
+            icon: '/images/logo/document_logo.png',
+            timeout: 4000,
+            onClick: function () {
+                window.focus();
+                this.close();
+            }
+        });
     }
 
     var current_user_role = $('meta[name=user-role]').attr("content");
@@ -421,11 +425,7 @@
     var el = document.querySelector('.notification');    
     var count = Number($('#notification_count_input_id').val()) ; 
     var count_pusher;
-
-  
-    
-    // Enable pusher logging - don't include this in production
-    //Pusher.logToConsole = true;
+ 
                 
     var pusher = new Pusher('9656e3b943b191d7be22', {
         cluster: 'eu',
@@ -434,6 +434,8 @@
 
     var channel = pusher.subscribe('courrier-validated-channel');
     var data;
+    var icon = '';
+    var route = '';
     channel.bind('courrier-validated-event', function(data) {   
         if(current_user_role === data.role_name)
         {
@@ -444,15 +446,31 @@
             $('#notification_count_input_id').val(count_from_bind)        
             el.setAttribute('data-count', count_from_bind);
 
+            switch (data.element_type) {
+                case 'Courrier Entrant':
+                    icon = "/images/svg/arrow-right.svg";
+                    route = "{!! route('courriers-entrants.edit', ['courriers_entrant' => '"+data.element_id+"' ]) !!}";
+                  
+                    break;
+
+                case 'Courrier Sortant':
+                    icon = "/images/svg/arrow-left.svg";
+                    route = "{!! route('courriers-entrants.edit', ['courriers_entrant' => '"+data.element_id+"' ]) !!}";
+                    break;
+            
+                default:
+                    break;
+            }
+
               $('#notification_list ul').prepend(`
                     <li>
                         <div class="media">
                             <div class="media-left">
                                 <div class="media-object">
-                                    <img src="/images/svg/arrow-left.svg" style="width: 50px; height: 50px;">
+                                    <img src="`+icon+`" style="width: 50px; height: 50px;">
                                 </div>
                             </div>
-                            <a href="">                                
+                            <a href="`+route+`">                                
                                 `+data.user+` a `+data.action+` un `+data.element_type+` 
                                 <div class="row">
                                     <span style="color: darkgrey;">Il y a une minute</span>  
@@ -473,29 +491,10 @@
     el.classList.remove('notify');
     el.offsetWidth = el.offsetWidth;
     el.classList.add('notify');
-    el.classList.add('show-count');
-    
-    
-
-    $('#notify_desktop_btn').on('click',function(){
-        Push.create('Hello world from Pusher res');
-    })
-
-    
-    
-
-    // $('#notification_list').append(`
-    //     <li>
-    //         <a>
-    //             <i class="fa fa-arrow-right text-yellow"></i>
-    //             dejdjej            
-    //         </a>            
-    //     </li>
-    // `);
-
-    // if(count > 0){
-    //     el.classList.add('show-count');
-    // }
+    if(count > 0)
+    {
+        el.classList.add('show-count');
+    } 
 </script>
 
 </html>

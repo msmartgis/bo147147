@@ -7,6 +7,7 @@ use App\Document;
 use App\NatureDiffusion;
 use App\PersonnePhysique;
 use App\Service;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class DiffusionInterneController extends Controller
     {
         $services = Service::orderBy('nom')->get();
         $nature_diffusion = NatureDiffusion::orderBy('nom')->get();
-        $responsables = PersonnePhysique::orderBy('nom')->where('service_id', '!=', null)->get();
+        $responsables = User::orderBy('nom')->where('service_id', '!=', null)->get();
 
         return view('diffusion_interne.show.index_diffusion_interne')->with([
             'services' => $services,
