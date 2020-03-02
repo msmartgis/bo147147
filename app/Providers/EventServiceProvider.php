@@ -22,6 +22,14 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\ValidateCourrierEvent::class => [
             \App\Listeners\SendNotificationListener::class,
         ],
+
+        \App\Events\ChangeCourrierStateEvent::class => [
+            \App\Listeners\ChangeCourrierStateListener::class,
+        ],
+
+        \App\Events\ClotureCourrierEvent::class => [
+            \App\Listeners\ClotureCourrierListener::class,
+        ],
     ];
 
     /**

@@ -9,6 +9,7 @@ use App\Courrier;
 use App\Document;
 use App\EtatCourrier;
 use App\Events\NewCourrierAddedEvent as EventsNewCourrierAddedEvent;
+use App\Events\ChangeCourrierStateEvent as ChangeCourrierStateEvent;
 use App\Events\ValidateCourrierEvent;
 use App\Historique;
 use App\Mail\CourrierAddedMail;
@@ -53,6 +54,10 @@ class CourrierController extends Controller
         $modes_recpetions = ModeReception::where('lang', App::getLocale())->orderBy('nom')->get();
         $priorites = Priorite::orderBy('nom')->get();
         $categorie_courrier = CategorieCourrier::orderBy('nom')->get();
+
+
+        event(new ChangeCourrierStateEvent());
+
         return view('courriers.entrants.show.index')->with([
             'personne_physiques' => $personne_physiques,
             'personne_morales' => $personne_morales,

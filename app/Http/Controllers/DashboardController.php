@@ -7,6 +7,8 @@ use App\EtatCourrier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+use App\Events\ChangeCourrierStateEvent as ChangeCourrierStateEvent;
+
 class DashboardController extends Controller
 {
     public function index()
@@ -17,9 +19,8 @@ class DashboardController extends Controller
         $brouillon_etat = EtatCourrier::where('nom', 'brouillon')->first();
         $en_cours_etat = EtatCourrier::where('nom', 'en_cours')->first();
 
-        //update courriers state
-        Courrier::where([['type', '=', 'entrant'], ['delai', '<', $actu_date], ['etat_id', '!=', $cloture_etat->id], ['etat_id', '!=', $brouillon_etat->id]])
-            ->update(['etat_id' => $en_retard_etat->id]);
+      
+      
 
 
 
@@ -40,7 +41,7 @@ class DashboardController extends Controller
         $dernierement_cloture = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne', 'hitorique')->where([['type', '=', 'entrant'], ['etat_id', '=', $cloture_etat->id]])->take(10)->get();
         $dernierement_en_retard = Courrier::with('modeReception', 'personnePhysique', 'personneMorale', 'piece', 'services', 'remarqueConsigne', 'hitorique')->where([['type', '=', 'entrant'], ['etat_id', '=', $en_retard_etat->id]])->take(10)->get();
 
-
+        event(new ChangeCourrierStateEvent());
 
         return view('dashboard.dashboard')->with([
             'nombre_courrier' => $nombre_courrier,

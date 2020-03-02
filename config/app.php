@@ -167,6 +167,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Tightenco\Ziggy\ZiggyServiceProvider::class,
 
         /*
          * Package Service Providers...
