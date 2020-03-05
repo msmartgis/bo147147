@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ValidateCourrierEvent implements ShouldBroadcast
+class DistributionEvent 
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -28,18 +28,13 @@ class ValidateCourrierEvent implements ShouldBroadcast
      */
     public function __construct($user,$action,$element_type,$element_id,array $services_ids)
     {
+        $this->element_id = $element_id;
+        $this->services_ids = $services_ids;
         $this->user = $user;
         $this->action = $action;
         $this->element_type = $element_type;
-        $this->element_id = $element_id;       
-        $this->services_ids = $services_ids;        
         $this->message = "{$user} a {$action} un {$element_type}";
     }
-
-    // public function setAction($action)
-    // {
-        
-    // }
 
     /**
      * Get the channels the event should broadcast on.
@@ -48,11 +43,6 @@ class ValidateCourrierEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['courrier-validated-channel'];
-    }
-
-    public function broadcastAs()
-    {
-        return 'courrier-validated-event';
+        return new PrivateChannel('channel-name');
     }
 }

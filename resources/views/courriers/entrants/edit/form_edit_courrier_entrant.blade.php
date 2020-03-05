@@ -311,22 +311,23 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
 
                                                         <td style="text-align: center;">
                                                             @if($item->path != '')
-                                                            <a
-                                                                href="/files/download/courriers/entrants/{{$courrier->id}}/{{$item->path}}">
-                                                                <button type="button" class="btn btn-success-table ">
-                                                                    <i class="fa fa-download"></i>
-                                                                    {{__('Télécharger')}}</button>
-                                                            </a>
+                                                                <a
+                                                                    href="/files/download/courriers/entrants/{{$courrier->id}}/{{$item->path}}">
+                                                                    <button type="button" class="btn btn-success-table ">
+                                                                        <i class="fa fa-download"></i>
+                                                                        {{__('Télécharger')}}</button>
+                                                                </a>
 
 
-                                                            <button type="button" data-folder="courriers"
-                                                                data-subfolder="entrants"
-                                                                data-courrierid="{{$courrier->id}}"
-                                                                data-path="{{$item->path}}"
-                                                                class="btn btn-success-table visualize-file-btn"
-                                                                style="color : #1d2f59">
-                                                                <i class="fa fa-eye"></i>
-                                                                {{__('Visualiser')}}</button>
+                                                                <button type="button" data-folder="courriers"
+                                                                    data-subfolder="entrants"
+                                                                    data-courrierid="{{$courrier->id}}"
+                                                                    data-path="{{$item->path}}"
+                                                                    class="btn btn-success-table visualize-file-btn"
+                                                                    style="color : #1d2f59">
+                                                                    <i class="fa fa-eye"></i>
+                                                                    {{__('Visualiser')}}
+                                                                </button>
 
                                                             @endif
 
@@ -338,7 +339,6 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                                     class="fa fa-close"></i>{{__('Supprimer')}}
                                                             </button>
                                                             @endif
-
                                                         </td>
 
                                                     </tr>
@@ -348,10 +348,14 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                             </table>
 
                                             <div style="text-align: center">
-                                                <a href="#" id="add_piece_btn" class="m-hidden"> <i
-                                                        class="fa fa-plus"></i>
-                                                    <b>{{__('Ajouter')}} </b>
-                                                </a>
+                                                @if (Auth::user()->role->first()->role_name ==
+                                                            "bureau_ordre" || Auth::user()->role->first()->role_name ==
+                                                            "admin")
+                                                    <a href="#" id="add_piece_btn" class="m-hidden"> <i
+                                                            class="fa fa-plus"></i>
+                                                        <b>{{__('Ajouter')}} </b>
+                                                    </a>
+                                                @endif
                                             </div>
 
                                         </div>
@@ -433,10 +437,13 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                             </table>
 
                                             <div style="text-align: center">
-                                                <a href="#" id="add_accuse_reception_btn" class="m-hidden"> <i
-                                                        class="fa fa-plus"></i>
-                                                    <b>{{__('Ajouter')}} </b>
-                                                </a>
+                                                @if (Auth::user()->role->first()->role_name == "bureau_ordre" || 
+                                                    Auth::user()->role->first()->role_name == "admin")
+                                                        <a href="#" id="add_accuse_reception_btn" class="m-hidden"> <i
+                                                                class="fa fa-plus"></i>
+                                                            <b>{{__('Ajouter')}} </b>
+                                                        </a>
+                                                @endif
                                             </div>
 
                                         </div>
@@ -507,7 +514,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                             @endif
                                                         </td>
                                                         <td>
-                                                            @if (Auth::user()->role->first()->role_name == "admin")
+                                                            @if (Auth::user()->role->first()->role_name == "president")
                                                             <button type="button"
                                                                 class="btn delete-row btn-danger-table m-hidden"
                                                                 id="delete_service_row_btn"> <i class="fa fa-close"></i>
@@ -521,14 +528,13 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                             </table>
 
 
-                                            @if (Auth::user()->role->first()->role_name == "president" ||
-                                            Auth::user()->role->first()->role_name == "admin")
-                                            <div style="text-align: center">
-                                                <a href="#" data-toggle="modal" data-target="#assigne_service_modal"
-                                                    class="m-hidden"> <i class="fa fa-plus"></i>
-                                                    <b>{{__('Ajouter')}} </b>
-                                                </a>
-                                            </div>
+                                            @if (Auth::user()->role->first()->role_name == "president")
+                                                <div style="text-align: center">
+                                                    <a href="#" data-toggle="modal" data-target="#assigne_service_modal"
+                                                        class="m-hidden"> <i class="fa fa-plus"></i>
+                                                        <b>{{__('Ajouter')}} </b>
+                                                    </a>
+                                                </div>
                                             @endif
 
                                         </div>
@@ -594,11 +600,15 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                             {{$remarque->user->full_name}}
                                                         </td>
 
+
+
                                                         <td style="text-align: center;">
-                                                            <button type="button"
-                                                                class="btn delete-row btn-danger-table m-hidden"> <i
-                                                                    class="fa fa-close"></i>{{__('Supprimer')}}
-                                                            </button>
+                                                            @if (Auth::user()->role->first()->role_name == "president")
+                                                                <button type="button"
+                                                                    class="btn delete-row btn-danger-table m-hidden"> <i
+                                                                        class="fa fa-close"></i>{{__('Supprimer')}}
+                                                                </button>
+                                                            @endif
                                                         </td>
 
                                                     </tr>
@@ -616,10 +626,12 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
 
                                             @if (Auth::user()->role->first()->role_name == "president" )
                                             <div style="text-align: center">
-                                                <a href="#" data-toggle="modal" data-target="#remarque_consigne_modal"
-                                                    class="m-hidden"> <i class="fa fa-plus"></i>
-                                                    <b>{{__('Ajouter')}} </b>
-                                                </a>
+                                                @if (Auth::user()->role->first()->role_name == "president")
+                                                    <a href="#" data-toggle="modal" data-target="#remarque_consigne_modal"
+                                                        class="m-hidden"> <i class="fa fa-plus"></i>
+                                                        <b>{{__('Ajouter')}} </b>
+                                                    </a>
+                                                @endif
                                             </div>
                                             @endif
 

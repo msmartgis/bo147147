@@ -10,6 +10,7 @@ use App\Document;
 use App\EtatCourrier;
 use App\Events\NewCourrierAddedEvent as EventsNewCourrierAddedEvent;
 use App\Events\ChangeCourrierStateEvent as ChangeCourrierStateEvent;
+use App\Events\DistributionEvent as DistributionEvent;
 use App\Events\ValidateCourrierEvent;
 use App\Historique;
 use App\Mail\CourrierAddedMail;
@@ -343,6 +344,7 @@ class CourrierController extends Controller
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $courrier = Courrier::with('personnePhysique', 'personneMorale', 'remarqueConsigne')->findOrFail($id);
         $courrier->ref_sortant = '';
+
         if ($courrier->courrier_sortant_id != null) {
             $courrier_sortant = Courrier::findOrFail($courrier->courrier_sortant_id);
             $courrier->ref_sortant = $courrier_sortant->ref;
@@ -352,7 +354,7 @@ class CourrierController extends Controller
 
         //mark as read notification
         Auth::user()->unreadNotifications->where('data.element_id', $courrier->id)->markAsRead();
-     
+       
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,
@@ -372,6 +374,9 @@ class CourrierController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $action = "ajouter";
+        $type_element = "Courrier Entrant";
 
         $document_ids_request_array = [];
         $document_ids_from_db_array = [];
@@ -570,9 +575,6 @@ class CourrierController extends Controller
         }
 
 
-
-
-
         if (count($array_diff_accuse) > 0) {
             foreach ($array_diff_accuse as $item) {
                 $accuse_to_delete = Accuse::find($item);
@@ -627,13 +629,14 @@ class CourrierController extends Controller
 
 
         //services
-
         if (isset($request->service_input_id)) {
             $courrier_to_edit->services()->detach();
             $services_ids =  $request->service_input_id;
             $messages = $request->messages;
             for ($i = 0; $i < count($services_ids); $i++) {
                 $courrier_to_edit->services()->attach($services_ids[$i], ['message' => $messages[$i], 'vu' => 0]);
+
+                event(new DistributionEvent(Auth::user()->username,$action,$type_element,$courrier_to_edit->id,$services_ids));
             }
         }
 
@@ -687,17 +690,31 @@ class CourrierController extends Controller
 
     //validate courrier
     public function validateCourrier(Request $request)
-    { 
+    {
+        $type_element = "Courrier Entrant";
+        $services_ids = []; 
         $action = "ajouter";
         $courriers_ids = $request->courriers_ids;
         $state = EtatCourrier::where('nom', $request->state)->first();
         $state_id = $state->id;
         $values = Courrier::whereIn('id', $courriers_ids)->update(['etat_id' => $state_id]);
-        $president_role = UserRole::where('role_name','president')->first();
-        $etat_courrier = EtatCourrier::find($state_id)->first();
+        //$president_role = UserRole::where('role_name','president')->first();
 
+        
+        $etat_courrier = EtatCourrier::find($state_id)->first();
        
-            for ($i = 0; $i < count($courriers_ids); $i++) {                
+            for ($i = 0; $i < count($courriers_ids); $i++) {
+                $courrier = Courrier::find($courriers_ids[$i]);
+                
+                $services_courrier =  $courrier->services;
+
+                foreach($services_courrier as $service)
+                {
+
+                    array_push($services_ids,$service->id);                    
+                }           
+              
+
                 if ($etat_courrier->nom == "en_cours") { //validate
                     $action = "valider";
                    
@@ -708,7 +725,7 @@ class CourrierController extends Controller
                     $action = "cloturer";
                     //$this->addToHistory('cloture', $courriers_ids[$i], Auth::user()->id);                   
                 }
-                event(new ValidateCourrierEvent(Auth::user()->username,$action,"Courrier Entrant",$courriers_ids[$i],$president_role->role_name));
+                event(new ValidateCourrierEvent(Auth::user()->username,$action,$type_element,$courriers_ids[$i],$services_ids));
             }            
              
     
