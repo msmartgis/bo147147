@@ -28,6 +28,14 @@ class UsersRolesTableSeeder extends Seeder
         $president->desciption = "pour le president et le directeur general";
         $president->save();
 
+
+        $normal_service = new UserRole();
+        $normal_service->role_name = "normal_service";
+        $normal_service->desciption = "pour les autres services";
+        $normal_service->save();
+
+
+
         // UserRole::insert([
         //     'role_name' => 'admin',
         // ]);

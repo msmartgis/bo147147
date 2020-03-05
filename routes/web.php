@@ -113,5 +113,8 @@ Route::group(
             event(new App\Events\MyEvent('Welcome motherfucker'));
             return "Event has been sent!";
         });
+
+        //registre 
+        Route::post('/registre-courrier-entrant', 'RegistreController@registreCourrierEntrant')->name('word.registre-courrier-entrant');
     }
 );

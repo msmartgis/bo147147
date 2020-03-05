@@ -44,5 +44,12 @@ class ServicesTableSeeder extends Seeder
         $dg_service->ref = "President";
         $dg_service->nom = "المدير العام";
         $dg_service->save();
+
+
+
+        $bo_service = new Service();
+        $bo_service->ref = "B.O";
+        $bo_service->nom = "مكتب الضبط";
+        $bo_service->save();
     }
 }

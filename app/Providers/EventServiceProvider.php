@@ -30,6 +30,12 @@ class EventServiceProvider extends ServiceProvider
         \App\Events\ClotureCourrierEvent::class => [
             \App\Listeners\ClotureCourrierListener::class,
         ],
+
+        \App\Events\DistributionEvent::class => [
+        \App\Listeners\DistributionListener::class,
+        ],
+
+        
     ];
 
     /**
