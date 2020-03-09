@@ -77,8 +77,9 @@ $(document).ready(function() {
                 d.categorie_courrier = $(
                     "select[name=categorie_courrier_en_retard]"
                 ).val();
+                
                 d.date_reception = $(
-                    "select[name=date_reception_en_retard_daterange]"
+                    "input[name=date_reception_en_retard_daterange]"
                 ).val();
             }
         },

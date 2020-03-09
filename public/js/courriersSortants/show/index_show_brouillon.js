@@ -78,8 +78,8 @@ $(document).ready(function() {
                     "select[name=categorie_courrier_brouillon]"
                 ).val();
 
-                d.date_reception = $(
-                    "select[name=date_reception_brouillon_daterange]"
+                d.date_envoie = $(
+                    "input[name=date_envoie_brouillon_daterange]"
                 ).val();
             }
         },

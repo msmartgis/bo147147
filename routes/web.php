@@ -116,5 +116,6 @@ Route::group(
 
         //registre 
         Route::post('/registre-courrier-entrant', 'RegistreController@registreCourrierEntrant')->name('word.registre-courrier-entrant');
+        Route::post('/registre-courrier-sortant', 'RegistreController@registreCourrierSortant')->name('word.registre-courrier-sortant');
     }
 );

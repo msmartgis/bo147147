@@ -40,6 +40,18 @@ class Courrier extends Model
     }
 
 
+    public function setDateCourrierAttribute($value)
+    {
+        $this->attributes['date_courrier'] = Carbon::createFromFormat(config('app.date_format'), $value)->format('Y-m-d');
+    }
+
+
+    public function getDateCourrierAttribute($value)
+    {
+        return Carbon::parse($value)->format(config('app.date_format'));
+    }
+
+
     public function setDateEnvoieAttribute($value)
     {
         $this->attributes['date_envoie'] = Carbon::createFromFormat(config('app.date_format'), $value)->format('Y-m-d');

@@ -77,8 +77,8 @@ $(document).ready(function() {
                 d.categorie_courrier = $(
                     "select[name=categorie_courrier_en_cours]"
                 ).val();
-                d.date_reception = $(
-                    "select[name=date_reception_en_cours_daterange]"
+                d.date_envoie = $(
+                    "input[name=date_envoie_en_cours_daterange]"
                 ).val();
             }
         },

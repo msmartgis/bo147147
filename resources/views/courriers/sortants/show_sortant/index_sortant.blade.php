@@ -42,6 +42,22 @@
 @endsection
 
 @push('added_scripts')
+
+<script>
+    $('.date-range-input').daterangepicker({
+        locale: {
+        format: '{{ config('app.date_format_javascript') }}'
+        }
+    });
+
+
+    $('#registre_generate_btn').on('click',function(){
+        var date_range = $('#date_envoie_daterange_id').val();        
+        $('.registre-word').append('<input type="hidden" name="date_envoie_tous_daterange" value="'+date_range+'" />'); 
+        $('.registre-word').submit();
+        
+    })
+</script>
 <script src="{{asset('css/datatable/datatables.min.js')}}"></script>
  <script src="{{asset('js/courriersSortants/show/index_show_tous.js')}}"></script>
  <script src="{{asset('js/courriersSortants/show/index_show_brouillon.js')}}"></script>

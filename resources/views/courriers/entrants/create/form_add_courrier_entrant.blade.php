@@ -51,16 +51,15 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="form-group">
-                        {{Form::label('',trans('Priorité'). ' :')}}
-                        {{Form::select('priorites', $priorites, null,
-                                [
-                                'data-placeholder' => 'Selectionner mode de reception',
-                                'class'=>'form-control ',
-                                'name'=>'priorites_id',
-                                'style'=>'width:100%'
-                                ]
-                                )}}
+                    <div class="form-group {{__('costum_css.date-style-m')}}">
+                        {{Form::label('',trans('Date de courrier'))}}
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            {{Form::text('date_courrier',$actu_date,['class'=>'form-control pull-right datepicker'])}}
+                        </div>
+                        <!-- /.input group -->
                     </div>
                 </div>
             </div>
@@ -74,6 +73,20 @@
                                 'data-placeholder' => 'Selectionner mode de reception',
                                 'class'=>'form-control ',
                                 'name'=>'categorie_courrier_id',
+                                'style'=>'width:100%'
+                                ]
+                                )}}
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        {{Form::label('',trans('Priorité'). ' :')}}
+                        {{Form::select('priorites', $priorites, null,
+                                [
+                                'data-placeholder' => 'Selectionner mode de reception',
+                                'class'=>'form-control ',
+                                'name'=>'priorites_id',
                                 'style'=>'width:100%'
                                 ]
                                 )}}

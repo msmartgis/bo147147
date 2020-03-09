@@ -63,11 +63,19 @@
 @push('added_scripts')
 
 <script>
-    $('#date_reception_brouillon_input').daterangepicker({
+    $('.date-range-input').daterangepicker({
         locale: {
         format: '{{ config('app.date_format_javascript') }}'
         }
     });
+
+
+    $('#registre_generate_btn').on('click',function(){
+        var date_range = $('#date_reception_daterange_id').val();
+        $('.registre-word').append('<input type="hidden" name="date_reception_tous_daterange" value="'+date_range+'" />');  
+        $('.registre-word').submit();
+        
+    })
 </script>
 
 

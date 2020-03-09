@@ -58,7 +58,6 @@ class CourrierSortantController extends Controller
      */
     public function create()
     {
-
         $actu_date = Carbon::now()->format('d/m/Y');
         $categorie_courrier = CategorieCourrier::orderBy('nom')->pluck('nom', 'id');
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
@@ -84,7 +83,7 @@ class CourrierSortantController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {        
         $validatedData = $request->validate([
             'objet' => 'required',
             'ref' => 'required',
@@ -97,23 +96,23 @@ class CourrierSortantController extends Controller
         $courrier->objet = $request->objet;
         $courrier->etat_id = $brouillon_etat->id;
         $courrier->categorie_courrier_id = $request->categorie_courrier_id;
+      
 
         if (isset($request->courrier_entrant_id)) {
+           
             //update courrier entrant 
-
-
             $courrier->courrier_entrant_id = $request->courrier_entrant_id;
 
             if (isset($request->personne_physique_from_entrant_id)) {
                 $courrier->personne_physique_id = $request->personne_physique_from_entrant_id;
             }
 
-
             if (isset($request->personne_morale_from_entrant_id)) {
                 $courrier->personne_morale_id = $request->personne_morale_from_entrant_id;
             }
+           
         } else {
-
+        
             //insert destinataire
             //create personne physique
             if ($request->type_destinataire == "personne_physique") {
@@ -138,7 +137,6 @@ class CourrierSortantController extends Controller
             }
 
             if ($request->type_destinataire == "personne_morale") {
-
                 if ($request->raison_social == null) {
                     $courrier->personne_morale_id = $request->personne_morale_id_from_db;
                 } else {
@@ -178,15 +176,17 @@ class CourrierSortantController extends Controller
             }
         }
 
+       
 
         $courrier->save();
-
-
+        
         if ($courrier->save()) {
             if (isset($request->courrier_entrant_id)) {
                 $courrier_entrant_to_update = Courrier::find($request->courrier_entrant_id);
                 $courrier_entrant_to_update->courrier_sortant_id = $courrier->id;
                 $courrier_entrant_to_update->save();
+
+               
             }
         }
 
@@ -198,8 +198,6 @@ class CourrierSortantController extends Controller
             $document_noms =  $request->intitules;
             $document_modes_envoi =  $request->modes_envoi;
             $date_envoi_doc_input =  $request->date_envoi_doc_input;
-
-
 
             if ($request->hasFile('documents_ulpoad_input')) {
                 $files =  $request->documents_ulpoad_input;
@@ -220,8 +218,8 @@ class CourrierSortantController extends Controller
             }
 
             for ($i = 0; $i < count($document_types_ids); $i++) {
-                $document_courrier = new Document();
 
+                $document_courrier = new Document();
                 if ($document_noms[$i] == "") {
                     $document_courrier->nom_document = "Document sans nom";
                 } else {
@@ -239,19 +237,17 @@ class CourrierSortantController extends Controller
                 $document_courrier->mode_reception_id = $document_modes_envoi[$i];
                 $document_courrier->date_reception = $date_envoi_doc_input[$i];
                 $document_courrier->courrier_id = $courrier->id;
-
                 $document_courrier->save();
             }
         }
 
-
+      
 
         //insert accuse envoi
         if (isset($request->date_accuse_envoi)) {
             $accuse_envoi_names = array();
 
             $date_accuses_envoi = $request->date_accuse_envoi;
-
             if ($request->hasFile('accuse_envoi_uploads')) {
                 $files_accuse =  $request->accuse_envoi_uploads;
                 foreach ($files_accuse as $file) {
@@ -273,30 +269,28 @@ class CourrierSortantController extends Controller
 
             for ($i = 0; $i < count($date_accuses_envoi); $i++) {
                 $accuse_envoi  = new Accuse();
-
                 $accuse_envoi->type = "envoi";
                 $accuse_envoi->date = $date_accuses_envoi[$i];
                 $accuse_envoi->date = $date_accuses_envoi[$i];
                 $accuse_envoi->user_id = Auth::user()->id;
                 $accuse_envoi->courrier_id = $courrier->id;
 
-
                 if (count($accuse_envoi_names) > 0) {
                     $accuse_envoi->path = $accuse_envoi_names[$i];
                 } else {
                     $accuse_envoi->path = '';
                 }
-
                 $accuse_envoi->save();
             }
         }
-        if ($courrier->save()) {
 
+        
+        if ($courrier->save()) {
             $users_to_notify = User::whereHas('role', function($query){
                 $query->where('role_name','president');
             })->get();      
            
-            Notification::send($users_to_notify, new CourrierAdded($courrier));
+            //Notification::send($users_to_notify, new CourrierAdded($courrier));
             //add to history
             $this->addToHistory('create', $courrier->id, Auth::user()->id);
             return redirect('/courriers-sortants')->with('success', 'Courrier ajouté avec succès');
@@ -810,6 +804,22 @@ class CourrierSortantController extends Controller
             }
         }
 
+
+        //filter with daterange
+        if ($daterange = $request->get('date_envoie')) {           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+
+            $courriers->where([
+                ['date_envoie', '>=',$date_start_formatted],
+                ['date_envoie', '<=',$date_end_formatted],
+            ]);
+        }
+
         return $datatables->make(true);
     }
 
@@ -948,6 +958,22 @@ class CourrierSortantController extends Controller
             } else {
                 $courriers->where('avis', '=', $avis);
             }
+        }
+
+
+          //filter with daterange
+          if ($daterange = $request->get('date_envoie')) {           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+
+            $courriers->where([
+                ['date_envoie', '>=',$date_start_formatted],
+                ['date_envoie', '<=',$date_end_formatted],
+            ]);
         }
 
         return $datatables->make(true);
@@ -1092,6 +1118,22 @@ class CourrierSortantController extends Controller
             }
         }
 
+
+         //filter with daterange
+         if ($daterange = $request->get('date_envoie')) {           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+
+            $courriers->where([
+                ['date_envoie', '>=',$date_start_formatted],
+                ['date_envoie', '<=',$date_end_formatted],
+            ]);
+        }
+
         return $datatables->make(true);
     }
 
@@ -1231,6 +1273,22 @@ class CourrierSortantController extends Controller
             } else {
                 $courriers->where('avis', '=', $avis);
             }
+        }
+
+
+         //filter with daterange
+         if ($daterange = $request->get('date_envoie')) {           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+
+            $courriers->where([
+                ['date_envoie', '>=',$date_start_formatted],
+                ['date_envoie', '<=',$date_end_formatted],
+            ]);
         }
 
         return $datatables->make(true);

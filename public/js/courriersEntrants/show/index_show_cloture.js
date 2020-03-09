@@ -76,7 +76,7 @@ $(document).ready(function() {
                     "select[name=categorie_courrier_cloture]"
                 ).val();
                 d.date_reception = $(
-                    "select[name=date_reception_cloture_daterange]"
+                    "input[name=date_reception_cloture_daterange]"
                 ).val();
             }
         },

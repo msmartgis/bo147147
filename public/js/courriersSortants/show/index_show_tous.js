@@ -70,8 +70,8 @@ $(document).ready(function() {
                 d.categorie_courrier = $(
                     "select[name=categorie_courrier_tous]"
                 ).val();
-                d.date_reception = $(
-                    "select[name=date_reception_tous_daterange]"
+                d.date_envoie = $(
+                    "input[name=date_envoie_tous_daterange]"
                 ).val();
             }
         },

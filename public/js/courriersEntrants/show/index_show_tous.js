@@ -72,7 +72,7 @@ $(document).ready(function() {
                     "select[name=categorie_courrier_tous]"
                 ).val();
                 d.date_reception = $(
-                    "select[name=date_reception_tous_daterange]"
+                    "input[name=date_reception_tous_daterange]"
                 ).val();
             }
         },

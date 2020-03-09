@@ -75,8 +75,8 @@ $(document).ready(function() {
                 d.categorie_courrier = $(
                     "select[name=categorie_courrier_cloture]"
                 ).val();
-                d.date_reception = $(
-                    "select[name=date_reception_cloture_daterange]"
+                d.date_envoie = $(
+                    "input[name=date_envoie_cloture_daterange]"
                 ).val();
             }
         },

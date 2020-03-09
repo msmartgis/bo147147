@@ -118,6 +118,7 @@ class CourrierController extends Controller
         $courrier->type = "entrant";
         $courrier->mode_reception_id = $request->mode_reception_id;
         $courrier->date_reception = $request->date_reception;
+        $courrier->date_courrier = $request->date_courrier;
         $courrier->objet = $request->objet;
         $courrier->delai = $request->delai;
         $courrier->etat_id = $brouillon_etat->id;
@@ -374,7 +375,6 @@ class CourrierController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $action = "ajouter";
         $type_element = "Courrier Entrant";
 
@@ -391,6 +391,7 @@ class CourrierController extends Controller
 
         $courrier_to_edit->objet = $request->objet;
         $courrier_to_edit->date_reception = $request->date_reception;
+        $courrier_to_edit->date_courrier = $request->date_courrier;
         $courrier_to_edit->delai = $request->delai;
         $courrier_to_edit->mode_reception_id = $request->mode_reception_id;
         $courrier_to_edit->priorite_id = $request->priorite_id;
@@ -740,7 +741,7 @@ class CourrierController extends Controller
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
 
-                ->addColumn('objet', function ($courriers) {
+                ->addColumn('objet', function ($courriers) { 
                     return $courriers->objet ? Str::limit($courriers->objet, 100, '...') : '';
                 })
 
@@ -786,7 +787,7 @@ class CourrierController extends Controller
                 })
 
                 ->addColumn('etat', function ($courriers) {
-                    switch ($courriers->etat->first()->nom) {
+                    switch ($courriers->etat->nom) {
                         case 'en_cours':
                             return "<b style='color : #009dc5'>En cours</b>";
                             break;
@@ -801,7 +802,7 @@ class CourrierController extends Controller
                             break;
 
                         default:
-
+                            return '';
                             break;
                     }
                 })
@@ -893,6 +894,25 @@ class CourrierController extends Controller
                 $courriers->where('avis', '=', $avis);
             }
         }
+
+
+
+        //filter with daterange
+        if ($daterange = $request->get('date_reception')) {           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+
+            $courriers->where([
+                ['date_reception', '>=',$date_start_formatted],
+                ['date_reception', '<=',$date_end_formatted],
+            ]);
+        }
+
+        
 
         return $datatables->make(true);
     }
@@ -1037,16 +1057,18 @@ class CourrierController extends Controller
 
         //filter with daterange
         if ($daterange = $request->get('date_reception')) {
-            // $daterange_splite = explode('-', $daterange);
-            // $date_start = trim($daterange_splite[0]);
-            // //$date_start_formatted = date("Y-m-d", strtotime($date_start));
-            // // $date_end = str_replace(' ', '', $daterange_splite[1]);
-            // // //$date_end_formatted = Carbon::createFromFormat('d/m/Y', $date_end)->format('Y-m-d');
-            // // $date_end_formatted = date("Y-m-d", strtotime($date_end));
+           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
 
-            // $courriers->where([
-            //     [Carbon::createFromFormat('Y-m-d', 'date_reception')->format('d/m/Y'), '>=', $date_start]
-            // ]);
+
+            $courriers->where([
+                ['date_reception', '>=',$date_start_formatted],
+                ['date_reception', '<=',$date_end_formatted],
+            ]);
         }
 
 
@@ -1198,6 +1220,23 @@ class CourrierController extends Controller
         }
 
 
+          //filter with daterange
+          if ($daterange = $request->get('date_reception')) {
+           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+
+            $courriers->where([
+                ['date_reception', '>=',$date_start_formatted],
+                ['date_reception', '<=',$date_end_formatted],
+            ]);
+        }
+
+
         //avis
         if ($avis = $request->get('avis')) {
             if ($avis == "all") {
@@ -1345,6 +1384,23 @@ class CourrierController extends Controller
                     $query->where('id', '=', $categorie_courrier);
                 });
             }
+        }
+
+
+          //filter with daterange
+          if ($daterange = $request->get('date_reception')) {
+           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+
+            $courriers->where([
+                ['date_reception', '>=',$date_start_formatted],
+                ['date_reception', '<=',$date_end_formatted],
+            ]);
         }
 
 
@@ -1505,6 +1561,23 @@ class CourrierController extends Controller
                     $query->where('id', '=', $categorie_courrier);
                 });
             }
+        }
+
+
+         //filter with daterange
+         if ($daterange = $request->get('date_reception')) {
+           
+            $daterange_splite = explode('-', trim($daterange));
+            $date_start = $daterange_splite[0];
+            $date_start_formatted = date("Y-m-d", strtotime($date_start));
+            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end_formatted = date("Y-m-d", strtotime($date_end));
+
+
+            $courriers->where([
+                ['date_reception', '>=',$date_start_formatted],
+                ['date_reception', '<=',$date_end_formatted],
+            ]);
         }
 
 

@@ -217,6 +217,7 @@
 
 <body class="hold-transition skin-blue layout-top-nav has-drawer ">
     
+    
     <input type="hidden" id="user_service_input_id" value="{{Auth()->user()->service->id}}">
     <div class="se-pre-con"
         style=" width: 100%;height: 100%;z-index: 99998;position: fixed; left: 0px; top: 0px;background:#efefef ">

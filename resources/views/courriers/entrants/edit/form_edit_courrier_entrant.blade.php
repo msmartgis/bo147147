@@ -735,6 +735,25 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
 
                     <div class="row row-edit">
                         <div class="col-lg-4">
+                            {{Form::label('',trans('Date courrier') .' : ',['style'=> 'font-size : 11px'])}}
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="form-group form-group-edit">
+                                <div class="input-group date {{__('costum_css.date-style-m')}}">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    {{Form::text('date_courrier',$courrier->date_courrier,['class'=>'form-control
+                                    pull-right datepicker','disabled'])}}
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row row-edit">
+                        <div class="col-lg-4">
                             {{Form::label('',trans('Delai') .' : ',['style'=> 'font-size : 11px'])}}
                         </div>
                         <div class="col-lg-8">

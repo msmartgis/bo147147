@@ -100,8 +100,9 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control pull-left" name="date_reception_cloture_daterange"
-                        id="date_reception_cloture_input" style="font-size: 0.94rem;" value="01/01/2000 - 01/01/2020">
+                    <input type="text" class="form-control pull-left cloture-select date-range-input" name="date_envoie_cloture_daterange"
+                    value="01/01/{{ now()->year }} - 30/12/{{ now()->year }}" 
+                    style="font-size: 0.94rem;">
 
                 </div>
             </div>
