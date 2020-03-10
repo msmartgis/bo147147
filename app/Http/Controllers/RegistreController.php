@@ -94,8 +94,7 @@ class RegistreController extends Controller
         //return FacadeResponse::download($file, $filename,$headers)->deleteFileAfterSend(true);
         
         
-        //return 'https://view.officeapps.live.com/op/embed.aspx?src='."/fiches/demandes/".$filename.".docx";
-        // return redirect()->away('https://view.officeapps.live.com/op/embed.aspx?src='."/fiches/demandes/".$filename.".docx");
+        redirect()->away('https://view.officeapps.live.com/op/embed.aspx?src='."/docx/courriers/".$filename.".docx");
 		
 		
 		$result_doc='docx/courriers/registre_courrier.docx';

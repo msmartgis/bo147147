@@ -32,7 +32,6 @@
                         </div>
                         <!-- /.input group -->
                     </div>
-
                 </div>
             </div>
 
@@ -404,8 +403,43 @@
     </div>
     <br>
 
-    <h5 class="{{__('costum_css.float-right-m')}}">{{__('ACCUSE ENVOI')}}</h5>
 
+    <h5 class="{{__('costum_css.float-right-m')}}">
+        {{__('SERVICE/UNE DIVISION EMMETTEUR')}}
+    </h5>
+    <hr>
+
+    <div class="row" style="margin: 0 !important;">
+        <div class="table-responsive" style="margin-top: 12px">
+            <table class="table table-service-assigne">
+                <thead class="create-table">
+                    <tr style="text-align: center;">
+                        <th></th>
+                        <th>{{__('Service')}}</th>
+                        <th>{{__('Réf')}}</th>
+                        <th>{{__('Responsable')}}</th>
+                        <th>{{__('Message')}}</th>
+                    </tr>
+                </thead>
+                <tbody id="service_emetteur_tbody">
+                    <tr></tr>
+                </tbody>
+            </table>
+
+            <div style="text-align: center">
+                <a href="#" data-toggle="modal" data-target="#assigne_service_modal"> <i class="fa fa-plus"></i>
+                    <b>{{__('Ajouter')}} </b>
+                </a>
+            </div>
+            <button type="button" class="btn delete-row btn-danger-table" id="delete_service_row_btn"> <i
+                    class="fa fa-close"></i>{{__('Supprimer')}} </button>
+        </div>
+    </div>
+
+    <br>
+
+
+    <h5 class="{{__('costum_css.float-right-m')}}">{{__('ACCUSE ENVOI')}}</h5>
     <hr>
 
     <div class="row" style="margin: 0 !important;">

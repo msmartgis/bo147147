@@ -2,7 +2,6 @@
 $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT','enctype' => 'multipart/form-data'])
 !!}
 <input type="hidden" name="courrier_id" value="{{$courrier->id}}" id="courrier_id_input">
-
 <div class="row">
     <div class="col-lg-9">
         <div class="row">
@@ -12,7 +11,6 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                     <div class="box-body">
                         <!-- Tab panes -->
                         <div class="tab-content">
-
                             <div class="tab-pane active" id="information_generale_tab" role="tabpanel">
                                 <div class="pad">
                                     <div class="row" style="margin-top: 8px">
@@ -510,7 +508,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                         <th>{{__('Operation')}}</th>
                                                         <th>{{__('Date de déclenchement')}}</th>
                                                         <th>{{__('Distribué Par')}}</th>
-                                                        <th>{{__('Distribué à')}}</th>
+                                                        {{-- <th>{{__('Distribué à')}}</th> --}}
                                                     </tr>
                                                 </thead>
                                                 <tbody id="historique_tbody">
@@ -525,7 +523,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                         <td>{{$hitory_rec->operation_type->type_operation_nom}}</td>
                                                         <td>{{$hitory_rec->created_at}}</td>
                                                         <td>{{$hitory_rec->user->full_name}}</td>
-                                                        <td>{{$hitory_rec->created_at}}</td>
+                                                        {{-- <td>{{$hitory_rec->created_at}}</td> --}}
                                                     </tr>
 
                                                     @php

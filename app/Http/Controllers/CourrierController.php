@@ -636,7 +636,6 @@ class CourrierController extends Controller
             $messages = $request->messages;
             for ($i = 0; $i < count($services_ids); $i++) {
                 $courrier_to_edit->services()->attach($services_ids[$i], ['message' => $messages[$i], 'vu' => 0]);
-
                 event(new DistributionEvent(Auth::user()->username,$action,$type_element,$courrier_to_edit->id,$services_ids));
             }
         }

@@ -63,6 +63,6 @@
     <script src="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')}}"></script>
     <script src="{{asset('js/toastr.js')}}"></script>
 
-    <script src="{{asset('js/diffusion_interne/index.js')}}"></script>
+    <script src="{{asset('js/diffusion_interne/index_diffusion_interne.js')}}"></script>
     <script src="{{asset('js/services/index_services.js')}}"></script>
 @endpush

@@ -108,6 +108,64 @@ $(document).ready(function() {
         removeRowFromTable("piece_courrier_tbody");
     });
 
+
+
+    //add service to list
+    $("#add_service_id_btn").on("click", function() {       
+        let service_id = $("#service_modal_input_id").val();
+        let message = $("#message_service__modal_textarea").val();
+
+        data_service = getService(service_id);
+
+        if (data_service[0].responsables[0] != null) {
+            responsable_nom = data_service[0].responsables[0].nom;
+        } else {
+            responsable_nom = "";
+        }
+
+        $(".table-service-assigne tr:last").after(
+            "<tr>" +
+                "<td> " +
+                '<div class = "form-group"> ' +
+                '<div class = "checkbox"> ' +
+                '<input type="checkbox" id="row_service_' +
+                item_number +
+                '"  name="record"> ' +
+                '<label for="row_service_' +
+                item_number +
+                '"></label> ' +
+                "</div>" +
+                "</div>" +
+                "</td>" +
+                '<td> <input type="hidden" name="services_ids[]" value="' +
+                data_service[0].id +
+                '"/>' +
+                data_service[0].nom +
+                "</td>" +
+                "<td> " +
+                data_service[0].ref +
+                "</td>" +
+                "<td> " +
+                responsable_nom +
+                "</td>" +
+                '<td> <input type="hidden" name="messages[]" value="' +
+                message +
+                '"/>' +
+                message +
+                "</td>" +
+                "</tr>"
+        );
+
+        $("#assigne_service_modal").modal("toggle");
+
+        $("#assigne_service_form_id").trigger("reset");
+        item_number++;
+    });
+
+    $("#delete_service_row_btn").click(function() {
+        removeRowFromTable("service_emetteur_tbody");
+    });
+
     //add accuse reception courrier entrants
     $("#add_accuse_reception_btn").on("click", function() {
         if (item_number_accuse_receptions < 3) {

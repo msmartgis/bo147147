@@ -33,9 +33,11 @@
 <div class="row">
     <div class="col-12">
         <div class="box">
-        <h3 style="text-align : center; margin-top : 12px">{{__('Diffusion interne')}} {{$diffusionInterne->ref}} </h3>
+            <h3 style="text-align : center; margin-top : 12px">{{__('Diffusion interne')}} {{$diffusionInterne->ref}}
+            </h3>
             <!-- /.box-header -->
-            <div style="margin-left: 12px;">
+            <div id="tabs_diffusion_edit" style="margin-left: 12px;">
+                @include('diffusion_interne.edit.tabs_edit_di')
                 @include('diffusion_interne.edit.form_edit')
             </div>
 
@@ -45,8 +47,8 @@
     </div>
 </div>
 
-@include('courriers.entrants.edit.modals')
-@include('courriers.entrants.create.modals')
+
+@include('diffusion_interne.edit.modals')
 @endsection
 
 @push('added_scripts')

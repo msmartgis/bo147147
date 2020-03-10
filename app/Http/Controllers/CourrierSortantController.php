@@ -191,6 +191,16 @@ class CourrierSortantController extends Controller
         }
 
 
+         //services
+         if ($request->has('services_ids')) {
+            $services_ids =  $request->services_ids;
+            $messages = $request->messages;
+            for ($i = 0; $i < count($services_ids); $i++) {
+                $courrier->services()->attach($services_ids[$i], ['message' => $messages[$i], 'vu' => 0]);
+            }
+        }
+
+
         //store documents
         if (isset($request->types_documents)) {
             $piece_file_names = array();

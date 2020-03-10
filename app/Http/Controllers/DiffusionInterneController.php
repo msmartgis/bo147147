@@ -187,8 +187,6 @@ class DiffusionInterneController extends Controller
         $diffusion_interne_to_edit->observations = $request->observation;
         $diffusion_interne_to_edit->nature_diffusion_id = $request->nature_diffusion_id;
 
-
-
         //manage docuemnt fournis
         $documents_from_database = array();
         $array_diff = array();
@@ -196,8 +194,6 @@ class DiffusionInterneController extends Controller
         if (isset($request->documents_ids)) {
             $still_in_table = $request->documents_ids;
         }
-
-
 
         foreach ($diffusion_interne_to_edit->piece as $item) {
             array_push($documents_from_database, $item->id);
@@ -272,6 +268,24 @@ class DiffusionInterneController extends Controller
         }
 
         $diffusion_interne_to_edit->save();
+
+        if ($diffusion_interne_to_edit->save()) {
+
+            //services
+            if (isset($request->service_input_id)) {
+
+                $diffusion_interne_to_edit->services()->detach();
+
+                $services_ids =  $request->service_input_id;
+
+                $messages = $request->messages;
+
+                for ($i = 0; $i < count($services_ids); $i++) {
+                    $diffusion_interne_to_edit->services()->attach($services_ids[$i], ['message' => $messages[$i]]);
+                }
+            }
+        }
+
         return redirect("/diffusions-internes" . "/" . $diffusion_interne_to_edit->id . "/edit")->with('success', 'Diffusion modifiée avec succès');
     }
 

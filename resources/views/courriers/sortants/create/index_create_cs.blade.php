@@ -39,7 +39,7 @@
     </div>
 </div>
 
-@include('courriers.entrants.create.modals')
+@include('courriers.sortants.create.modals')
 
 @endsection
 
@@ -65,6 +65,7 @@
 <script src="{{asset('js/toastr.js')}}"></script>
 
 <script src="{{asset('js/courriersSortants/index_courriers_sortants.js')}}"></script>
+<script src="{{asset('js/services/index_services.js')}}"></script>
 <script src="{{asset('js/modesRecepetion/index_mode_reception.js')}}"></script>
 <script src="{{asset('js/documentsTypes/index_documents_types.js')}}"></script>
 @endpush
