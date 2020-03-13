@@ -1,4 +1,4 @@
-.wizard-content .wizard > .content {
+.wizard-content .wizard>.content {
     overflow: unset !important;
 }
 
@@ -13,6 +13,10 @@
     border-right-color: #d4d4d4;
 }
 
+.m-icon-login {
+    left: 0 !important;
+}
+
 .navbar-collapse {
     padding-left: 1.5rem;
 }
@@ -25,8 +29,7 @@
     padding-top: 8px;
 }
 
-.select2-container--default.select2-container--focus
-    .select2-selection--multiple {
+.select2-container--default.select2-container--focus .select2-selection--multiple {
     border: solid #d2d6de 1px;
 }
 
@@ -190,9 +193,7 @@ img {
     -o-transition: opacity 0.5s ease-out;
 }
 
-.select2-container--default
-    .select2-selection--single
-    .select2-selection__rendered {
+.select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 16px !important;
 }
 
@@ -259,7 +260,7 @@ label {
 }
 
 /*  steps design  */
-.wizard-content .wizard.wizard-circle > .steps .step {
+.wizard-content .wizard.wizard-circle>.steps .step {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -269,18 +270,13 @@ label {
     height: 22px !important;
 }
 
-.select2-container--default
-    .select2-selection--single
-    .select2-selection__arrow
-    b {
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
     margin-top: -5px !important;
 
     border-color: #647585 transparent transparent transparent !important;
 }
 
-.select2-container--default
-    .select2-selection--single
-    .select2-selection__rendered {
+.select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #2d353c !important;
     height: calc(1.5em + 0.75rem + 2px);
 }
@@ -343,42 +339,32 @@ th {
     box-shadow: 0 1px 3px 1px rgba(255, 255, 255, 1) !important;
 }
 
-.nav-tabs {
-}
+.nav-tabs {}
 
 hr {
     background-color: #dce3e6 !important;
     margin-bottom: 20px !important;
 }
 
-.form-control {
-}
+.form-control {}
 
 textarea.form-control {
     height: auto !important;
 }
 
-.btn {
-}
+.btn {}
 
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice {
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: transparent !important;
     border: 1px solid transparent !important;
     color: #ff8740 !important;
 }
 
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__choice__remove {
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     color: #ff8740 !important;
 }
 
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__rendered
-    li {
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
     text-decoration: underline !important;
 }
 
@@ -490,6 +476,7 @@ table.dataTable thead .sorting_desc_disabled:after {
     border-color: transparent;
     color: #f60909;
     text-decoration: underline;
+    font-weight: bold;
 }
 
 .btn-success-table {
@@ -497,6 +484,7 @@ table.dataTable thead .sorting_desc_disabled:after {
     border-color: transparent;
     color: #9fd037;
     text-decoration: underline;
+    font-weight: bold;
 }
 
 .btn-secondary-table {
@@ -506,10 +494,7 @@ table.dataTable thead .sorting_desc_disabled:after {
     text-decoration: underline !important;
 }
 
-.select2-container--default
-    .select2-selection--multiple
-    .select2-selection__rendered
-    li {
+.select2-container--default .select2-selection--multiple .select2-selection__rendered li {
     font-weight: 0s;
 }
 
@@ -595,8 +580,8 @@ table.dataTable tbody td.selected {
     color: #000;
 }
 
-table.dataTable tbody > tr.selected,
-table.dataTable tbody > tr > .selected {
+table.dataTable tbody>tr.selected,
+table.dataTable tbody>tr>.selected {
     background-color: #7699bc !important;
 }
 
@@ -631,17 +616,13 @@ table.dataTable tbody > tr > .selected {
     margin-top: 0;
 }
 
-.m-header-style {
-}
+.m-header-style {}
 
-.m-modal-title {
-}
+.m-modal-title {}
 
-.m-btn-cancel-modal {
-}
+.m-btn-cancel-modal {}
 
-.m-btn-submit-modal {
-}
+.m-btn-submit-modal {}
 
 .btn-danger-table {
     padding: 0;

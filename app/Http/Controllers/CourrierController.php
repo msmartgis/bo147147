@@ -40,7 +40,6 @@ use Illuminate\Support\Facades\Mail;
 class CourrierController extends Controller
 {
 
-
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +54,6 @@ class CourrierController extends Controller
         $modes_recpetions = ModeReception::where('lang', App::getLocale())->orderBy('nom')->get();
         $priorites = Priorite::orderBy('nom')->get();
         $categorie_courrier = CategorieCourrier::orderBy('nom')->get();
-
 
         event(new ChangeCourrierStateEvent());
 
@@ -301,7 +299,7 @@ class CourrierController extends Controller
             }
         }
 
-        if ($courrier->save()) { 
+        if ($courrier->save()) {
 
             // $users_to_notify = User::whereHas('role', function($query){
             //     $query->where('role_name','president');
@@ -309,11 +307,11 @@ class CourrierController extends Controller
 
             //Mail::to($users_to_notify->email)->send(new CourrierAddedMail());
 
-           
+
             //call event for adding new courrier
-            event(new EventsNewCourrierAddedEvent($courrier,"create"));
-                
-           
+            event(new EventsNewCourrierAddedEvent($courrier, "create"));
+
+
             return redirect('/courriers-entrants')->with('success', 'Courrier ajouté avec succès');
         } else {
             return "error";
@@ -355,7 +353,7 @@ class CourrierController extends Controller
 
         //mark as read notification
         Auth::user()->unreadNotifications->where('data.element_id', $courrier->id)->markAsRead();
-       
+
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,
             'modes_recpetion' => $modes_recpetion,
@@ -636,7 +634,7 @@ class CourrierController extends Controller
             $messages = $request->messages;
             for ($i = 0; $i < count($services_ids); $i++) {
                 $courrier_to_edit->services()->attach($services_ids[$i], ['message' => $messages[$i], 'vu' => 0]);
-                event(new DistributionEvent(Auth::user()->username,$action,$type_element,$courrier_to_edit->id,$services_ids));
+                event(new DistributionEvent(Auth::user()->username, $action, $type_element, $courrier_to_edit->id, $services_ids));
             }
         }
 
@@ -692,43 +690,42 @@ class CourrierController extends Controller
     public function validateCourrier(Request $request)
     {
         $type_element = "Courrier Entrant";
-        $services_ids = []; 
-        $action = "ajouter";
+        $services_ids = [];
+        $action = "";
         $courriers_ids = $request->courriers_ids;
-        $state = EtatCourrier::where('nom', $request->state)->first();
-        $state_id = $state->id;
-        $values = Courrier::whereIn('id', $courriers_ids)->update(['etat_id' => $state_id]);
+        $state_name = $request->state;
+        $state_db = EtatCourrier::where('nom', $request->state)->first();
+        $values = Courrier::whereIn('id', $courriers_ids)->update(['etat_id' => $state_db->id]);
         //$president_role = UserRole::where('role_name','president')->first();
 
-        
-        $etat_courrier = EtatCourrier::find($state_id)->first();
-       
-            for ($i = 0; $i < count($courriers_ids); $i++) {
-                $courrier = Courrier::find($courriers_ids[$i]);
-                
-                $services_courrier =  $courrier->services;
 
-                foreach($services_courrier as $service)
-                {
+        if ($state_name == "en_cours") { //validate
+            $action = "ajouter";
+            //$this->addToHistory('validate', $courriers_ids[$i], Auth::user()->id);                    
+        }
 
-                    array_push($services_ids,$service->id);                    
-                }           
-              
+        if ($state_name == "cloturer") { //cloturer
+            $action = "cloturer";
+            //$this->addToHistory('cloture', $courriers_ids[$i], Auth::user()->id);                   
+        }
 
-                if ($etat_courrier->nom == "en_cours") { //validate
-                    $action = "valider";
-                   
-                    //$this->addToHistory('validate', $courriers_ids[$i], Auth::user()->id);                    
-                }
+        for ($i = 0; $i < count($courriers_ids); $i++) {
+            $courrier = Courrier::find($courriers_ids[$i]);
 
-                if ($etat_courrier->nom == "cloturer") { //cloturer
-                    $action = "cloturer";
-                    //$this->addToHistory('cloture', $courriers_ids[$i], Auth::user()->id);                   
-                }
-                event(new ValidateCourrierEvent(Auth::user()->username,$action,$type_element,$courriers_ids[$i],$services_ids));
-            }            
-             
-    
+            $services_courrier =  $courrier->services;
+
+            foreach ($services_courrier as $service) {
+                array_push($services_ids, $service->id);
+            }
+
+            $bo_service = Service::where('ref', 'B.O')->first();
+
+            array_push($services_ids, $bo_service->id);
+
+            event(new ValidateCourrierEvent(Auth::user()->username, $action, $type_element, $courriers_ids[$i], $services_ids));
+        }
+
+
         return response()->json();
     }
 
@@ -740,7 +737,7 @@ class CourrierController extends Controller
         if ($request->ajax()) {
             $datatables = Datatables::eloquent($courriers)
 
-                ->addColumn('objet', function ($courriers) { 
+                ->addColumn('objet', function ($courriers) {
                     return $courriers->objet ? Str::limit($courriers->objet, 100, '...') : '';
                 })
 
@@ -897,21 +894,21 @@ class CourrierController extends Controller
 
 
         //filter with daterange
-        if ($daterange = $request->get('date_reception')) {           
+        if ($daterange = $request->get('date_reception')) {
             $daterange_splite = explode('-', trim($daterange));
             $date_start = $daterange_splite[0];
             $date_start_formatted = date("Y-m-d", strtotime($date_start));
-            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end = str_replace('/', '-', trim($daterange_splite[1]));
             $date_end_formatted = date("Y-m-d", strtotime($date_end));
 
 
             $courriers->where([
-                ['date_reception', '>=',$date_start_formatted],
-                ['date_reception', '<=',$date_end_formatted],
+                ['date_reception', '>=', $date_start_formatted],
+                ['date_reception', '<=', $date_end_formatted],
             ]);
         }
 
-        
+
 
         return $datatables->make(true);
     }
@@ -1056,17 +1053,17 @@ class CourrierController extends Controller
 
         //filter with daterange
         if ($daterange = $request->get('date_reception')) {
-           
+
             $daterange_splite = explode('-', trim($daterange));
             $date_start = $daterange_splite[0];
             $date_start_formatted = date("Y-m-d", strtotime($date_start));
-            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end = str_replace('/', '-', trim($daterange_splite[1]));
             $date_end_formatted = date("Y-m-d", strtotime($date_end));
 
 
             $courriers->where([
-                ['date_reception', '>=',$date_start_formatted],
-                ['date_reception', '<=',$date_end_formatted],
+                ['date_reception', '>=', $date_start_formatted],
+                ['date_reception', '<=', $date_end_formatted],
             ]);
         }
 
@@ -1219,19 +1216,19 @@ class CourrierController extends Controller
         }
 
 
-          //filter with daterange
-          if ($daterange = $request->get('date_reception')) {
-           
+        //filter with daterange
+        if ($daterange = $request->get('date_reception')) {
+
             $daterange_splite = explode('-', trim($daterange));
             $date_start = $daterange_splite[0];
             $date_start_formatted = date("Y-m-d", strtotime($date_start));
-            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end = str_replace('/', '-', trim($daterange_splite[1]));
             $date_end_formatted = date("Y-m-d", strtotime($date_end));
 
 
             $courriers->where([
-                ['date_reception', '>=',$date_start_formatted],
-                ['date_reception', '<=',$date_end_formatted],
+                ['date_reception', '>=', $date_start_formatted],
+                ['date_reception', '<=', $date_end_formatted],
             ]);
         }
 
@@ -1386,19 +1383,19 @@ class CourrierController extends Controller
         }
 
 
-          //filter with daterange
-          if ($daterange = $request->get('date_reception')) {
-           
+        //filter with daterange
+        if ($daterange = $request->get('date_reception')) {
+
             $daterange_splite = explode('-', trim($daterange));
             $date_start = $daterange_splite[0];
             $date_start_formatted = date("Y-m-d", strtotime($date_start));
-            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end = str_replace('/', '-', trim($daterange_splite[1]));
             $date_end_formatted = date("Y-m-d", strtotime($date_end));
 
 
             $courriers->where([
-                ['date_reception', '>=',$date_start_formatted],
-                ['date_reception', '<=',$date_end_formatted],
+                ['date_reception', '>=', $date_start_formatted],
+                ['date_reception', '<=', $date_end_formatted],
             ]);
         }
 
@@ -1563,19 +1560,19 @@ class CourrierController extends Controller
         }
 
 
-         //filter with daterange
-         if ($daterange = $request->get('date_reception')) {
-           
+        //filter with daterange
+        if ($daterange = $request->get('date_reception')) {
+
             $daterange_splite = explode('-', trim($daterange));
             $date_start = $daterange_splite[0];
             $date_start_formatted = date("Y-m-d", strtotime($date_start));
-            $date_end = str_replace('/','-',trim($daterange_splite[1]));
+            $date_end = str_replace('/', '-', trim($daterange_splite[1]));
             $date_end_formatted = date("Y-m-d", strtotime($date_end));
 
 
             $courriers->where([
-                ['date_reception', '>=',$date_start_formatted],
-                ['date_reception', '<=',$date_end_formatted],
+                ['date_reception', '>=', $date_start_formatted],
+                ['date_reception', '<=', $date_end_formatted],
             ]);
         }
 

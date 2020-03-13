@@ -155,8 +155,7 @@
         }
 
         .main-header .notifications-menu .dropdown-toggle i::after {
-            @if (Auth()->user()->unreadNotifications->count() == 0)
-                background-color: unset !important;
+            @if (Auth()->user()->unreadNotifications->count()==0) background-color: unset !important;
             @endif
         }
 
@@ -164,60 +163,60 @@
 
         /* Notifications */
 
-.notification {
-    display: inline-block;
-    position: relative;
-    border-radius: 0.2em;
-}
+        .notification {
+            display: inline-block;
+            position: relative;
+            border-radius: 0.2em;
+        }
 
-.notification::before, 
-.notification::after {
-    color: #0b2942;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
+        .notification::before,
+        .notification::after {
+            color: #0b2942;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
 
-.notification::before {
-    display: block;
-    content: "\f0f3";
-    font-family: "FontAwesome";
-    transform-origin: top center;
-}
+        .notification::before {
+            display: block;
+            content: "\f0f3";
+            font-family: "FontAwesome";
+            transform-origin: top center;
+        }
 
-.notification::after {
-    color: white;
-    font-family: Arial;
-    font-size: 15px;
-    font-weight: 700;
-    position: absolute;
-    top: 2px;
-    right: -15px;
-    padding: 5px 8px;
-    line-height: 100%;
-    border-radius: 60px;
-    background: #d11124;
-    opacity: 0;
-    content: attr(data-count);
-    opacity: 0;
-    transform: scale(0.5);
-    transition: transform, opacity;
-    transition-duration: 0.3s;
-    transition-timing-function: ease-out;
-}
+        .notification::after {
+            color: white;
+            font-family: Arial;
+            font-size: 15px;
+            font-weight: 700;
+            position: absolute;
+            top: 2px;
+            right: -15px;
+            padding: 5px 8px;
+            line-height: 100%;
+            border-radius: 60px;
+            background: #d11124;
+            opacity: 0;
+            content: attr(data-count);
+            opacity: 0;
+            transform: scale(0.5);
+            transition: transform, opacity;
+            transition-duration: 0.3s;
+            transition-timing-function: ease-out;
+        }
 
-.notification.notify::before {
-    animation: ring 1.5s ease;
-}
+        .notification.notify::before {
+            animation: ring 1.5s ease;
+        }
 
-.notification.show-count::after {
-    transform: scale(1);
-    opacity: 1;
-}
+        .notification.show-count::after {
+            transform: scale(1);
+            opacity: 1;
+        }
     </style>
 </head>
 
 <body class="hold-transition skin-blue layout-top-nav has-drawer ">
-    
-    
+
+
     <input type="hidden" id="user_service_input_id" value="{{Auth()->user()->service->id}}">
     <div class="se-pre-con"
         style=" width: 100%;height: 100%;z-index: 99998;position: fixed; left: 0px; top: 0px;background:#efefef ">
@@ -259,69 +258,95 @@
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             <!-- Notifications -->
-                            <input type="hidden" name="notification_count_input" id="notification_count_input_id" value="{{Auth()->user()->unreadNotifications->count()}}">
+                            <input type="hidden" name="notification_count_input" id="notification_count_input_id"
+                                value="{{Auth()->user()->unreadNotifications->count()}}">
                             <li class="dropdown notifications-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <div class="notification"></div>
                                 </a>
-                                <ul class="dropdown-menu scale-up"  >                                
-                                <li id="notification_list">
-                                    <!-- inner menu: contains the actual data -->                                   
-                                        <ul class="menu inner-content-div">                               
+                                <ul class="dropdown-menu scale-up">
+                                    <li id="notification_list">
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu inner-content-div">
                                             @foreach(Auth()->user()->unreadNotifications as $notification)
-                                                <li>
-                                                    <div class="media">
-                                                        <div class="media-left">
-                                                            <div class="media-object">
-                                                                @php
-                                                                    $icon = '';
-                                                                    switch ($notification->data['element_type']) {
-                                                                        case 'Courrier Entrant':
-                                                                            $icon = "/arrow-right.svg";
-                                                                            break;
-                                                                        case 'Courrier Sortant':
-                                                                            $icon = "/arrow-left.svg";
-                                                                            break; 
-                                                                        default : 
-                                                                            $icon = "/arrow-right.svg";
-        
-                                                                    }
-                                                                @endphp
-                                                                <img src="{{asset('images/svg').$icon}}" style="width: 50px; height: 50px;">
-                                                            </div>
+                                            <li>
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <div class="media-object">
+                                                            @php
+                                                            $icon = '';
+                                                            switch ($notification->data['element_type']) {
+                                                            case 'Courrier Entrant':
+                                                            $icon = "/arrow-right.svg";
+                                                            break;
+                                                            case 'Courrier Sortant':
+                                                            $icon = "/arrow-left.svg";
+                                                            break;
+                                                            default :
+                                                            $icon = "/arrow-right.svg";
+
+                                                            }
+                                                            @endphp
+                                                            <img src="{{asset('images/svg').$icon}}"
+                                                                style="width: 50px; height: 50px;">
                                                         </div>
-                                                        <a href="{{ route('courriers-entrants.edit', ['courriers_entrant' => $notification->data['element_id'] ]) }}">
+                                                    </div>
+                                                    <a
+                                                        href="{{ route('courriers-entrants.edit', ['courriers_entrant' => $notification->data['element_id'] ]) }}">
                                                         @php
-                                                            $action = '';
-                                                            switch ($notification->data['action']) {
-                                                            case 'ajouter':
-                                                                 $action = 'ajouté';
-                                                                break;
-                                                            case 'cloturer':
-                                                                 $action = "cloturé";
-                                                                break; 
-                                                            default : 
-                                                                 $action = $notification->data['action'];
+                                                        $action = '';
+                                                        $element = '';
+                                                        switch ($notification->data['action']) {
+                                                        case 'ajouter':
+                                                        $action = 'أضاف';
+                                                        break;
+                                                        case 'cloturer':
+                                                        $action = "أغلق";
+                                                        break;
+                                                        default :
+                                                        $action = $notification->data['action'];
 
                                                         }
+
+                                                        switch ($notification->data['element_type']) {
+                                                        case 'Courrier Entrant':
+                                                        $element = 'ارسالية واردة';
+                                                        break;
+
+                                                        case 'Courrier Sortant':
+                                                        $element = 'ارسالية صادرة';
+                                                        break;
+
+                                                        case 'Diffusion Interne':
+                                                        $element = ' مراسلة داخلية';
+                                                        break;
+
+                                                        default:
+                                                        $element = '';
+                                                        break;
+                                                        }
                                                         @endphp
-                                                                                                            
-                                                        {{ $notification->data['user'] }} a {{ $action }} un {{ $notification->data['element_type'] }}                                                   
+
+                                                        {{ $notification->data['user'] }} {{ $action }}
+                                                        {{ $element }}
                                                         <div class="row">
-                                                            <span style="color: darkgrey;">{{$notification->created_at}}</span>  
+                                                            <span
+                                                                style="color: darkgrey;">{{$notification->created_at}}</span>
                                                         </div>
-                                                            
-                                                        </a>
-                                                    </div>                                                                                       
-                                                    
-                                                </li>                                        
+
+                                                    </a>
+                                                </div>
+
+                                            </li>
                                             @endforeach
-                                        </ul>  
-                                </li>
-                                @if (Auth()->user()->unreadNotifications->count() > 0)
-                                    <li class="footer"><a href="{{ route('markNotificationsAsRead')}}"><i class="fa fa-check text-orange"></i> Marquer tous comme lus</a></li> 
-                                @endif
-                                
+                                        </ul>
+                                    </li>
+                                    @if (Auth()->user()->unreadNotifications->count() > 0)
+                                    <li class="footer"><a href="{{ route('markNotificationsAsRead')}}"><i
+                                                class="fa fa-check text-orange"></i>{{__('Marquer tous comme lus')}}
+                                        </a></li>
+                                    @endif
+
                                 </ul>
                             </li>
 
@@ -385,10 +410,10 @@
         <div class="content-wrapper {{__('costum_css.body')}}">
             <!-- Main content -->
             <section class="content m-content">
-               
+
                 <script src="https://js.pusher.com/5.1/pusher.min.js"></script>
                 <script src="{{asset('js/pushjs/push.js')}}"></script>
-              
+
                 @include('inc.messages')
                 @yield('content')
 
@@ -405,7 +430,7 @@
         $.widget.bridge('uibutton', $.ui.button);
     </script>
     @include('inc.scripts')
-    
+
 </body>
 
 
@@ -415,7 +440,7 @@
     function pushDesktopNotification()
     {        
         Push.create("E.B.O", {
-            body: "Vous avez une nouvelle notification!",
+            body: "لديكم اشعار جديد في نظام مكتب الضبط",
             icon: '/images/logo/document_logo.png',
             timeout: 100000000,
             onClick: function () {
@@ -442,10 +467,13 @@
     var data;
     var icon = '';
     var route = '';
+    var action = '';
+    var data_type = '';
     channel.bind('courrier-validated-event', function(data) {  
         console.log(data) 
         if(data.services_ids.includes(current_user_service))
         {
+            
             pushDesktopNotification();
             //Push.create('Hello world');
             count_from_bind = Number($('#notification_count_input_id').val());
@@ -456,13 +484,28 @@
             switch (data.element_type) {
                 case 'Courrier Entrant':
                     icon = "/images/svg/arrow-right.svg";                   
-                    route = "courriers-entrants/"+data.element_id+"/edit";                                   
+                    route = "courriers-entrants/"+data.element_id+"/edit";    
+                    data_type = "ارسالية واردة";                           
                     break;
 
                 case 'Courrier Sortant':
                     icon = "/images/svg/arrow-left.svg";
                     route = "courriers-sortants/"+data.element_id+"/edit";
+                    data_type = "ارسالية صادرة";
                     break;            
+                default:
+                    break;
+            }
+
+            switch (data.action) {
+                case 'ajouter':
+                    action = "أضاف";
+                    break;
+
+                case 'cloturer':
+                    action = "أغلق";
+                    break;
+            
                 default:
                     break;
             }
@@ -476,7 +519,7 @@
                                 </div>
                             </div>
                             <a href="`+route+`">                                
-                                `+data.user+` a `+data.action+` un `+data.element_type+` 
+                                `+data.user+`  `+action+`  `+data_type+` 
                                 <div class="row">
                                     <span style="color: darkgrey;">Il y a une minute</span>  
                                 </div>       

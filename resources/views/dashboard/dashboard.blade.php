@@ -34,7 +34,6 @@
 		<div class="row">
 
 			<div class="col-xl-3 col-lg-3 col-md-3 col-12">
-
 				<div class="row">
 					<div class="box bg-info"
 						style="-webkit-box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05); box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);border: 1px solid #dce3e6 !important">

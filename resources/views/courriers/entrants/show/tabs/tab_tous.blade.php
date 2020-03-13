@@ -10,7 +10,7 @@
                     <th></th>
                     <th>{{__('Priorité')}}</th>
                     <th>{{__('Réf')}}</th>
-                     <th>{{__('Catégorie')}}</th>
+                    <th>{{__('Catégorie')}}</th>
                     <th>{{__('Date Réception')}}</th>
                     <th>{{__('Expediteur')}}</th>
                     <th>{{__('Objet')}}</th>

@@ -1,4 +1,5 @@
-<div class="tab-pane " id="en_cours_tab" role="tabpanel">
+<div class="tab-pane @if (Auth::user()->role->first()->role_name == 'president') active @endif" id="en_cours_tab"
+    role="tabpanel">
     <div class="pad">
         @include('courriers.sortants.show_sortant.filters_sortant.filters_en_cours_sortant')
         @include('courriers.sortants.show_sortant.inc_sortant.actions_buttons_en_cours_sortant')

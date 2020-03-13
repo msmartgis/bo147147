@@ -1,4 +1,5 @@
-<div class="tab-pane active" id="brouillons_tab" role="tabpanel">
+<div class="tab-pane @if (Auth::user()->role->first()->role_name == 'bureau_ordre') active @endif" id="brouillons_tab"
+    role="tabpanel">
     <div class="pad">
         @include('courriers.entrants.show.filters.filters_brouillon')
         @include('courriers.entrants.show.inc.actions_buttons_brouillon')

@@ -39,8 +39,9 @@
                 @include('courriers.entrants.show.tabs')
                 <!-- Tab panes -->
                 <div class="tab-content" style="margin-top: 15px">
-                    @if (Auth::user()->role->first()->role_name == "bureau_ordre" || Auth::user()->role->first()->role_name == "admin")
-                        @include('courriers.entrants.show.tabs.tab_brouillons')
+                    @if (Auth::user()->role->first()->role_name == "bureau_ordre" ||
+                    Auth::user()->role->first()->role_name == "admin")
+                    @include('courriers.entrants.show.tabs.tab_brouillons')
                     @endif
                     @include('courriers.entrants.show.tabs.tab_en_cours')
                     @include('courriers.entrants.show.tabs.tab_en_retard')

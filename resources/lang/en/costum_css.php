@@ -9,4 +9,5 @@ return [
     'float-right-m' => "",
     'float-right-btn-m' => "",
     'border-style-m' => "m-border-style",
+    'icon-login-m' => "m-icon-login",
 ];
