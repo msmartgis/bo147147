@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="{{asset('images/favicon.png')}}">
-    <title>{{config('app.name')}}</title>
+    <title>E.B.O</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     @include('inc.css_links')
 

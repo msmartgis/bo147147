@@ -15,7 +15,7 @@ class CreateModesReceptionsTable extends Migration
     {
         Schema::create('modes_receptions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('nom')->nullable();  
+            $table->string('nom')->nullable();
             $table->timestamps();
             $table->index(['id', 'created_at']);
         });

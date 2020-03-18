@@ -17,7 +17,6 @@ class CreatCategorieCourrierTable extends Migration
             $table->uuid('id')->primary();
             $table->string('nom')->nullable();
             $table->text('description')->nullable();
-            $table->string('lang')->default("en");
             $table->timestamps();
         });
     }

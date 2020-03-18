@@ -13,38 +13,38 @@ class ModesReceptionsTableSeeder extends Seeder
     public function run()
     {
 
-        $main_propre = new ModeReception();
-        $main_propre->nom = "Main propre";
-        $main_propre->save();
+        // $main_propre = new ModeReception();
+        // $main_propre->nom = "Main propre";
+        // $main_propre->save();
 
-        $courrier = new ModeReception();
-        $courrier->nom = "Courrier";
-        $courrier->save();
+        // $courrier = new ModeReception();
+        // $courrier->nom = "Courrier";
+        // $courrier->save();
 
-        $fax = new ModeReception();
-        $fax->nom = "Fax";
-        $fax->save();
+        // $fax = new ModeReception();
+        // $fax->nom = "Fax";
+        // $fax->save();
 
-        $autre = new ModeReception();
-        $autre->nom = "Autre";
-        $autre->save();
+        // $autre = new ModeReception();
+        // $autre->nom = "Autre";
+        // $autre->save();
 
 
 
-        // ModeReception::insert([
-        //     [
-        //         'id' => 'c23a3d89-5776-403b-a4f8-3a6bce63e762',
-        //         'nom' => 'Main propre'
-        //     ],
-        //     [
-        //         'id' => 'c6c8af4d-ec2f-4c65-abf3-70e9a36c374e',
-        //         'nom' => 'Courrier'
-        //     ],
-        //     [
-        //         'id' => '8bed8618-41c7-4b50-ad6b-2f156a543e67',
-        //         'nom' => 'Fax'
-        //     ]
+        $main_propre_ar = new ModeReception();
+        $main_propre_ar->nom = "مباشرة";
+        $main_propre_ar->save();
 
-        // ]);
+        $courrier_ar = new ModeReception();
+        $courrier_ar->nom = "بريد";
+        $courrier_ar->save();
+
+        $fax_ar = new ModeReception();
+        $fax_ar->nom = "فاكس";
+        $fax_ar->save();
+
+        $autre_ar = new ModeReception();
+        $autre_ar->nom = "اخر";
+        $autre_ar->save();
     }
 }

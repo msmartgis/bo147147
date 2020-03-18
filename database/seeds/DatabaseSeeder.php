@@ -12,20 +12,20 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            // EtatsCourrierTableSeeder::class,
-            // ModesReceptionsTableSeeder::class,
+            EtatsCourrierTableSeeder::class,
+            ModesReceptionsTableSeeder::class,
 
-            // NatureDiffusionTableSeeder::class,
-            // DocumentTypeTableSeeder::class,
-            //ServicesTableSeeder::class,
+            NatureDiffusionTableSeeder::class,
+            DocumentTypeTableSeeder::class,
+            ServicesTableSeeder::class,
             // PersonneMoraleSeeder::class,
             // PersonnePhysiqueSeeder::class,
-             //UsersRolesTableSeeder::class,
-             //UsersTableSeeder::class,
-            //TypeOperationSeeder::class,
-            //PrioriteTableSeeder::class,
+            UsersRolesTableSeeder::class,
+            UsersTableSeeder::class,
+            TypeOperationSeeder::class,
+            PrioriteTableSeeder::class,
             //ArModesReceptionsTableSeeder::class,
-            //CategorieCourrierTableSeeder::class,
+            CategorieCourrierTableSeeder::class,
 
         ]);
     }

@@ -51,7 +51,7 @@ class CourrierController extends Controller
         $personne_morales = PersonneMorale::orderBy('raison_social')->where([['raison_social', '!=', 'null']])->get();
         $services = Service::orderBy('nom')->get();
 
-        $modes_recpetions = ModeReception::where('lang', App::getLocale())->orderBy('nom')->get();
+        $modes_recpetions = ModeReception::orderBy('nom')->get();
         $priorites = Priorite::orderBy('nom')->get();
         $categorie_courrier = CategorieCourrier::orderBy('nom')->get();
 
@@ -76,9 +76,9 @@ class CourrierController extends Controller
     {
         $actu_date = Carbon::now()->format('d/m/Y');
 
-        $modes_recpetion = ModeReception::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
-        $priorites = Priorite::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
-        $categorie_courrier = CategorieCourrier::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
+        $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
+        $priorites = Priorite::orderBy('nom')->pluck('nom', 'id');
+        $categorie_courrier = CategorieCourrier::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $presidential_services = Service::where('ref', 'President')->orWhere('ref', 'DG')->orderBy('nom')->pluck('nom', 'id');
         $personne_physiques = PersonnePhysique::orderBy('nom')->get();
@@ -118,7 +118,15 @@ class CourrierController extends Controller
         $courrier->date_reception = $request->date_reception;
         $courrier->date_courrier = $request->date_courrier;
         $courrier->objet = $request->objet;
-        $courrier->delai = $request->delai;
+
+        if (!$request->delai != null) {
+
+            $courrier->delai = $request->delai;
+        }
+
+
+
+
         $courrier->etat_id = $brouillon_etat->id;
         $courrier->priorite_id = $request->priorites_id;
         $courrier->categorie_courrier_id = $request->categorie_courrier_id;
@@ -148,6 +156,7 @@ class CourrierController extends Controller
         }
 
         if ($request->type_expediteur == "personne_morale") {
+
             if ($request->raison_social == null) {
                 $courrier->personne_morale_id = $request->personne_morale_id_from_db;
             } else {
@@ -339,7 +348,7 @@ class CourrierController extends Controller
     {
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $priorites = Priorite::orderBy('nom')->pluck('nom', 'id');
-        $categorie_courrier = CategorieCourrier::where('lang', App::getLocale())->orderBy('nom')->pluck('nom', 'id');
+        $categorie_courrier = CategorieCourrier::orderBy('nom')->pluck('nom', 'id');
         $services = Service::orderBy('nom')->pluck('nom', 'id');
         $courrier = Courrier::with('personnePhysique', 'personneMorale', 'remarqueConsigne')->findOrFail($id);
         $courrier->ref_sortant = '';

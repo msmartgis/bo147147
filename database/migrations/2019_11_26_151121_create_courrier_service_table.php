@@ -14,7 +14,7 @@ class CreateCourrierServiceTable extends Migration
     public function up()
     {
         Schema::create('courrier_service', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary();
+            $table->bigIncrements('id')->index();
             $table->string('courrier_id')->nullable();
             $table->string('service_id')->nullable();
             $table->longText('message')->nullable();

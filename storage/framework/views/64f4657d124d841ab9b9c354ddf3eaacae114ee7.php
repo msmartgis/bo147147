@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="<?php echo e(asset('images/favicon.png')); ?>">
-    <title><?php echo e(config('app.name')); ?></title>
+    <title>E.B.O</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <?php echo $__env->make('inc.css_links', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
