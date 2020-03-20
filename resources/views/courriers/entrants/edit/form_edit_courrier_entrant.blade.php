@@ -31,12 +31,18 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                     </div>
 
                                     <br>
-                                    <h5 class="{{__('costum_css.float-right-m')}}">{{__('EXPEDITEUR')}}</h5>
+                                    <h5 class="{{__('costum_css.float-right-m')}}">{{__('EXPEDITEUR')}} :
+                                        @if ($courrier->personne_physique_id != null)
+                                        {{__('Personne physique')}}
+                                        @endif
+                                        @if($courrier->personne_morale_id != null)
+                                        {{__('Personne morale')}}
+                                        @endif
+                                    </h5>
                                     <hr style="color:#2d353c;margin:0">
 
                                     <div class="row" style="margin-top: 8px">
                                         @if($courrier->personne_physique_id != null)
-                                        <h6><b>{{__('Nature : Personne Physique')}}</b></h6>
                                         <input type="hidden" name="personne_physique_id"
                                             value="{{$courrier->personne_physique_id}}">
                                         <div class="row col-12">
@@ -92,7 +98,6 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                         @endif
 
                                         @if($courrier->personne_morale_id != null)
-                                        <h6><b>{{__('Nature : Personne Morale')}}</b></h6>
                                         <div class="row col-12">
                                             <div class="col-lg-4">
                                                 {{Form::label('',trans('Raison social') .' :')}}
@@ -865,13 +870,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                     </div>
 
                     <br>
-                    <div class="row">
-                        <button type="button"
-                            class="btn delete-row btn-danger-table {{__('costum_css.float-right-btn-m')}}"
-                            style="color : #f99830"> <i class="fa fa-file" style="margin-right : 4px"></i>
-                            <b>{{__('Fiche de courrier')}}</b>
-                        </button>
-                    </div>
+
 
 
                     <br>

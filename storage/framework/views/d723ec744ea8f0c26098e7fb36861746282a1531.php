@@ -32,12 +32,20 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                     </div>
 
                                     <br>
-                                    <h5 class="<?php echo e(__('costum_css.float-right-m')); ?>"><?php echo e(__('EXPEDITEUR')); ?></h5>
+                                    <h5 class="<?php echo e(__('costum_css.float-right-m')); ?>"><?php echo e(__('EXPEDITEUR')); ?> :
+                                        <?php if($courrier->personne_physique_id != null): ?>
+                                        <?php echo e(__('Personne physique')); ?>
+
+                                        <?php endif; ?>
+                                        <?php if($courrier->personne_morale_id != null): ?>
+                                        <?php echo e(__('Personne morale')); ?>
+
+                                        <?php endif; ?>
+                                    </h5>
                                     <hr style="color:#2d353c;margin:0">
 
                                     <div class="row" style="margin-top: 8px">
                                         <?php if($courrier->personne_physique_id != null): ?>
-                                        <h6><b><?php echo e(__('Nature : Personne Physique')); ?></b></h6>
                                         <input type="hidden" name="personne_physique_id"
                                             value="<?php echo e($courrier->personne_physique_id); ?>">
                                         <div class="row col-12">
@@ -105,7 +113,6 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                         <?php endif; ?>
 
                                         <?php if($courrier->personne_morale_id != null): ?>
-                                        <h6><b><?php echo e(__('Nature : Personne Morale')); ?></b></h6>
                                         <div class="row col-12">
                                             <div class="col-lg-4">
                                                 <?php echo e(Form::label('',trans('Raison social') .' :')); ?>
@@ -924,13 +931,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                     </div>
 
                     <br>
-                    <div class="row">
-                        <button type="button"
-                            class="btn delete-row btn-danger-table <?php echo e(__('costum_css.float-right-btn-m')); ?>"
-                            style="color : #f99830"> <i class="fa fa-file" style="margin-right : 4px"></i>
-                            <b><?php echo e(__('Fiche de courrier')); ?></b>
-                        </button>
-                    </div>
+
 
 
                     <br>

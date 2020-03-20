@@ -28,10 +28,12 @@
             <img src="{{asset('images/svg/writing.svg')}}" style="width: 1.2em;margin-right: 5px;" />
             <span style="vertical-align: middle;" class="lato-bold">{{ __('DIFFUSION INTERNES')}}</span></a>
     </li>
-
+    @if (Auth::user()->is('admin'))
     <li class="nav-item {{ Route::is('parametres.index') ? 'active' : '' }}">
         <a class="nav-link" href="{{route('parametres.index')}}"><span class=""></span>
             <img src="{{asset('images/svg/settings-gears.svg')}}" style="width: 1.2em;margin-right: 5px;" />
             <span style="vertical-align: middle;" class="lato-bold">{{ __('PARAMETRES')}}</span></a>
     </li>
+    @endif
+
 </ul>

@@ -17,19 +17,39 @@ class EtatCourrier extends Model
 
         switch ($this->nom) {
             case 'brouillon':
-                return "Brouillon";
+                if (\App::isLocale('en')) {
+                    return "Brouillon";
+                } else {
+                    return "مسودة";
+                }
+
                 break;
 
             case 'cloturer':
-                return "Cloturer";
+                if (\App::isLocale('en')) {
+                    return "Cloturé";
+                } else {
+                    return "منجزة";
+                }
+
                 break;
 
             case 'en_cours':
-                return "En Cours";
+                if (\App::isLocale('en')) {
+                    return "En Cours";
+                } else {
+                    return "حالية";
+                }
+
                 break;
 
             case 'en_retard':
-                return "En Retard";
+                if (\App::isLocale('en')) {
+                    return "En Retard";
+                } else {
+                    return "متأخرة";
+                }
+
                 break;
 
             default:

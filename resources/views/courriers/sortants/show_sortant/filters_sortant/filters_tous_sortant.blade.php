@@ -1,6 +1,6 @@
 <div class="filters" style="margin-bottom: 4px;margin-top: 6px">
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Nature destinataire')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -16,7 +16,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Destinataire')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -36,7 +36,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Services concernés')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -51,13 +51,8 @@
             <!-- /.form-group -->
         </div>
 
-    </div>
 
-
-    <!--Row-->
-    <div class="row" style="margin-top: 6px">
-
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Catégorie')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -72,8 +67,13 @@
             <!-- /.form-group -->
         </div>
 
+    </div>
 
-        <div class="col-lg-2">
+
+    <!--Row-->
+    <div class="row" style="margin-top: 6px">
+
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Mode envoi')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -88,7 +88,7 @@
             <!-- /.form-group -->
         </div>
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Date envoi')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -97,18 +97,14 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control pull-left tous-select date-range-input" name="date_envoie_tous_daterange" id="date_envoie_daterange_id"
-                    value="01/01/{{ now()->year }} - 30/12/{{ now()->year }}" 
-                    style="font-size: 0.94rem;">
+                    <input type="text" class="form-control pull-left tous-select date-range-input"
+                        name="date_envoie_tous_daterange" id="date_envoie_daterange_id"
+                        value="01/01/{{ now()->year }} - 30/12/{{ now()->year }}" style="font-size: 0.94rem;">
 
                 </div>
             </div>
             <!-- /.form-group -->
         </div>
-
-    </div>
-
-    <div class="row" style="margin-top: 4px">
 
     </div>
     <hr style="margin:4px">

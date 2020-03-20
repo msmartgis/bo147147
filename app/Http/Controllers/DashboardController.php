@@ -19,8 +19,8 @@ class DashboardController extends Controller
         $brouillon_etat = EtatCourrier::where('nom', 'brouillon')->first();
         $en_cours_etat = EtatCourrier::where('nom', 'en_cours')->first();
 
-      
-      
+
+
 
 
 

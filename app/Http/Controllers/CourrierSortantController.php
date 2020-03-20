@@ -30,6 +30,20 @@ use App\Notifications\CourrierAdded;
 
 class CourrierSortantController extends Controller
 {
+
+
+    public function actionRef()
+    {
+        $edit = "";
+        if (\App::isLocale('en')) {
+            $edit = "cliquer pour modifier";
+        } else {
+            $edit = "انقر للتحديث";
+        }
+
+        return $edit;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -86,7 +100,8 @@ class CourrierSortantController extends Controller
     {
         $validatedData = $request->validate([
             'objet' => 'required',
-            'ref' => 'required',
+            'ref' => 'required|unique:courriers,ref'
+            // 'documents_ulpoad_input' => 'required|max:10000|mimes:pdf,png,jpeg'
         ]);
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
         $courrier = new Courrier();
@@ -696,7 +711,7 @@ class CourrierSortantController extends Controller
                 })
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-sortants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="Objet : ' . $courriers->objet . '">' . $courriers->ref . '</a>';
+                    return '<a class="ref-show" href="courriers-sortants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
 
                 ->addColumn('categorie', function (Courrier $courrier) {
@@ -709,20 +724,8 @@ class CourrierSortantController extends Controller
                     return '<input style="text-align: center;" type="checkbox" id="courriersSortantTous_' . $courriers->id . '" name="checkbox_tous" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersSortantTous_' . $courriers->id . '" class="block" ></label>';
                 })
 
-                ->addColumn('etat', function ($courriers) {
-                    switch ($courriers->etat->first()->nom) {
-                        case 'en_cours':
-                            return "<b style='color : #009dc5'>En cours</b>";
-                            break;
-                        case 'brouillon':
-                            return "<b style='color : #7dd8fb'>Brouillon</b>";
-                            break;
-                        case 'cloturer':
-                            return "<b style='color : #9fd037'>Cloturé</b>";
-                            break;
-                        default:
-                            break;
-                    }
+                ->addColumn('etat', function (Courrier $courrier) {
+                    return $courrier->etat->etat_nom;
                 })
 
 
@@ -874,7 +877,7 @@ class CourrierSortantController extends Controller
                 })
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                    return '<a class="ref-show" href="courriers-sortants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
 
                 ->addColumn('checkbox', function ($courriers) {
@@ -1023,7 +1026,7 @@ class CourrierSortantController extends Controller
                 })
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                    return '<a class="ref-show" href="courriers-sortants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
 
                 ->addColumn('categorie', function (Courrier $courrier) {
@@ -1184,7 +1187,7 @@ class CourrierSortantController extends Controller
                 })
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-sortants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                    return '<a class="ref-show"  href="courriers-sortants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
 
                 ->addColumn('categorie', function (Courrier $courrier) {

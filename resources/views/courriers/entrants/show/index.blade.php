@@ -24,6 +24,15 @@
     .brouillon-line {
         background-color: #7dd8fb;
     }
+
+    .ref-show {
+        font-weight: bold;
+        text-decoration: underline;
+        background-color: rgb(192, 222, 248);
+        border-radius: 4px;
+        text-align: center;
+        padding: 1px;
+    }
 </style>
 
 @endsection

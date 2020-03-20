@@ -2,7 +2,7 @@ var courriersEntrantsClotureTable;
 var checkedelementsCourrierEntrantCloture = [];
 var boxes;
 
-$(document).ready(function() {
+$(document).ready(function () {
     courriersEntrantsClotureTable = $(
         "#courriers_entrant_cloture_datatables"
     ).DataTable({
@@ -18,22 +18,21 @@ $(document).ready(function() {
 
         dom: "lBfrtip",
         buttons: [
-            {
-                extend: "pdfHtml5",
-                exportOptions: {
-                    modifer: {
-                        page: "all"
-                    }
-                },
-                orientation: "landscape",
-                title: "",
-                text:
-                    '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
-                init: function(api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                    $(node).addClass("btn-success");
-                }
-            },
+            // {
+            //     extend: "pdfHtml5",
+            //     exportOptions: {
+            //         modifer: {
+            //             page: "all"
+            //         }
+            //     },
+            //     orientation: "landscape",
+            //     title: "",
+            //     text: '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
+            //     init: function (api, node, config) {
+            //         $(node).removeClass("btn-secondary");
+            //         $(node).addClass("btn-success");
+            //     }
+            // },
             {
                 extend: "excel",
                 exportOptions: {
@@ -41,11 +40,15 @@ $(document).ready(function() {
                         page: "all"
                     }
                 },
+                customize: function (xlsx) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    // jQuery selector to add a border
+                    $('row c[r*="1"]', sheet).attr('s', '22');
+                },
                 orientation: "landscape",
                 title: "",
-                text:
-                    '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
-                init: function(api, node, config) {
+                text: '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
+                init: function (api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -62,7 +65,7 @@ $(document).ready(function() {
         ajax: {
             url: "courriers-entrants/cloture",
             type: "GET",
-            data: function(d) {
+            data: function (d) {
                 d.nature_expediteur = $(
                     "select[name=nature_expediteur_cloture]"
                 ).val();
@@ -80,8 +83,7 @@ $(document).ready(function() {
                 ).val();
             }
         },
-        columnDefs: [
-            {
+        columnDefs: [{
                 width: 20,
                 targets: 1
             },
@@ -94,28 +96,30 @@ $(document).ready(function() {
                 targets: 3
             }
         ],
-        columns: [
-            {
+        columns: [{
                 data: "checkbox",
                 name: "checkbox",
                 searchable: true,
-                width: "10%"
+                width: "2%"
             },
             {
                 data: "priorite",
                 name: "priorite",
-                searchable: false
+                searchable: false,
+                width: "10%"
             },
 
             {
                 data: "ref",
                 name: "ref",
-                searchable: true
+                searchable: true,
+                width: "10%"
             },
             {
                 data: "categorie",
                 name: "categorie",
-                searchable: false
+                searchable: false,
+                width: "10%"
             },
             {
                 data: "date_reception",
@@ -135,7 +139,7 @@ $(document).ready(function() {
                 data: "objet",
                 name: "courriers.objet",
                 searchable: true,
-                width: "30%"
+                width: "28%"
             },
 
             {
@@ -158,15 +162,15 @@ $(document).ready(function() {
                 width: "8%"
             }
         ],
-        initComplete: function() {
+        initComplete: function () {
             this.api()
                 .columns()
-                .every(function() {
+                .every(function () {
                     var column = this;
                     var input = document.createElement("input");
                     $(input)
                         .appendTo($(column.footer()).empty())
-                        .on("change", function() {
+                        .on("change", function () {
                             column
                                 .search($(this).val(), false, false, true)
                                 .draw();
@@ -191,26 +195,26 @@ $(document).ready(function() {
         // }
     });
 
-    $(".cloture-select").on("change paste keyup", function(e) {
+    $(".cloture-select").on("change paste keyup", function (e) {
         courriersEntrantsClotureTable.draw();
         e.preventDefault();
     });
 
-    courriersEntrantsClotureTable.on("draw", function() {
+    courriersEntrantsClotureTable.on("draw", function () {
         $('[data-toggle="tooltip"]').tooltip();
     });
 
-    courriersEntrantsClotureTable.on("draw", function() {
+    courriersEntrantsClotureTable.on("draw", function () {
         for (i = 0; i < checkedelementsCourrierEntrantCloture.length; i++) {
             $(
                 "#courriersEntrantCloture_" +
-                    checkedelementsCourrierEntrantCloture[i]
+                checkedelementsCourrierEntrantCloture[i]
             ).prop("checked", true);
         }
 
         $(
             '#courriers_entrant_cloture_datatables :input[type="checkbox"]'
-        ).change(function() {
+        ).change(function () {
             boxes = $(":checkbox:checked");
 
             if (this.checked) {
@@ -237,7 +241,7 @@ $(document).ready(function() {
     });
 
     //create sortant
-    $("#create_courrier_sortant_cloture_btn").click(function() {
+    $("#create_courrier_sortant_cloture_btn").click(function () {
         createOutputCourrierFromInput(
             checkedelementsCourrierEntrantCloture,
             "sortant"

@@ -1,6 +1,6 @@
 <div class="filters" style="margin-bottom: 4px;margin-top: 6px">
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Nature éxpiditeur')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -17,7 +17,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Expediteur')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -37,7 +37,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Services concernés')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -53,12 +53,29 @@
             <!-- /.form-group -->
         </div>
 
+
+        <div class="col-lg-1 col-md-2">
+            <label><?php echo e(__('Catégorie')); ?> :</label>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <select class="form-control select2 cloture-select" style="width: 100%;"
+                    name="categorie_courrier_cloture">
+                    <option value="all" selected><?php echo e(__('Indifferent')); ?></option>
+                    <?php $__currentLoopData = $categorie_courrier; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($categorie->id); ?>"><?php echo e($categorie->nom); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+            </div>
+            <!-- /.form-group -->
+        </div>
+
     </div>
 
 
     <!--Row-->
     <div class="row" style="margin-top: 6px">
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Mode reception')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -73,7 +90,7 @@
             <!-- /.form-group -->
         </div>
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Date de la réception')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -82,9 +99,9 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control pull-left cloture-select date-range-input" name="date_reception_cloture_daterange"
-                    value="01/01/<?php echo e(now()->year); ?> - 30/12/<?php echo e(now()->year); ?>" 
-                    style="font-size: 0.94rem;">
+                    <input type="text" class="form-control pull-left cloture-select date-range-input"
+                        name="date_reception_cloture_daterange"
+                        value="01/01/<?php echo e(now()->year); ?> - 30/12/<?php echo e(now()->year); ?>" style="font-size: 0.94rem;">
 
                 </div>
             </div>
@@ -92,7 +109,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Priorité')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -108,26 +125,5 @@
         </div>
     </div>
 
-    <div class="row" style="margin-top: 6px">
-        <div class="col-lg-2">
-            <label><?php echo e(__('Catégorie')); ?> :</label>
-        </div>
-        <div class="col-lg-2">
-            <div class="form-group">
-                <select class="form-control select2 cloture-select" style="width: 100%;"
-                    name="categorie_courrier_cloture">
-                    <option value="all" selected><?php echo e(__('Indifferent')); ?></option>
-                    <?php $__currentLoopData = $categorie_courrier; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $categorie): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <option value="<?php echo e($categorie->id); ?>"><?php echo e($categorie->nom); ?></option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </select>
-            </div>
-            <!-- /.form-group -->
-        </div>
-    </div>
-
-    <div class="row" style="margin-top: 4px">
-
-    </div>
-    <hr style="margin:4px">
-</div><?php /**PATH E:\xampp\htdocs\smartgis\bureau_ordre\resources\views/courriers/entrants/show/filters/filters_cloture.blade.php ENDPATH**/ ?>
+</div>
+<hr style="margin-top:7px"><?php /**PATH E:\xampp\htdocs\smartgis\bureau_ordre\resources\views/courriers/entrants/show/filters/filters_cloture.blade.php ENDPATH**/ ?>

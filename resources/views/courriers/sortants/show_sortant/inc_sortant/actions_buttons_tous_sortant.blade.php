@@ -9,12 +9,8 @@
         <button type="button"
             class="btn btn-default {{__('costum_css.pull-right')}} pull-right multiple-choice-en-cours"
             style="margin-right : 6px" id="registre_generate_btn"><i class="fa fa-file"
-                style="margin-right: 6px"></i>{{__('Registre des courriers sortants')}} </button>
+                style="margin-right: 6px;margin-left: 6px"></i>{{__('Registre des courriers sortants')}} </button>
         {{Form::close()}}
-
-        <button type="button" class="btn btn-default {{__('costum_css.pull-right')}} multiple-choice-en-cours"
-            id="fiche_demande_en_cours_btn" style="margin-right : 6px" disabled><i class="fa fa-file"
-                style="margin-right: 6px;margin-left: 6px"></i>{{__('Fiche de courrier')}} </button>
 
 
     </div>

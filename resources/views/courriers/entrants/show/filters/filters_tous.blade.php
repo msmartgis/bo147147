@@ -1,6 +1,6 @@
 <div class="filters" style="margin-bottom: 4px;margin-top: 6px">
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Nature éxpiditeur')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -16,7 +16,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Expediteur')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -36,7 +36,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Services concernés')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -51,12 +51,27 @@
             <!-- /.form-group -->
         </div>
 
+        <div class="col-lg-1 col-md-2">
+            <label>{{__('Catégorie')}} :</label>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group">
+                <select class="form-control select2 tous-select" style="width: 100%;" name="categorie_courrier_tous">
+                    <option value="all" selected>{{__('Indifferent')}}</option>
+                    @foreach($categorie_courrier as $categorie)
+                    <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <!-- /.form-group -->
+        </div>
+
     </div>
 
 
     <!--Row-->
     <div class="row" style="margin-top: 6px">
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Mode reception')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -71,7 +86,7 @@
             <!-- /.form-group -->
         </div>
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Date de la réception')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -80,9 +95,9 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control pull-left tous-select date-range-input" name="date_reception_tous_daterange" id="date_reception_daterange_id"
-                    value="01/01/{{ now()->year }} - 30/12/{{ now()->year }}" 
-                    style="font-size: 0.94rem;">
+                    <input type="text" class="form-control pull-left tous-select date-range-input"
+                        name="date_reception_tous_daterange" id="date_reception_daterange_id"
+                        value="01/01/{{ now()->year }} - 30/12/{{ now()->year }}" style="font-size: 0.94rem;">
 
                 </div>
             </div>
@@ -90,7 +105,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label>{{__('Priorité')}} :</label>
         </div>
         <div class="col-lg-2">
@@ -107,25 +122,6 @@
 
     </div>
 
-    <div class="row" style="margin-top: 6px">
-        <div class="col-lg-2">
-            <label>{{__('Catégorie')}} :</label>
-        </div>
-        <div class="col-lg-2">
-            <div class="form-group">
-                <select class="form-control select2 tous-select" style="width: 100%;" name="categorie_courrier_tous">
-                    <option value="all" selected>{{__('Indifferent')}}</option>
-                    @foreach($categorie_courrier as $categorie)
-                    <option value="{{$categorie->id}}">{{$categorie->nom}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <!-- /.form-group -->
-        </div>
-    </div>
 
-    <div class="row" style="margin-top: 4px">
-
-    </div>
-    <hr style="margin:4px">
 </div>
+<hr style="margin-top:7px">

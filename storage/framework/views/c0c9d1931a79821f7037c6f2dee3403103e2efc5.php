@@ -15,9 +15,7 @@
         <?php echo e(Form::close()); ?>
 
 
-        <button type="button" class="btn btn-default <?php echo e(__('costum_css.pull-right')); ?> multiple-choice-en-cours"
-            style="margin-right : 6px" disabled><i class="fa fa-file"
-                style="margin-right: 6px;margin-left: 6px"></i><?php echo e(__('Fiche de courrier')); ?> </button>
+
 
     </div>
 </div>

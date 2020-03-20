@@ -10,6 +10,7 @@ use App\Document;
 use App\EtatCourrier;
 use App\Events\NewCourrierAddedEvent as EventsNewCourrierAddedEvent;
 use App\Events\ChangeCourrierStateEvent as ChangeCourrierStateEvent;
+use App\Events\ViewMessageEvent as ViewMessageEvent;
 use App\Events\DistributionEvent as DistributionEvent;
 use App\Events\ValidateCourrierEvent;
 use App\Historique;
@@ -40,6 +41,20 @@ use Illuminate\Support\Facades\Mail;
 class CourrierController extends Controller
 {
 
+
+    public function actionRef()
+    {
+        $edit = "";
+        if (App::isLocale('en')) {
+            $edit = "cliquer pour modifier";
+        } else {
+            $edit = "انقر للتحديث";
+        }
+
+        return $edit;
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -47,12 +62,14 @@ class CourrierController extends Controller
      */
     public function index()
     {
+
         $personne_physiques = PersonnePhysique::orderBy('nom')->where([['nom', '!=', 'null']])->get();
         $personne_morales = PersonneMorale::orderBy('raison_social')->where([['raison_social', '!=', 'null']])->get();
         $services = Service::orderBy('nom')->get();
 
         $modes_recpetions = ModeReception::orderBy('nom')->get();
         $priorites = Priorite::orderBy('nom')->get();
+
         $categorie_courrier = CategorieCourrier::orderBy('nom')->get();
 
         event(new ChangeCourrierStateEvent());
@@ -105,10 +122,12 @@ class CourrierController extends Controller
      */
     public function store(Request $request)
     {
-        // $validatedData = $request->validate([
-        //     'objet' => 'required',
-        //     'ref' => 'required',
-        // ]);
+        $validatedData = $request->validate([
+            'objet' => 'required',
+            'ref' => 'required|unique:courriers,ref',
+            'date_reception' => 'required',
+            // 'documents_ulpoad_input' => 'required|max:10000|mimes:pdf,png,jpeg'
+        ]);
 
         $courrier = new Courrier();
         $brouillon_etat =  EtatCourrier::where('nom', 'brouillon')->first();
@@ -123,9 +142,6 @@ class CourrierController extends Controller
 
             $courrier->delai = $request->delai;
         }
-
-
-
 
         $courrier->etat_id = $brouillon_etat->id;
         $courrier->priorite_id = $request->priorites_id;
@@ -346,6 +362,7 @@ class CourrierController extends Controller
      */
     public function edit($id)
     {
+
         $modes_recpetion = ModeReception::orderBy('nom')->pluck('nom', 'id');
         $priorites = Priorite::orderBy('nom')->pluck('nom', 'id');
         $categorie_courrier = CategorieCourrier::orderBy('nom')->pluck('nom', 'id');
@@ -362,6 +379,11 @@ class CourrierController extends Controller
 
         //mark as read notification
         Auth::user()->unreadNotifications->where('data.element_id', $courrier->id)->markAsRead();
+
+        //pivot message mark asread
+        $service =  Auth::user()->service;
+        // return $courrier->services->find($service->id)->pivot->vu;
+        event(new ViewMessageEvent($courrier, $service));
 
         return  view('courriers.entrants.edit.index_edit_ce')->with([
             'courrier' => $courrier,
@@ -774,7 +796,8 @@ class CourrierController extends Controller
                 })
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-entrants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="Objet : ' . $courriers->objet . '">' . $courriers->ref . '</a>';
+
+                    return '<a class="ref-show"  href="courriers-entrants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
                 ->addColumn('priorite', function (Courrier $courrier) {
                     if ($courrier->priorite != null) {
@@ -791,25 +814,36 @@ class CourrierController extends Controller
                     return '<input style="text-align: center;" type="checkbox" id="courriersEntrantTous_' . $courriers->id . '" name="checkbox_tous" class="demande-en-cours-checkbox chk-col-green" value="' . $courriers->id . '"  data-numero ="' . $courriers->ref . '" data-id="' . $courriers->id . '" class="chk-col-green"><label for="courriersEntrantTous_' . $courriers->id . '" class="block" ></label>';
                 })
 
-                ->addColumn('etat', function ($courriers) {
-                    switch ($courriers->etat->nom) {
-                        case 'en_cours':
-                            return "<b style='color : #009dc5'>En cours</b>";
-                            break;
-                        case 'brouillon':
-                            return "<b style='color : #7dd8fb'>Brouillon</b>";
-                            break;
-                        case 'en_retard':
-                            return "<b style='color : #ff3200'>En retard</b>";
-                            break;
-                        case 'cloturer':
-                            return "<b style='color : #9fd037'>Cloturé</b>";
-                            break;
+                ->addColumn('etat', function (Courrier $courrier) {
+                    return $courrier->etat->etat_nom;
+                    // switch ($courriers->etat->nom) {
+                    //     case 'en_cours':
+                    //         if (App::isLocale('en')) {
+                    //             return "<b style='color : #009dc5'>En cours</b>";
+                    //         } else {
+                    //             return "<b style='color : #009dc5'>الحالية</b>";
+                    //         }
 
-                        default:
-                            return '';
-                            break;
-                    }
+
+                    //         break;
+                    //     case 'brouillon':
+                    //         if (App::isLocale('en')) {
+                    //             return "<b style='color : #7dd8fb'>Brouillon</b>";
+                    //         } else {
+                    //             return "<b style='color : #009dc5'>مسودة</b>";
+                    //         }
+                    //         break;
+                    //     case 'en_retard':
+                    //         return "<b style='color : #ff3200'>En retard</b>";
+                    //         break;
+                    //     case 'cloturer':
+                    //         return "<b style='color : #9fd037'>Cloturé</b>";
+                    //         break;
+
+                    //     default:
+                    //         return '';
+                    //         break;
+                    // }
                 })
                 ->rawColumns(['pj', 'checkbox', 'ref', 'etat', 'priorite']);
         }
@@ -973,7 +1007,7 @@ class CourrierController extends Controller
                 })
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                    return '<a class="ref-show"  href="courriers-entrants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
 
                 ->addColumn('checkbox', function ($courriers) {
@@ -1118,7 +1152,7 @@ class CourrierController extends Controller
                 })
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                    return '<a class="ref-show"  href="courriers-entrants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
 
                 ->addColumn('priorite', function (Courrier $courrier) {
@@ -1305,7 +1339,7 @@ class CourrierController extends Controller
 
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                    return '<a  class="ref-show" href="courriers-entrants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
 
                 ->addColumn('checkbox', function ($courriers) {
@@ -1472,7 +1506,7 @@ class CourrierController extends Controller
                 })
 
                 ->addColumn('ref', function ($courriers) {
-                    return '<a  href="courriers-entrants/' . $courriers->id . '/edit" >' . $courriers->ref . '</a>';
+                    return '<a  class="ref-show" href="courriers-entrants/' . $courriers->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $courriers->ref . '</a>';
                 })
 
                 ->addColumn('checkbox', function ($courriers) {

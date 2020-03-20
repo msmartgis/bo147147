@@ -2,7 +2,7 @@ var courriersSortantsBrouillonTable;
 var checkedelementsCourrierSortantBrouillon = [];
 var boxes;
 
-$(document).ready(function() {
+$(document).ready(function () {
     courriersSortantsBrouillonTable = $(
         "#courriers_sortant_brouillon_datatables"
     ).DataTable({
@@ -18,22 +18,7 @@ $(document).ready(function() {
 
         dom: "lBfrtip",
         buttons: [
-            {
-                extend: "pdfHtml5",
-                exportOptions: {
-                    modifer: {
-                        page: "all"
-                    }
-                },
-                orientation: "landscape",
-                title: "",
-                text:
-                    '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
-                init: function(api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                    $(node).addClass("btn-success");
-                }
-            },
+
             {
                 extend: "excel",
                 exportOptions: {
@@ -41,11 +26,16 @@ $(document).ready(function() {
                         page: "all"
                     }
                 },
+
+                customize: function (xlsx) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    // jQuery selector to add a border
+                    $('row c[r*="1"]', sheet).attr('s', '22');
+                },
                 orientation: "landscape",
                 title: "",
-                text:
-                    '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
-                init: function(api, node, config) {
+                text: '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbsp Excel',
+                init: function (api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -62,7 +52,7 @@ $(document).ready(function() {
         ajax: {
             url: "courriers-sortants/brouillon",
             type: "GET",
-            data: function(d) {
+            data: function (d) {
                 d.nature_expediteur = $(
                     "select[name=nature_expediteur_brouillon]"
                 ).val();
@@ -83,8 +73,7 @@ $(document).ready(function() {
                 ).val();
             }
         },
-        columnDefs: [
-            {
+        columnDefs: [{
                 width: 20,
                 targets: 1
             },
@@ -97,23 +86,24 @@ $(document).ready(function() {
                 targets: 3
             }
         ],
-        columns: [
-            {
+        columns: [{
                 data: "checkbox",
                 name: "checkbox",
                 searchable: true,
-                width: "10%"
+                width: "2%"
             },
 
             {
                 data: "ref",
                 name: "ref",
-                searchable: true
+                searchable: true,
+                width: "10%"
             },
             {
                 data: "categorie",
                 name: "categorie",
-                searchable: false
+                searchable: false,
+                width: "10%"
             },
             {
                 data: "date_envoie",
@@ -133,7 +123,7 @@ $(document).ready(function() {
                 data: "objet",
                 name: "courriers.objet",
                 searchable: true,
-                width: "30%"
+                width: "28%"
             },
 
             {
@@ -149,15 +139,15 @@ $(document).ready(function() {
                 width: "8%"
             }
         ],
-        initComplete: function() {
+        initComplete: function () {
             this.api()
                 .columns()
-                .every(function() {
+                .every(function () {
                     var column = this;
                     var input = document.createElement("input");
                     $(input)
                         .appendTo($(column.footer()).empty())
-                        .on("change", function() {
+                        .on("change", function () {
                             column
                                 .search($(this).val(), false, false, true)
                                 .draw();
@@ -182,22 +172,22 @@ $(document).ready(function() {
         // }
     });
 
-    $(".brouillon-select").on("change paste keyup", function(e) {
+    $(".brouillon-select").on("change paste keyup", function (e) {
         courriersSortantsBrouillonTable.draw();
         e.preventDefault();
     });
 
-    courriersSortantsBrouillonTable.on("draw", function() {
+    courriersSortantsBrouillonTable.on("draw", function () {
         for (i = 0; i < checkedelementsCourrierSortantBrouillon.length; i++) {
             $(
                 "#courriersSortantBrouillon_" +
-                    checkedelementsCourrierSortantBrouillon[i]
+                checkedelementsCourrierSortantBrouillon[i]
             ).prop("checked", true);
         }
 
         $(
             '#courriers_sortant_brouillon_datatables :input[type="checkbox"]'
-        ).change(function() {
+        ).change(function () {
             boxes = $(":checkbox:checked");
 
             if (this.checked) {
@@ -226,7 +216,7 @@ $(document).ready(function() {
     });
 
     //a traiter
-    $("#valider_courrier_sortant_btn").click(function() {
+    $("#valider_courrier_sortant_btn").click(function () {
         changeStateCourrier(
             checkedelementsCourrierSortantBrouillon,
             "en_cours"

@@ -1,6 +1,6 @@
 <div class="filters" style="margin-bottom: 4px;margin-top: 6px">
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Nature destinataire')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -17,7 +17,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Destinataire')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -37,7 +37,7 @@
         </div>
 
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Services concernés')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -53,13 +53,8 @@
             <!-- /.form-group -->
         </div>
 
-    </div>
 
-
-    <!--Row-->
-    <div class="row" style="margin-top: 6px">
-
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Catégorie')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -75,8 +70,12 @@
             <!-- /.form-group -->
         </div>
 
+    </div>
 
-        <div class="col-lg-2">
+
+    <!--Row-->
+    <div class="row" style="margin-top: 6px">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Mode envoi')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -91,7 +90,7 @@
             <!-- /.form-group -->
         </div>
 
-        <div class="col-lg-2">
+        <div class="col-lg-1 col-md-2">
             <label><?php echo e(__('Date envoi')); ?> :</label>
         </div>
         <div class="col-lg-2">
@@ -100,9 +99,9 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control pull-left cloture-select date-range-input" name="date_envoie_cloture_daterange"
-                    value="01/01/<?php echo e(now()->year); ?> - 30/12/<?php echo e(now()->year); ?>" 
-                    style="font-size: 0.94rem;">
+                    <input type="text" class="form-control pull-left cloture-select date-range-input"
+                        name="date_envoie_cloture_daterange" value="01/01/<?php echo e(now()->year); ?> - 30/12/<?php echo e(now()->year); ?>"
+                        style="font-size: 0.94rem;">
 
                 </div>
             </div>
@@ -111,8 +110,5 @@
 
     </div>
 
-    <div class="row" style="margin-top: 4px">
-
-    </div>
     <hr style="margin:4px">
 </div><?php /**PATH E:\xampp\htdocs\smartgis\bureau_ordre\resources\views/courriers/sortants/show_sortant/filters_sortant/filters_cloture_sortant.blade.php ENDPATH**/ ?>

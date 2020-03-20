@@ -2,7 +2,7 @@ var courriersEntrantsEnCoursTable;
 var checkedelementsCourrierEntrantEnCours = [];
 var boxes;
 
-$(document).ready(function() {
+$(document).ready(function () {
     courriersEntrantsEnCoursTable = $(
         "#courriers_entrant_en_cours_datatables"
     ).DataTable({
@@ -18,34 +18,38 @@ $(document).ready(function() {
 
         dom: "lBfrtip",
         buttons: [
-            {
-                extend: "pdfHtml5",
-                exportOptions: {
-                    modifer: {
-                        page: "all"
-                    }
-                },
-                orientation: "landscape",
-                title: "",
-                text:
-                    '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
-                init: function(api, node, config) {
-                    $(node).removeClass("btn-secondary");
-                    $(node).addClass("btn-success");
-                }
-            },
+            // {
+            //     extend: "pdfHtml5",
+            //     exportOptions: {
+            //         modifer: {
+            //             page: "all"
+            //         }
+            //     },
+            //     orientation: "landscape",
+            //     title: "",
+            //     text: '<i style="font-size:14px;" class="mdi mdi-file-pdf"></i>&nbspFichier PDF',
+            //     init: function (api, node, config) {
+            //         $(node).removeClass("btn-secondary");
+            //         $(node).addClass("btn-success");
+            //     }
+            // },
             {
                 extend: "excel",
                 exportOptions: {
                     modifer: {
                         page: "all"
-                    }
+                    },
+                    columns: [2, 3, 4, 5, 6, 7, 9]
+                },
+                customize: function (xlsx) {
+                    var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                    // jQuery selector to add a border
+                    $('row c[r*="1"]', sheet).attr('s', '22');
                 },
                 orientation: "landscape",
                 title: "",
-                text:
-                    '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbspFichier Excel',
-                init: function(api, node, config) {
+                text: '<i style="font-size:14px;" class="mdi mdi-file-excel"></i>&nbsp Excel',
+                init: function (api, node, config) {
                     $(node).removeClass("btn-secondary");
                     $(node).addClass("btn-success");
                 }
@@ -62,7 +66,7 @@ $(document).ready(function() {
         ajax: {
             url: "courriers-entrants/en-cours",
             type: "GET",
-            data: function(d) {
+            data: function (d) {
                 d.nature_expediteur = $(
                     "select[name=nature_expediteur_en_cours]"
                 ).val();
@@ -83,8 +87,7 @@ $(document).ready(function() {
                 ).val();
             }
         },
-        columnDefs: [
-            {
+        columnDefs: [{
                 width: 20,
                 targets: 1
             },
@@ -97,31 +100,30 @@ $(document).ready(function() {
                 targets: 3
             }
         ],
-        columns: [
-            {
+        columns: [{
                 data: "checkbox",
                 name: "checkbox",
                 searchable: true,
-                width: "10%"
+                width: "3%"
             },
             {
                 data: "priorite",
                 name: "priorite",
-                searchable: false
+                searchable: false,
+                width: "5%"
             },
 
             {
                 data: "ref",
                 name: "ref",
-                searchable: true
-            },
-
-            {
+                searchable: true,
+                width: "10%"
+            }, {
                 data: "categorie",
                 name: "categorie",
-                searchable: false
-            },
-            {
+                searchable: false,
+                width: "10%"
+            }, {
                 data: "date_reception",
                 name: "courriers.date_reception",
                 searchable: true,
@@ -139,7 +141,7 @@ $(document).ready(function() {
                 data: "objet",
                 name: "courriers.objet",
                 searchable: true,
-                width: "40%"
+                width: "28%"
             },
 
             {
@@ -162,15 +164,15 @@ $(document).ready(function() {
                 width: "8%"
             }
         ],
-        initComplete: function() {
+        initComplete: function () {
             this.api()
                 .columns()
-                .every(function() {
+                .every(function () {
                     var column = this;
                     var input = document.createElement("input");
                     $(input)
                         .appendTo($(column.footer()).empty())
-                        .on("change", function() {
+                        .on("change", function () {
                             column
                                 .search($(this).val(), false, false, true)
                                 .draw();
@@ -195,22 +197,22 @@ $(document).ready(function() {
         // }
     });
 
-    $(".en-cours-select").on("change paste keyup", function(e) {
+    $(".en-cours-select").on("change paste keyup", function (e) {
         courriersEntrantsEnCoursTable.draw();
         e.preventDefault();
     });
 
-    courriersEntrantsEnCoursTable.on("draw", function() {
+    courriersEntrantsEnCoursTable.on("draw", function () {
         for (i = 0; i < checkedelementsCourrierEntrantEnCours.length; i++) {
             $(
                 "#courriersEntrantEnCours_" +
-                    checkedelementsCourrierEntrantEnCours[i]
+                checkedelementsCourrierEntrantEnCours[i]
             ).prop("checked", true);
         }
 
         $(
             '#courriers_entrant_en_cours_datatables :input[type="checkbox"]'
-        ).change(function() {
+        ).change(function () {
             boxes = $(":checkbox:checked");
 
             if (this.checked) {
@@ -245,12 +247,12 @@ $(document).ready(function() {
     });
 
     //a traiter
-    $("#cloturer_courrier_entrant_btn").click(function() {
+    $("#cloturer_courrier_entrant_btn").click(function () {
         changeStateCourrier(checkedelementsCourrierEntrantEnCours, "cloturer");
     });
 
     //create sortant
-    $("#create_courrier_sortant_en_cours_btn").click(function() {
+    $("#create_courrier_sortant_en_cours_btn").click(function () {
         createOutputCourrierFromInput(
             checkedelementsCourrierEntrantEnCours,
             "sortant"

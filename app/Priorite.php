@@ -27,7 +27,7 @@ class Priorite extends Model
                 break;
 
             case "عاجلة":
-                return '<i  data-toggle="tooltip" data-html="true"   data-placement="left" title="عاجلة" ><img src="' . URL::to('/') . ('/images/svg/priorite_urgente.svg') . '" width="35" height="35" ></i>';
+                return '<i  data-toggle="tooltip" data-html="true"   data-placement="left" title="عاجلة" ><img src="' . URL::to('/') . ('/images/svg/priorite_urgente.svg') . '" width="30" height="30" ></i>';
                 break;
 
             case "عاجلة جدا":

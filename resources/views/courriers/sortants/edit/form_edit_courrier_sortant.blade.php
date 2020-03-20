@@ -644,11 +644,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                         class="btn delete-row btn-danger-table {{__('costum_css.float-right-btn-m')}}"> <i
                             class="fa fa-file" style="margin-right : 4px"></i> <b>{{__('Accusé envoi')}}</b> </button>
                     <br>
-                    <button type="button" class="btn delete-row btn-danger-table {{__('costum_css.float-right-btn-m')}}"
-                        style="color : #f99830"> <i class="fa fa-file" style="margin-right : 4px"></i>
-                        <b>{{__('Fiche de courrier')}}</b> </button>
 
-                    <br>
                     <br>
                     <h5 class="{{__('costum_css.float-right-m')}}">{{__('Edition')}} : </h5>
                     <hr>

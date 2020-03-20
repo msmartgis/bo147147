@@ -28,10 +28,12 @@
             <img src="<?php echo e(asset('images/svg/writing.svg')); ?>" style="width: 1.2em;margin-right: 5px;" />
             <span style="vertical-align: middle;" class="lato-bold"><?php echo e(__('DIFFUSION INTERNES')); ?></span></a>
     </li>
-
+    <?php if(Auth::user()->is('admin')): ?>
     <li class="nav-item <?php echo e(Route::is('parametres.index') ? 'active' : ''); ?>">
         <a class="nav-link" href="<?php echo e(route('parametres.index')); ?>"><span class=""></span>
             <img src="<?php echo e(asset('images/svg/settings-gears.svg')); ?>" style="width: 1.2em;margin-right: 5px;" />
             <span style="vertical-align: middle;" class="lato-bold"><?php echo e(__('PARAMETRES')); ?></span></a>
     </li>
+    <?php endif; ?>
+
 </ul><?php /**PATH E:\xampp\htdocs\smartgis\bureau_ordre\resources\views/inc/navbar.blade.php ENDPATH**/ ?>

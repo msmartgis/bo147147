@@ -32,10 +32,17 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         \App\Events\DistributionEvent::class => [
-        \App\Listeners\DistributionListener::class,
+            \App\Listeners\DistributionListener::class,
         ],
 
-        
+
+        \App\Events\ViewMessageEvent::class => [
+            \App\Listeners\ViewMessageListener::class,
+        ],
+
+
+
+
     ];
 
     /**

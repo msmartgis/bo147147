@@ -12,9 +12,7 @@
         </button>
         {{Form::close()}}
 
-        <button type="button" class="btn btn-default {{__('costum_css.pull-right')}} multiple-choice-en-cours"
-            style="margin-right : 6px" disabled><i class="fa fa-file"
-                style="margin-right: 6px;margin-left: 6px"></i>{{__('Fiche de courrier')}} </button>
+
 
     </div>
 </div>

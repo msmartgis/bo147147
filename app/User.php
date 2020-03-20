@@ -68,4 +68,16 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Service', 'service_id');
     }
+
+
+
+    public function is($roleName)
+    {
+        foreach ($this->role()->get() as $role) {
+            if ($role->role_name == $roleName) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
