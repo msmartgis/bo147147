@@ -39,13 +39,13 @@ function changeStateCourrier(el, state) {
 
 function createOutputCourrierFromInput(el, output_type) {
     swal({
-        title: "Vous êtes sûr?",
-        text: 'Voulez vous vraiment créer un courrier',
+        title: title_validation,
+        text: '',
         type: "warning",
         showCancelButton: true,
         confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Confirmer",
-        cancelButtonText: "Non",
+        confirmButtonText: m_confirmButtonText,
+        cancelButtonText: m_cancelButtonText,
         closeOnConfirm: false,
         closeOnCancel: false
     }, function (isConfirm) {
@@ -55,7 +55,7 @@ function createOutputCourrierFromInput(el, output_type) {
             }
 
         } else {
-            swal("L'operation est annulée", "Aucun changement a été éffectué", "error");
+            swal(m_annul_title, m_annul_subtitle, "error");
         }
     });
 

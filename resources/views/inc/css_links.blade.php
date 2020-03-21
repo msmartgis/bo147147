@@ -41,4 +41,7 @@
 
 <link rel="stylesheet" type="text/css" href="{{asset('css/daterangepicker.css')}}" />
 
+<!-- toast CSS -->
+<link href="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.css')}}" rel="stylesheet">
+
 @yield('added_css')

@@ -8,8 +8,7 @@
 <!-- bootstrap datepicker -->
 <link rel="stylesheet"
     href="{{asset('vendor_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" />
-<!-- toast CSS -->
-<link href="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.css')}}" rel="stylesheet">
+
 <style>
     .nav-tabs {
         border-bottom: 1px solid #009dc5;
@@ -66,9 +65,7 @@
 <script src="{{asset('js/editor.js')}}"></script>
 <!-- Form validator JavaScript -->
 <script src="{{asset('js/validation.js')}}"></script>
-<!-- toast -->
-<script src="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')}}"></script>
-<script src="{{asset('js/toastr.js')}}"></script>
+
 
 <script src="{{asset('js/courriersEntrants/index_courriers_entrants_edit.js')}}"></script>
 <script src="{{asset('js/courriersEntrants/show/index_show_courrier_entrants.js')}}"></script>

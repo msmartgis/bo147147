@@ -246,4 +246,10 @@ $(document).ready(function () {
             "en_cours"
         );
     });
+
+
+    $("#supprimer_courrier_entrant_btn").click(function () {
+        //deleteFromDb(checkedelementsCourrierEntrantBrouillon, "/courriers/delete", "courriers_entrant_brouillon_datatables");
+        deleteFromDb(checkedelementsCourrierEntrantBrouillon, "/courriers/delete", courriersEntrantsBrouillonTable);
+    });
 });

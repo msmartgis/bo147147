@@ -16,6 +16,7 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                     <div class="row" style="margin-top: 8px">
                                         <div class="col-lg-6 col-xl-6 col-md-6 col-12">
                                             <div class="form-group">
+                                                <h6 class="{{__('costum_css.float-right-m')}}">{{__('Objet')}}</h6>
                                                 <div class="controls">
                                                     {{Form::textarea('objet',$courrier->objet,['class'=>'form-control','rows'=>'2','style'=>'height: 52px !important' ,'disabled' => 'disabled'])}}
                                                 </div>
@@ -313,9 +314,9 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                                 <i class="fa fa-eye"></i>
                                                                 {{__('Visualiser')}}</button>
                                                             @endif
-                                                            @if (Auth::user()->role->first()->role_name ==
-                                                            "bureau_ordre" || Auth::user()->role->first()->role_name ==
-                                                            "admin")
+
+                                                            @if (Auth::user()->is('admin') ||
+                                                            Auth::user()->is('bureau_ordre'))
                                                             <button type="button"
                                                                 class="btn delete-row btn-danger-table m-hidden"> <i
                                                                     class="fa fa-close"></i>
@@ -327,8 +328,8 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
 
                                                 </tbody>
                                             </table>
-                                            @if (Auth::user()->role->first()->role_name == "bureau_ordre" ||
-                                            Auth::user()->role->first()->role_name == "admin")
+
+                                            @if (Auth::user()->is('admin') || Auth::user()->is('bureau_ordre'))
                                             <div style="text-align: center">
                                                 <a href="#" id="add_piece_btn" class="m-hidden"> <i
                                                         class="fa fa-plus"></i>
@@ -389,9 +390,9 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                         </td>
 
                                                         <td>
-                                                            @if (Auth::user()->role->first()->role_name ==
-                                                            "bureau_ordre" || Auth::user()->role->first()->role_name ==
-                                                            "admin")
+
+                                                            @if (Auth::user()->is('admin') ||
+                                                            Auth::user()->is('bureau_ordre'))
                                                             <button type="button"
                                                                 class="btn delete-row btn-danger-table m-hidden"
                                                                 id="delete_service_row_btn"> <i class="fa fa-close"></i>
@@ -463,9 +464,9 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                                             </a>
                                                             @endif
 
-                                                            @if (Auth::user()->role->first()->role_name ==
-                                                            "bureau_ordre" || Auth::user()->role->first()->role_name ==
-                                                            "admin")
+
+                                                            @if (Auth::user()->is('admin') ||
+                                                            Auth::user()->is('bureau_ordre'))
                                                             <button type="button"
                                                                 class="btn delete-row btn-danger-table m-hidden"> <i
                                                                     class="fa fa-close"></i>
@@ -651,9 +652,8 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                     <button type="button" id="activate_form_edit_btn" class="btn  btn-success activate-form-btn"
                         style="width:90%;margin:auto auto 4px auto;display: block;"><i class="fa fa-edit"
                             style="margin-right: 8px;margin-left: 8px;"></i>{{__('Activer la modification')}}</button>
-                    @if (Auth::user()->role->first()->role_name == "bureau_ordre" ||
-                    Auth::user()->role->first()->role_name == "admin")
-                    @if ($courrier->etat_id == "de4d5fe6-a384-4df0-abeb-6f953f4102f4")
+                    @if (Auth::user()->is('admin') || Auth::user()->is('bureau_ordre'))
+                    @if ($courrier->etat->first()->nom == "brouillon")
                     <button type="button" id="valider_courrier_sortant_btn" class="btn  btn-success disabled"
                         style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-edit"
                             style="margin-right: 8px;margin-left: 8px;"></i>{{__('Valider')}}</button>
@@ -672,13 +672,13 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                         style="width:90%;margin-top:4x;margin:auto auto 4px auto;display: block;"><i class="fa fa-save"
                             style="margin-right: 8px;margin-left: 8px;" disabled></i>{{__('Enregistrer')}}</button>
                     {!! Form::close() !!}
-                    {!! Form::open(['route' => ['courriers-delete'],'id'=>'delete_form','method' => 'POST']) !!}
+                    {{-- {!! Form::open(['route' => ['courriers-delete'],'id'=>'delete_form','method' => 'POST']) !!}
                     <input type="hidden" name="type_courrier" value="sortant">
                     <input type="hidden" name="courrier_id" value="{{$courrier->id}}">
                     <button type="submit" class="btn  btn-danger disabled"
                         style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash"
                             style="margin-right: 8px;margin-left: 8px;"></i>{{__('Supprimer')}}</button>
-                    {!! Form::close() !!}
+                    {!! Form::close() !!} --}}
                 </div>
 
                 <!-- /.box-body -->

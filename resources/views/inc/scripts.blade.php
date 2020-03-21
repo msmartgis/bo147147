@@ -59,6 +59,10 @@
 
 <script type="text/javascript" src="{{asset('js/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('js/daterangepicker.js')}}"></script>
+
+<!-- toast -->
+<script src="{{asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')}}"></script>
+<script src="{{asset('js/toastr.js')}}"></script>
 {{--functions---}}
 <script src="{{asset('js/js_translate.js')}}"></script>
 <script src="{{asset('js/functions.js')}}"></script>

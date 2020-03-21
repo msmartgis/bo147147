@@ -4,7 +4,7 @@
         <div class="modal-content" style="border-radius: 6px;">
 
             <div class="modal-header">
-                <h4 class="modal-title" id="modalTitleAccordAndAffect">Remarque/Consigne</h4>
+                <h4 class="modal-title" id="modalTitleAccordAndAffect">{{__('Remarque/Consigne')}}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
             </div>
@@ -17,7 +17,7 @@
                     <div class="row" style="margin-top: 10px">
                         <div class="col-12">
                             <div class="form-group">
-                                <h6>Message</h6>
+                                <h6>{{__('Message')}}</h6>
                                 <div class="controls">
                                     {{Form::textarea('message','',['class'=>'form-control m-required-input','placeholder'=>'saisir l\'objet','rows'=>'2','required'=>'required','id'=>'message_remarque_consigne_modal_textarea'])}}
                                 </div>
@@ -29,9 +29,9 @@
 
             <div class="modal-footer modal-footer-uniform">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-close"
-                        style="margin-right: 8px"></i>Annuler</button>
+                        style="margin-right: 8px"></i>{{__('Annuler')}}</button>
                 <button type="button" class="btn btn-success pull-right" id="add_remarque_consigne_id_btn"><i
-                        class="fa fa-check" style="margin-right: 8px"></i>Ajouter</button>
+                        class="fa fa-check" style="margin-right: 8px"></i>{{__('Ajouter')}}</button>
             </div>
 
         </div>
@@ -54,7 +54,7 @@
             <div class="modal-footer modal-footer-uniform" style="padding : 0 !important">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                     style="margin-left: 4px;margin-bottom: 6px;"><i class="fa fa-close"
-                        style="margin-right: 8px"></i>Fermer</button>
+                        style="margin-right: 8px"></i>{{__('Fermer')}}</button>
 
 
             </div>

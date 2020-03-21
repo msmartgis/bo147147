@@ -30,7 +30,7 @@ Route::group(
         Route::get('/type-documents/get-all-documents-types', 'DocumentTypeController@getAllDocumentType')->name('document-type.getDocumentType');
 
         //files
-        Route::get('/files/download/{directory}/{subdirectory}/{id}/{file_name}', 'FilesController@fileDownload')->name('files.download');        
+        Route::get('/files/download/{directory}/{subdirectory}/{id}/{file_name}', 'FilesController@fileDownload')->name('files.download');
 
 
 
@@ -70,7 +70,7 @@ Route::group(
         ]);
 
         //delete courrier
-        Route::post('/courriers/delete', 'CourrierController@deleteCourrier')->name('courriers-delete');
+        Route::get('/courriers/delete', 'CourrierController@deleteCourrier')->name('courriers-delete');
 
         Route::get('/home', 'DashboardController@index')->name('home');
 
@@ -102,8 +102,8 @@ Route::group(
 
 
         //notifications
-           
-        Route::get('maskAsRead', function(){
+
+        Route::get('maskAsRead', function () {
             Auth()->user()->unreadNotifications->markAsRead();
             return redirect()->back();
         })->name('markNotificationsAsRead');

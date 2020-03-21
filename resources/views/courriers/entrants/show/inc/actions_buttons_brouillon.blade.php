@@ -15,6 +15,13 @@
         {{Form::close()}} --}}
 
         @if (Auth::user()->is('admin') || Auth::user()->is('bureau_ordre'))
+        <button type="button" class="btn btn-danger  {{__('costum_css.pull-right')}}   multiple-choice-brouillon"
+            id="supprimer_courrier_entrant_btn" style="margin-right : 6px" disabled><i class="fa fa-trash"
+                style="margin-right: 6px;margin-left: 6px"></i>{{ __('Supprimer')}}
+        </button>
+        @endif
+
+        @if (Auth::user()->is('admin') || Auth::user()->is('bureau_ordre'))
         <a href="{{ route('documents-entrants-create') }}" class="btn btn-default {{__('costum_css.pull-right')}}  "
             style="margin-right:4px;margin-left: 4px"><i class="fa fa-plus" style="margin-right: 6px"></i>
             {{__('Ajouter une entrée')}}

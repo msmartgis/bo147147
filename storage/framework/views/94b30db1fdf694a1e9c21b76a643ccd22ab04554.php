@@ -107,6 +107,24 @@
                 </div>
             </div>
 
+
+            <div class="row" style="margin-top: 10px">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <?php echo e(Form::label('',trans('Delai') .' :')); ?>
+
+                        <div class="input-group date <?php echo e(__('costum_css.date-style-m')); ?>">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <?php echo e(Form::text('delai','',['class'=>'form-control pull-right datepicker','id'=>'datepicker_delai_input_id'])); ?>
+
+                        </div>
+                        <!-- /.input group -->
+                    </div>
+                </div>
+            </div>
+
             <div class="row" style="margin-top: 10px">
                 <div class="col-12">
                     <div class="form-group">
@@ -445,23 +463,7 @@
 <h6><?php echo e(__('Acheminement et traitement')); ?></h6>
 <section>
 
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="form-group">
-                <?php echo e(Form::label('',trans('Delai') .' :')); ?>
 
-                <div class="input-group date <?php echo e(__('costum_css.date-style-m')); ?>">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <?php echo e(Form::text('delai','',['class'=>'form-control pull-right datepicker','id'=>'datepicker_delai_input_id'])); ?>
-
-                </div>
-                <!-- /.input group -->
-            </div>
-        </div>
-    </div>
-    <br>
 
     <h5 class="<?php echo e(__('costum_css.float-right-m')); ?>">
         <?php echo e(__('ASSIGNER A UN SERVICE/UNE DIVISION')); ?>

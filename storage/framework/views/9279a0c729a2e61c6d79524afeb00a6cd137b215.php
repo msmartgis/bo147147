@@ -41,4 +41,7 @@
 
 <link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/daterangepicker.css')); ?>" />
 
+<!-- toast CSS -->
+<link href="<?php echo e(asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.css')); ?>" rel="stylesheet">
+
 <?php echo $__env->yieldContent('added_css'); ?><?php /**PATH E:\xampp\htdocs\smartgis\bureau_ordre\resources\views/inc/css_links.blade.php ENDPATH**/ ?>

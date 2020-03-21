@@ -60,6 +60,10 @@
 <script type="text/javascript" src="<?php echo e(asset('js/moment.min.js')); ?>"></script>
 <script type="text/javascript" src="<?php echo e(asset('js/daterangepicker.js')); ?>"></script>
 
+<!-- toast -->
+<script src="<?php echo e(asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')); ?>"></script>
+<script src="<?php echo e(asset('js/toastr.js')); ?>"></script>
+
 <script src="<?php echo e(asset('js/js_translate.js')); ?>"></script>
 <script src="<?php echo e(asset('js/functions.js')); ?>"></script>
 

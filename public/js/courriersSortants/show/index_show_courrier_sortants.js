@@ -1,17 +1,16 @@
 function changeStateCourrier(el, state) {
-    swal(
-        {
-            title: "Vous êtes sûr?",
-            text: "Validation des courriers",
+    swal({
+            title: title_validation,
+            text: texte_validation,
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Confirmer",
-            cancelButtonText: "Non",
+            confirmButtonText: m_confirmButtonText,
+            cancelButtonText: m_cancelButtonText,
             closeOnConfirm: false,
             closeOnCancel: false
         },
-        function(isConfirm) {
+        function (isConfirm) {
             if (isConfirm) {
                 $.ajax({
                     url: "/courriers-sortants/valider",
@@ -22,7 +21,7 @@ function changeStateCourrier(el, state) {
                         state: state
                     },
                     dataType: "JSON",
-                    success: function(data) {
+                    success: function (data) {
                         if (data.length == 0) {
                             swal(
                                 "Réussi!",
@@ -34,11 +33,7 @@ function changeStateCourrier(el, state) {
                     }
                 });
             } else {
-                swal(
-                    "L'operation est annulée",
-                    "Aucun changement a été éffectué",
-                    "error"
-                );
+                swal(m_annul_title, m_annul_subtitle, "error");
             }
         }
     );

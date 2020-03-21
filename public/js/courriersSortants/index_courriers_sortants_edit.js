@@ -142,7 +142,7 @@ $(document).ready(function () {
     $("#valider_courrier_sortant_btn").click(function () {
         var courrier_id_input_array = [];
         courrier_id_input_array.push($('#courrier_id_input').val());
-        changeStateCourrier(courrier_id_input_array, '4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8');
+        changeStateCourrier(courrier_id_input_array, 'en_cours');
     });
 
     $("#cloture_courrier_edit_btn").click(function () {

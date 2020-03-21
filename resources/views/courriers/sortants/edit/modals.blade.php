@@ -69,7 +69,7 @@
             <div class="modal-footer modal-footer-uniform" style="padding : 0 !important">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
                     style="margin-left: 4px;margin-bottom: 6px;"><i class="fa fa-close"
-                        style="margin-right: 8px"></i>Fermer</button>
+                        style="margin-right: 8px"></i>{{__('Fermer')}}</button>
 
 
             </div>

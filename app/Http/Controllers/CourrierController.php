@@ -702,17 +702,13 @@ class CourrierController extends Controller
 
     public function deleteCourrier(Request $request)
     {
-        $redirect_url = "";
-        $courrier_id = $request->courrier_id;
-
-        Courrier::destroy($courrier_id);
-
-        if ($request->type_courrier == "sortant") {
-            $redirect_url = "/courriers-sortants";
+        $courrier_ids_array = $request->ids;
+        $courrier_to_delete = Courrier::whereIn('id', $courrier_ids_array);
+        if ($courrier_to_delete->delete()) {
+            return response()->json('success');
         } else {
-            $redirect_url = "/courriers-entrants";
+            return response()->json('error');
         }
-        return redirect($redirect_url)->with('success', 'Courrier supprimer avec succès');
     }
 
 

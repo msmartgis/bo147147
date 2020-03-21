@@ -187,7 +187,7 @@ $(document).ready(function () {
 
         changeStateCourrier(
             courrier_id_input_array,
-            "4eb0a1ba-a55e-40f0-bea1-bfc9b21cabc8"
+            "en_cours"
         );
     });
 

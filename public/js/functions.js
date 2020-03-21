@@ -1,32 +1,30 @@
 var delete_btn;
 
-
-$('.delete-row').on('click', function () {
+$(".delete-row").on("click", function () {
     delete_btn = $(this);
     swal({
-        title: "Vous êtes sûr?",
-        text: 'Voulez vous vraiment supprimer cette ligne',
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Confirmer",
-        cancelButtonText: "Non",
-        closeOnConfirm: false,
-        closeOnCancel: false
-    }, function (isConfirm) {
-        if (isConfirm) {
-
-            delete_btn.closest('tr').remove();
-            if (delete_btn.closest('tr').remove()) {
-                swal("Réussi!", 'L\'opération a été effectuée avec succès', "success");
+            title: title_validation,
+            text: "",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: m_confirmButtonText,
+            cancelButtonText: m_cancelButtonText,
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function (isConfirm) {
+            if (isConfirm) {
+                delete_btn.closest("tr").remove();
+                if (delete_btn.closest("tr").remove()) {
+                    swal(m_reussi_title, m_reussi_subtitle, "success");
+                }
+            } else {
+                swal(m_annul_title, m_annul_subtitle, "error");
             }
-
-        } else {
-            swal("L'operation est annulée", "Aucun changement a été éffectué", "error");
         }
-    });
-})
-
+    );
+});
 
 function removeRowFromTable(tableBody) {
     $("#" + tableBody)
@@ -63,13 +61,13 @@ $(".activate-form-btn").on("click", function () {
 $("#delete_form").on("submit", function (e) {
     e.preventDefault();
     swal({
-            title: "Vous êtes sûr?",
-            text: "Voulez vous vraiment supprimer le courrier",
+            title: title_validation,
+            text: "",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Confirmer",
-            cancelButtonText: "Non",
+            confirmButtonText: m_confirmButtonText,
+            cancelButtonText: m_cancelButtonText,
             closeOnConfirm: false,
             closeOnCancel: false
         },
@@ -78,17 +76,9 @@ $("#delete_form").on("submit", function (e) {
                 $("#delete_form")
                     .unbind("submit")
                     .submit();
-                swal(
-                    "Réussi!",
-                    "L'opération a été effectuée avec succès",
-                    "success"
-                );
+                swal(m_reussi_title, m_reussi_subtitle, "success");
             } else {
-                swal(
-                    "L'operation est annulée",
-                    "Aucun changement a été éffectué",
-                    "error"
-                );
+                swal(m_annul_title, m_annul_subtitle, "error");
             }
         }
     );
@@ -109,9 +99,7 @@ if ($(".alert-success").length > 0) {
     }, 1000);
 }
 
-
-
-$(".visualize-file-btn").click(function() {
+$(".visualize-file-btn").click(function () {
     var path = $(this).data("path");
     var courrierID = $(this).data("courrierid");
     var folder = $(this).data("folder");
@@ -120,53 +108,96 @@ $(".visualize-file-btn").click(function() {
     visualizeFile(folder, subfolder, courrierID, path);
 });
 
-
 function visualizeFile(folder, subfolder, courrierID, path) {
     var ext = path.split(".").pop();
     console.log(ext);
 
     var url =
-        "/storage/" +
-        folder +
-        "/" +
-        subfolder +
-        "/" +
-        courrierID +
-        "/" +
-        path +
-        "";
+        "/storage/" + folder + "/" + subfolder + "/" + courrierID + "/" + path + "";
 
     $("#fileView").empty();
     if (ext === "pdf") {
         $("#fileView").prepend(
             "<object data='" +
-                url +
-                "' type = 'application/pdf' width ='100%' height = '100%'>"
+            url +
+            "' type = 'application/pdf' width ='100%' height = '100%'>"
         );
     } else {
-        $("#fileView").prepend(
-            "<img src='" + url + "'  width ='100%' >"
-        );
+        $("#fileView").prepend("<img src='" + url + "'  width ='100%' >");
     }
 
     $("#visualize_modal").modal("show");
 }
 
-
 //SETTING DATA
-function getElementData(route, model,id)
-{    
+function getElementData(route, model, id) {
     $.ajax({
         url: route,
-        type: 'GET',
+        type: "GET",
         data: {
-            _token: $('meta[name="_token"]').attr('content'),        
+            _token: $('meta[name="_token"]').attr("content"),
             model: model,
             id: id
         },
-        dataType: 'JSON',
+        dataType: "JSON",
         success: function (data) {
-           console.log(data);
+            console.log(data);
         }
     });
+}
+
+
+
+function deleteFromDb(ids, url, datatable) {
+    if (
+        ids.length > 0) {
+        swal({
+            title: title_validation,
+            text: texte_validation_delete,
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: m_confirmButtonText,
+            cancelButtonText: m_cancelButtonText,
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: url,
+                    type: 'get',
+                    data: {
+                        _token: $('meta[name="_token"]').attr('content'),
+                        ids: ids,
+                    },
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data == "success") {
+                            swal(m_reussi_title, m_reussi_subtitle, "success");
+                            datatable.ajax.reload();
+                        } else {
+                            swal("Erreur", "erreur", "error");
+                        }
+                    }
+                });
+            } else {
+                swal(m_annul_title, m_annul_subtitle, "error");
+            }
+        });
+    } else {
+        setTimeout(function () {
+            $.toast({
+                heading: "notification",
+                text: innerTextDelete,
+                position: "bottom-left",
+                loader: false,
+                showHideTransition: "slide",
+                icon: "error",
+                hideAfter: 5000,
+                stack: 10
+            });
+        }, 1000);
+    }
+
+
 }

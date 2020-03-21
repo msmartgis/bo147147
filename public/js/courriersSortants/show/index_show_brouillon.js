@@ -222,4 +222,11 @@ $(document).ready(function () {
             "en_cours"
         );
     });
+
+
+    $("#supprimer_courrier_sortant_btn").click(function () {
+
+        //deleteFromDb(checkedelementsCourrierEntrantBrouillon, "/courriers/delete", "courriers_entrant_brouillon_datatables");
+        deleteFromDb(checkedelementsCourrierSortantBrouillon, "/courriers/delete", courriersSortantsBrouillonTable);
+    });
 });

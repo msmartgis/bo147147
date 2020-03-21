@@ -14,30 +14,59 @@ class TypeOperation extends Model
 
     public function getTypeOperationNomAttribute($value)
     {
-
         switch ($this->nom) {
             case 'create':
-                return "Ajout";
+                if (\App::isLocale('en')) {
+                    return "Ajout";
+                } else {
+                    return "اضافة";
+                }
+
                 break;
 
             case 'update':
-                return "Modification";
+                if (\App::isLocale('en')) {
+                    return "Modification";
+                } else {
+                    return "تحديث";
+                }
+
                 break;
 
             case 'delete':
-                return "Supression";
+
+                if (\App::isLocale('en')) {
+                    return "Supression";
+                } else {
+                    return "حذف";
+                }
                 break;
 
             case 'validate':
-                return "Validation";
+                if (\App::isLocale('en')) {
+                    return "Validation";
+                } else {
+                    return "تأكيد";
+                }
+
                 break;
 
             case 'assignate':
-                return "Assignation";
+                if (\App::isLocale('en')) {
+                    return "Assignation";
+                } else {
+                    return "تكليف قسم أو مصلحة";
+                }
+
                 break;
 
             case 'cloture':
-                return "Cloturation";
+                if (\App::isLocale('en')) {
+                    return "Cloturation";
+                } else {
+                    return "انجاز";
+                }
+
                 break;
 
             default:

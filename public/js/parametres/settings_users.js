@@ -32,8 +32,7 @@ $(document).ready(function () {
                 targets: 3
             }
         ],
-        columns: [
-            {
+        columns: [{
                 data: 'nom',
                 name: 'users.nom',
                 orderable: false,
@@ -50,7 +49,7 @@ $(document).ready(function () {
                 name: 'users.username',
                 orderable: false,
                 searchable: false
-            }, 
+            },
             {
                 data: 'service',
                 name: 'service',
@@ -88,7 +87,7 @@ $(document).ready(function () {
 
 
         // $(".edit-setting-btn").click(function () {
-            
+
         //     // var btn_id = this.id;
         //     // var id = btn_id.split('_')[1];
         //     // var route = '/settings/elementData/' + id;
@@ -108,21 +107,20 @@ $(document).ready(function () {
     //password confimation
     $('#pasword_inpt, #confirm_pasword_inpt').on('keyup', function () {
         if ($('#pasword_inpt').val() == $('#confirm_pasword_inpt').val()) {
-          $('#message_password_confirmation').html('Identiques').css('color', 'green');
-        } else 
-        if($('#confirm_pasword_inpt').val() != '')
-        {
+            $('#message_password_confirmation').html('Identiques').css('color', 'green');
+        } else
+        if ($('#confirm_pasword_inpt').val() != '') {
             $('#message_password_confirmation').html('Non identiques').css('color', 'red');
         }
-          
-      });
 
-   
+    });
 
-      $('#add_user_btn').on('click',function(){
+
+
+    $('#add_user_btn').on('click', function () {
         if ($('#pasword_inpt').val() == $('#confirm_pasword_inpt').val() && ($('#pasword_inpt').val() != '' && $('#confirm_pasword_inpt').val() != '')) {
             $('#users_form').submit();
-        }else{
+        } else {
             setTimeout(function () {
                 $.toast({
                     heading: "notification",
@@ -136,10 +134,10 @@ $(document).ready(function () {
                 });
             }, 1000);
         }
-        
-      });
+
+    });
 
 
-      
+
 
 });
