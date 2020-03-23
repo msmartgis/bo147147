@@ -33,7 +33,8 @@
 <div class="row">
     <div class="col-12">
         <div class="box">
-            <h3 style="text-align : center; margin-top : 12px">{{__('Diffusion interne')}} {{$diffusionInterne->ref}}
+            <h3 style="text-align : center; margin-top : 12px;font-weight: 700;">{{__('Diffusion interne')}}
+                {{$diffusionInterne->ref}}
             </h3>
             <!-- /.box-header -->
             <div id="tabs_diffusion_edit" style="margin-left: 12px;">

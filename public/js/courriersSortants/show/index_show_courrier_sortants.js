@@ -28,7 +28,10 @@ function changeStateCourrier(el, state) {
                                 "L'opération a été effectuée avec succès",
                                 "success"
                             );
-                            setTimeout(location.reload.bind(location), 500);
+                            courriersSortantsBrouillonTable.ajax.reload();
+                            courriersSortantsClotureTable.ajax.reload();
+                            courriersSortantsEnCoursTable.ajax.reload();
+                            courriersSortantsTousTable.ajax.reload();
                         }
                     }
                 });

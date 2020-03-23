@@ -18,6 +18,18 @@ use Illuminate\Support\Facades\Storage;
 
 class DiffusionInterneController extends Controller
 {
+    public function actionRef()
+    {
+        $edit = "";
+        if (\App::isLocale('en')) {
+            $edit = "cliquer pour modifier";
+        } else {
+            $edit = "انقر للتحديث";
+        }
+
+        return $edit;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -64,6 +76,11 @@ class DiffusionInterneController extends Controller
      */
     public function store(Request $request)
     {
+
+        $validatedData = $request->validate([
+            'objet' => 'required',
+            'ref' => 'required|unique:courriers,ref',
+        ]);
 
         $diffusion_interne = new DiffusionInterne();
 
@@ -322,7 +339,7 @@ class DiffusionInterneController extends Controller
                 })
 
                 ->addColumn('ref', function ($diffusions_internes) {
-                    return '<a  href="diffusions-internes/' . $diffusions_internes->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="Objet : ' . $diffusions_internes->objet . '">' . $diffusions_internes->ref . '</a>';
+                    return '<a class="ref-show"  href="diffusions-internes/' . $diffusions_internes->id . '/edit" data-toggle="tooltip" data-html="true"   data-placement="right" title="' . $this->actionRef() . '">' . $diffusions_internes->ref . '</a>';
                 })
 
                 ->addColumn('checkbox', function ($diffusions_internes) {
@@ -378,5 +395,17 @@ class DiffusionInterneController extends Controller
 
 
         return $datatables->make(true);
+    }
+
+
+    public function deleteDiffusionInterne(Request $request)
+    {
+        $diffusion_interne_ids_array = $request->ids;
+        $diffusion_interne_to_delete = DiffusionInterne::whereIn('id', $diffusion_interne_ids_array);
+        if ($diffusion_interne_to_delete->delete()) {
+            return response()->json('success');
+        } else {
+            return response()->json('error');
+        }
     }
 }

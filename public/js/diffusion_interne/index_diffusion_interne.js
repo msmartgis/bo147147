@@ -38,7 +38,7 @@ $(document).ready(function () {
             "</td>" +
             "<td>" +
             '<div class="form-group">' +
-            '<input type="file" name="documents_ulpoad_input[]" class="form-control-file">' +
+            '<input type="file" data-max-size="2048" accept="image/png, image/jpeg,application/pdf" name="documents_ulpoad_input[]" class="form-control-file">' +
             "</div>" +
             "</td>" +
             "</tr>"

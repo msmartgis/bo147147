@@ -10,12 +10,11 @@
             </div>
 
             <form action="" class="assigne-service-form" id="assigne_service_form_id">
-
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6 col-lg-6 col-xl-6 col-12">
                             <div class="form-group">
-                                {{Form::label('','Services/Division :')}}
+                                {{Form::label('',trans('Services/Division') .':')}}
                                 {{Form::select('service_select', $services, null,
                                     [
                                     'data-placeholder' => 'Selectionner un service',
@@ -32,7 +31,7 @@
                     <div class="row" style="margin-top: 10px">
                         <div class="col-12">
                             <div class="form-group">
-                                <h6>{{__('Message')}}</h6>
+                                <h6 class="{{__('costum_css.float-right-m')}}">{{__('Message')}}</h6>
                                 <div class="controls">
                                     {{Form::textarea('message','',['class'=>'form-control m-required-input','placeholder'=>'saisir l\'objet','rows'=>'2','required'=>'required','id'=>'message_service__modal_textarea'])}}
                                 </div>

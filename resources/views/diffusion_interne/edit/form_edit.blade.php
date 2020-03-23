@@ -257,13 +257,13 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
                     {!! Form::close() !!}
 
 
-                    {!! Form::open(['route' => ['diffusionInterne-delete'],'id'=>'delete_form','method' =>
+                    {{-- {!! Form::open(['route' => ['diffusionInterne-delete'],'id'=>'delete_form','method' =>
                     'POST']) !!}
                     <input type="hidden" name="diffusionInterne_id" value="{{$diffusionInterne->id}}">
                     <button type="submit" class="btn  btn-danger disabled"
                         style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash"
                             style="margin-right: 8px;margin-left : 6px"></i>{{__('Supprimer')}}</button>
-                    {!! Form::close() !!}
+                    {!! Form::close() !!} --}}
 
                 </div>
 

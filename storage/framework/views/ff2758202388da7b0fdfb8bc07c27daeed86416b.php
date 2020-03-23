@@ -267,15 +267,7 @@ $diffusionInterne->id],'id'=>'form_diffusionInterne_edit','class'=>'form-edit','
 
 
 
-                    <?php echo Form::open(['route' => ['diffusionInterne-delete'],'id'=>'delete_form','method' =>
-                    'POST']); ?>
-
-                    <input type="hidden" name="diffusionInterne_id" value="<?php echo e($diffusionInterne->id); ?>">
-                    <button type="submit" class="btn  btn-danger disabled"
-                        style="width:90%;margin:auto auto 4px auto;display: block;" disabled><i class="fa fa-trash"
-                            style="margin-right: 8px;margin-left : 6px"></i><?php echo e(__('Supprimer')); ?></button>
-                    <?php echo Form::close(); ?>
-
+                    
 
                 </div>
 

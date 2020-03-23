@@ -25,7 +25,11 @@ function changeStateCourrier(el, state) {
 
                     if (data.length == 0) {
                         swal(m_reussi_title, m_reussi_subtitle, "success");
-                        setTimeout(location.reload.bind(location), 500);
+                        courriersEntrantsBrouillonTable.ajax.reload();
+                        courriersEntrantsClotureTable.ajax.reload();
+                        courriersEntrantsEnCoursTable.ajax.reload();
+                        courriersEntrantsEnRetardTable.ajax.reload();
+                        courriersEntrantsTousTable.ajax.reload();
                     }
                 }
             });

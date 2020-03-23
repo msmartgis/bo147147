@@ -50,7 +50,7 @@
         <div class="row col-12" style="margin-top: 10px">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <h6>{{__('Objet')}}</h6>
+                    <h6 class="{{__('costum_css.float-right-m')}}">{{__('Objet')}}</h6>
                     <div class="controls">
                         {{Form::textarea('objet','',['class'=>'form-control m-required-input','placeholder'=>trans('saisir objet'),'rows'=>'2','id'=>'objet_fr_input_id','required'=>'required'])}}
                     </div>

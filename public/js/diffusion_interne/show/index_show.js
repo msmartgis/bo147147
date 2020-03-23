@@ -1,6 +1,7 @@
 $(document).ready(function () {
 
     var diffusionInterneTable;
+    var checkedelementsDiffusionInterneBrouillon = [];
 
 
     diffusionInterneTable = $(
@@ -160,37 +161,53 @@ $(document).ready(function () {
 
 
     diffusionInterneTable.on('draw', function () {
-        // for (i = 0; i < checkedelementsCourrierEntrantBrouillon.length; i++) {
-        //     $("#courriersEntrantBrouillon_" + checkedelementsCourrierEntrantBrouillon[i]).prop('checked', true);
-        // }
+        for (i = 0; i < checkedelementsDiffusionInterneBrouillon.length; i++) {
+            $(
+                "#courriersEntrantBrouillon_" +
+                checkedelementsDiffusionInterneBrouillon[i]
+            ).prop("checked", true);
+        }
 
-        // $('#courriers_entrant_brouillon_datatables :input[type="checkbox"]').change(function () {
+        $('#courriers_entrant_brouillon_datatables :input[type="checkbox"]').change(
+            function () {
+                boxes = $(":checkbox:checked");
 
-        //     boxes = $(":checkbox:checked");
+                if (this.checked) {
+                    checkedelementsDiffusionInterneBrouillon.push($(this).val());
+                } else {
+                    checkedelementsDiffusionInterneBrouillon.splice(
+                        checkedelementsDiffusionInterneBrouillon.indexOf($(this).val()),
+                        1
+                    );
+                }
 
-        //     if (this.checked) {
-        //         checkedelementsCourrierEntrantBrouillon.push($(this).val());
-        //     } else {
-        //         checkedelementsCourrierEntrantBrouillon.splice(checkedelementsCourrierEntrantBrouillon.indexOf($(this).val()), 1);
-        //     }
+                //get the right button activated
+                number_checked = checkedelementsDiffusionInterneBrouillon.length;
 
+                if (number_checked === 0) {
+                    $(".multiple-choice-brouillon").attr("disabled", true);
+                }
 
-        //     //get the right button activated
-        //     number_checked = checkedelementsCourrierEntrantBrouillon.length;
-
-
-        //     if (number_checked === 0) {
-        //         $('.multiple-choice-brouillon').attr('disabled', true);
-        //     }
-
-        //     if (number_checked > 0) {
-        //         $('.multiple-choice-brouillon').removeAttr("disabled");
-        //     }
-
-        // });
+                if (number_checked > 0) {
+                    $(".multiple-choice-brouillon").removeAttr("disabled");
+                }
+            }
+        );
+        $('[data-toggle="tooltip"]').tooltip();
         $('[data-toggle="tooltip"]').tooltip();
 
 
+    });
+
+
+
+    $("#supprimer_diffusion_interne_btn").click(function () {
+        //deleteFromDb(checkedelementsDiffusionInterneBrouillon, "/courriers/delete", "courriers_entrant_brouillon_datatables");
+        deleteFromDb(
+            checkedelementsDiffusionInterneBrouillon,
+            "/diffusions-internes/delete",
+            diffusionInterneTable
+        );
     });
 
 });

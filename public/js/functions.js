@@ -147,7 +147,6 @@ function getElementData(route, model, id) {
 }
 
 
-
 function deleteFromDb(ids, url, datatable) {
     if (
         ids.length > 0) {

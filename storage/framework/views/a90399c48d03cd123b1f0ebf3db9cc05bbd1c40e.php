@@ -6,8 +6,7 @@
 <!-- bootstrap datepicker -->
 <link rel="stylesheet"
     href="<?php echo e(asset('vendor_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')); ?>" />
-<!-- toast CSS -->
-<link href="<?php echo e(asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.css')); ?>" rel="stylesheet">
+
 <style>
     .nav-tabs {
         border-bottom: 1px solid #009dc5;
@@ -31,7 +30,8 @@
 <div class="row">
     <div class="col-12">
         <div class="box">
-            <h3 style="text-align : center; margin-top : 12px"><?php echo e(__('Fiche détaillée')); ?> : <?php echo e(__('Courrier')); ?>
+            <h3 style="text-align : center; margin-top : 12px;font-weight: 700;"><?php echo e(__('Fiche détaillée')); ?> :
+                <?php echo e(__('Courrier')); ?>
 
                 <?php echo e($courrier->ref); ?>
 
@@ -66,9 +66,7 @@
 <script src="<?php echo e(asset('js/editor.js')); ?>"></script>
 <!-- Form validator JavaScript -->
 <script src="<?php echo e(asset('js/validation.js')); ?>"></script>
-<!-- toast -->
-<script src="<?php echo e(asset('vendor_components/jquery-toast-plugin-master/src/jquery.toast.js')); ?>"></script>
-<script src="<?php echo e(asset('js/toastr.js')); ?>"></script>
+
 
 <script src="<?php echo e(asset('js/courriersEntrants/index_courriers_entrants_edit.js')); ?>"></script>
 <script src="<?php echo e(asset('js/courriersEntrants/show/index_show_courrier_entrants.js')); ?>"></script>
