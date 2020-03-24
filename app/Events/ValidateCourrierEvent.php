@@ -17,6 +17,7 @@ class ValidateCourrierEvent implements ShouldBroadcast
     public $element_id;
     public $services_ids;
     public $user;
+    public $user_id;
     public $action;
     public $element_type;
     public $message;
@@ -26,9 +27,10 @@ class ValidateCourrierEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct($user, $action, $element_type, $element_id, array $services_ids)
+    public function __construct($user, $user_id, $action, $element_type, $element_id, array $services_ids)
     {
         $this->user = $user;
+        $this->user_id = $user_id;
         $this->action = $action;
         $this->element_type = $element_type;
         $this->element_id = $element_id;

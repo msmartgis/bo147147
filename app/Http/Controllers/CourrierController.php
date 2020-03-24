@@ -749,7 +749,7 @@ class CourrierController extends Controller
 
             array_push($services_ids, $bo_service->id);
 
-            event(new ValidateCourrierEvent(Auth::user()->username, $action, $type_element, $courriers_ids[$i], $services_ids));
+            event(new ValidateCourrierEvent(Auth::user()->username, Auth::user()->id, $action, $type_element, $courriers_ids[$i], $services_ids));
         }
 
 

@@ -21,7 +21,7 @@ class NewCourrierAddedEvent
      *
      * @return void
      */
-    public function __construct($courrier,$operation)
+    public function __construct($courrier, $operation)
     {
         $this->courrier = $courrier;
         $this->operation = $operation;

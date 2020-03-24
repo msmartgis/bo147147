@@ -218,6 +218,7 @@
 
 
     <input type="hidden" id="user_service_input_id" value="{{Auth()->user()->service->id}}">
+    <input type="hidden" id="user_id" value="{{Auth()->user()->id}}">
     <div class="se-pre-con"
         style=" width: 100%;height: 100%;z-index: 99998;position: fixed; left: 0px; top: 0px;background:#efefef ">
         <div style="text-align: center; position: fixed; left: calc(50% - 70px); top: calc(50% - 140px);">
@@ -451,6 +452,7 @@
     }
 
     var current_user_service = $('#user_service_input_id').val();
+    var current_user_id = $('#user_id').val();
     
    
     var el = document.querySelector('.notification');    
@@ -471,7 +473,7 @@
     var data_type = '';
     channel.bind('courrier-validated-event', function(data) {  
         console.log(data) 
-        if(data.services_ids.includes(current_user_service))
+        if(data.services_ids.includes(current_user_service) && data.user_id != current_user_id)
         {
             
             pushDesktopNotification();

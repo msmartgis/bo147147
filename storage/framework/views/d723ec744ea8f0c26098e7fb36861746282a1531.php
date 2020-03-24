@@ -605,8 +605,6 @@ $courrier->id],'id'=>'form_courrier_edit','class'=>'form-edit','method' => 'PUT'
                                     <h5 class="<?php echo e(__('costum_css.float-right-m')); ?>"><?php echo e(__('REMARQUES ET CONSIGNES')); ?></h5>
                                     <hr style="color:#2d353c;margin:0">
 
-
-
                                     <div class="row" style="margin: 0 !important;">
                                         <div class="table-responsive" style="margin-top: 12px">
                                             <table class="table remarque-consigne-table">

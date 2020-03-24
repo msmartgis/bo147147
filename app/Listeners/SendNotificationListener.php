@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\CourrierAdded;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Auth;
 
 class SendNotificationListener
 {
@@ -29,11 +30,13 @@ class SendNotificationListener
      * @return void
      */
     public function handle(ValidateCourrierEvent $event)
-    {        
-        $users_to_notify = User::whereHas('service', function($query) use ($event){
-                $query->whereIn('id',$event->services_ids);
-            })->get();
-            
-        Notification::send($users_to_notify, new CourrierAdded($event->user,$event->action,$event->element_type,$event->element_id,$event->message));         
+    {
+        $users_to_notify = User::whereHas('service', function ($query) use ($event) {
+            $query->whereIn('id', $event->services_ids);
+        })
+            ->where('id', '<>', Auth::user()->id)
+            ->get();
+
+        Notification::send($users_to_notify, new CourrierAdded($event->user, $event->action, $event->element_type, $event->element_id, $event->message));
     }
 }
